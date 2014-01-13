@@ -1,0 +1,139 @@
+<!-- commenting the email tags out .... 
+                                                                                                                                                                                                                                                               
+Delivered-To: b.sumedha212@gmail.com
+Received: by 10.76.131.15 with SMTP id oi15csp110193oab;
+        Thu, 31 Jan 2013 22:40:28 -0800 (PST)
+X-Received: by 10.182.183.2 with SMTP id ei2mr8387856obc.84.1359700827843;
+        Thu, 31 Jan 2013 22:40:27 -0800 (PST)
+Return-Path: <patt@zh2.hps.utexas.edu>
+Received: from zh2.hps.utexas.edu (zh2.hps.utexas.edu. [128.83.178.32])
+        by mx.google.com with ESMTPS id m7si6514833oee.9.2013.01.31.22.40.27
+        (version=TLSv1 cipher=RC4-SHA bits=128/128);
+        Thu, 31 Jan 2013 22:40:27 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of patt@zh2.hps.utexas.edu designates 128.83.178.32 as permitted sender) client-ip=128.83.178.32;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: best guess record for domain of patt@zh2.hps.utexas.edu designates 128.83.178.32 as permitted sender) smtp.mail=patt@zh2.hps.utexas.edu
+Received: from zh2.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by zh2.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id r116eR2p028512;
+	Fri, 1 Feb 2013 00:40:27 -0600
+Received: (from patt@localhost)
+	by zh2.hps.utexas.edu (8.13.8/8.13.8/Submit) id r116eRTV028510;
+	Fri, 1 Feb 2013 00:40:27 -0600
+Date: Fri, 1 Feb 2013 00:40:27 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: faruk@hps.utexas.edu, b.sumedha212@gmail.com, stephen.pruett@utexas.edu
+Subject: Re: A Question about EE460N Lab1
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Fri, 1 Feb 2013, 00:40</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Fri, 1 Feb 2013, 00:40</font>
+<p><pre>
+<font color = "green">
+<!-- Message-ID: <20130201064027.GK28014@ece.utexas.edu>
+References: <CAKE1MqGQNXyWfM-qF3HozVzn4678r=bzvm=A-NfGhQ0_56TrLQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKE1MqGQNXyWfM-qF3HozVzn4678r=bzvm=A-NfGhQ0_56TrLQ@mail.gmail.com>
+User-Agent: Mutt/1.4.2.2i
+-->
+A student writes:
+
+<font color = "blue">
+&gt; Dear Prof. Patt,
+&gt; 
+&gt; I have a short question regarding to lab 1.
+&gt; 
+&gt; It is mentioned in the lab 1 assignment that:
+&gt; 
+&gt; Note: your assembler needs to recognize only labels as operands for LEA, BR,
+&gt; and JSR instructions. For example, if the following line is in an input
+&gt;assembly language program, your assembler can exit with error code 4:
+&gt; 
+&gt; 	LEA R1, x100
+&gt; 
+&gt; However, I get confused in the following situation:
+&gt; 
+&gt;         LEA R1, x1H0  or    LEA R1, #1S0     or     LEA R1, 100
+&gt; 
+&gt; In the above cases, the second operand "looks like" numbers, but
+&gt; either do not follow the format exactly or have invalid digits. Should
+&gt; we consider them as "undefined label" and exit with error code 1, or
+&gt; still can consider them as numbers, and return with error code 4?
+&gt; 
+&gt; Thanks sincerely,
+&gt; &lt;&lt;name withheld to protect the student struggling with undefined vs ill-formed&gt;&gt;
+</font>
+A few students have asked about this, so I think it is worth responding to all
+of you.  Undefined is not the same as ill-formed (aka illegal).
+
+Undefined label:
+===============
+
+An undefined label is a label used in an instruction which is not tied to the
+address of a memory location somewhere in the program.
+
+For example, 
+
+	...
+	LEA, R1 HOUSE
+HOUSE   ADD  R1, R1, #2
+	...
+
+is cool (as far as the assembly process is concerned, but
+
+	.ORIG x9000
+	LEA R1, HOUSE
+	.END
+
+is not cool because the location HOUSE has not been specified.  i.e., the
+address HOUSE is not defined.  Ergo HOUSE is an undefined label.
+
+By the way, what will the "cool" two line segment above do?  Cool, as
+in correct assembly language.  Not clear how useful the actual code will be.
+
+Illegal (or, ill-formed) label:
+==============================
+
+An illegal label, or an ill-formed label is a label that violates the
+constraints we have made on labels.  These constraints are necessary to
+make sure every symbol is uniquely identifiable.  Computers do not tolerate
+ambiguity.
+
+For example, 
+
+	...
+	LEA, R1 ADD
+ADD     ADD  R1, R1, #2
+	...
+
+is an illegal label because one can not use opcodes as labels.  The Assembly
+Language document lists all symbols that have other meanings and therefore
+can not be used as labels.  The industry generally refers to the set of all
+such symbols as "reserved words," and makes the statement: Reserved words can
+not be used as labels.
+
+Finally, one could write the following horrific code:
+
+	.ORIG x3000
+	JSR ADD
+	.END
+
+ADD is not only an illegal label, it is undefined.  What error message do
+you report?  Answer: Whichever of two you wish.  Either will receive full 
+credit.
+
+Hope this helps.  Good luck finishing the lab on time.
+
+Yale Patt
+
+ 
+
+</font>
+</pre>
+</body>
+</html>

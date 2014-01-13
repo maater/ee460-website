@@ -1,0 +1,53 @@
+                                                                                                                                                                                                                                                               
+Delivered-To: b.sumedha212@gmail.com
+Received: by 10.49.24.210 with SMTP id w18csp73264qef;
+        Tue, 7 May 2013 00:16:52 -0700 (PDT)
+X-Received: by 10.236.114.132 with SMTP id c4mr584209yhh.205.1367911012241;
+        Tue, 07 May 2013 00:16:52 -0700 (PDT)
+Return-Path: <patt@zh2.hps.utexas.edu>
+Received: from zh2.hps.utexas.edu (zh2.hps.utexas.edu. [128.83.178.32])
+        by mx.google.com with ESMTPS id d68si6732931yhe.140.2013.05.07.00.16.52
+        for <b.sumedha212@gmail.com>
+        (version=TLSv1 cipher=RC4-SHA bits=128/128);
+        Tue, 07 May 2013 00:16:52 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of patt@zh2.hps.utexas.edu designates 128.83.178.32 as permitted sender) client-ip=128.83.178.32;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: best guess record for domain of patt@zh2.hps.utexas.edu designates 128.83.178.32 as permitted sender) smtp.mail=patt@zh2.hps.utexas.edu
+Received: from zh2.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by zh2.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id r477Gp69015277;
+	Tue, 7 May 2013 02:16:51 -0500
+Received: (from patt@localhost)
+	by zh2.hps.utexas.edu (8.13.8/8.13.8/Submit) id r477GpGv015275;
+	Tue, 7 May 2013 02:16:51 -0500
+Date: Tue, 7 May 2013 02:16:51 -0500
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: faruk@hps.utexas.edu, b.sumedha212@gmail.com, stephen.pruett@utexas.edu
+Subject: Re: EE 460N Final Exam Review Session
+Message-ID: <20130507071651.GA15255@ece.utexas.edu>
+References: <CAP4CvpQzXwn2R+HKqCYGkEt=yR+ObeLaXSLLryaBTWrW4ai9AQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAP4CvpQzXwn2R+HKqCYGkEt=yR+ObeLaXSLLryaBTWrW4ai9AQ@mail.gmail.com>
+User-Agent: Mutt/1.4.2.2i
+
+> Dear Prof. Patt,
+> 
+> I am a student in your EE 460N class, and I was wondering if you and/or
+> your TAs are planning a review session before the Comp Arch exam on Friday
+> night?
+> 
+> Thanks,
+> <name withheld to protect the student asking if we plan a review session>>
+
+The university does not allow us to hold formal review sessions during the
+final exam period.  And, even if they did, we do not have enough lead time 
+to do so Tuesday night.  However, Faruk has agreed to hold office hours in 
+a classroom on Wednesday around 5pm so students can listen to other students' 
+questions and his answers.  We will try to find an available room and post it 
+on the class web page on Tuesday.
+
+If Wednesday at 5pm is not good for you, please let me know and I will see
+about providing extra office hours.
+
+Yale Patt

@@ -1,0 +1,616 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.79 [en] (X11; U; Linux 2.4.7-10smp i686) [Netscape]">
+   <title>EE 360N - Problem Set 3</title>
+</head>
+<body bgcolor="#FFFFFF">
+
+<center>
+<h2>
+Department of Electrical and Computer Engineering</h2></center>
+
+<center>
+<h3>
+The University of Texas at Austin</h3></center>
+EE 360N, Fall 2005
+<br>Problem Set 3
+<br>Due: 17 October 2005, before class
+<br>Yale N. Patt, Instructor
+<br>Aater Suleman, Linda Bigelow, Jose Joao, Veynu Narasiman TAs
+<p>Instructions:
+<br>You are encouraged to work on the problem set in groups and turn in
+one problem set for the entire group. Remember to put all your names on
+the solution sheet. Also remember to put the name of the TA in whose discussion
+section you would like the problem set returned to you.
+<ol start='0'>
+
+<li>
+If the latency of a DRAM memory bank is 37 cycles, into how many banks
+would you interleave this memory in order to fully hide this latency
+when making sequential memory accesses?
+
+</li>
+
+
+<p>
+
+<li><!-- Begin Question -->
+<!-- <b><i><font color=red>This problem has been moved to Problem Set 4</font><br></i></b> -->
+An ISA supports an 8-bit, byte-addressable virtual address space. The
+corresponding physical memory has only 128 bytes. Each page contains 16
+bytes. A simple, one-level translation scheme is used and the page table 
+resides in physical memory. The initial contents of the frames of physical
+memory are shown below.
+
+<p>
+<br>
+<table border>
+<tr>
+<td>Frame 0
+<td>empty
+</tr>
+<tr>
+<td>Frame 1
+<td>Page 13
+</tr>
+<tr>
+<td>Frame 2
+<td>Page 5
+</tr>
+<tr>
+<td>Frame 3
+<td>Page 2
+
+</tr>
+<tr>
+<td>Frame 4
+<td>empty
+</tr>
+<tr>
+<td>Frame 5
+<td>Page 0
+</tr>
+<tr>
+<td>Frame 6
+<td>empty
+</tr>
+<tr>
+<td>Frame 7
+<td>Page Table
+</tr>
+
+</table>
+<br>
+A three-entry Translation Lookaside Buffer that uses LRU replacement is 
+added to this system. Initially, this TLB contains the entries for pages
+0, 2, and 13. For the following sequence of references, put a circle around
+those that generate a TLB hit and put a rectangle around those that generate 
+a page fault. What is the hit rate of the TLB for this sequence of references?
+(Note: LRU policy is used to select pages for replacement in physical 
+memory.)
+<p>
+References (to pages):  0, 13, 5, 2, 14, 14, 13, 6, 6, 13, 15, 14, 15, 13, 4, 3.
+<p>
+At the end of this sequence, what three entries are contained in the TLB?
+
+What are the contents of the 8 physical frames?
+
+</li>
+<p>
+<li><!-- Begin Question -->
+
+We have been referring to the LC-3b memory as 2^16 bytes of memory,
+byte-addressable. This is the memory that the user sees, and may bear
+no relationship to the actual physical memory. Suppose that the actual
+physical address space is 8K bytes, and our page size is 512
+bytes. What is the size of the PFN? Suppose we have a virtual
+memory system <strike>similar to the VAX</strike> in which virtual memory is divided
+into User Space <strike>(P0)</strike> and System Space, and System Page Table remains
+resident in physical memory. System space includes trap vector table,
+interrupt vector table, operating system and supervisor stack as shown
+in Figure A.1 in Appendix A. <font color="red">The rest of the address space 
+in Figure A.1 is user space.</font>  If each PTE contained, in addition to the
+PFN, a Valid bit, a modified bit, and two bits of access control, how
+many <b>bits</b> of physical memory would be required to store the System
+Page Table?
+
+</li><!-- End of Question -->
+
+<p>
+
+</li><!-- End of Question -->
+
+<p></p>
+
+<li><!-- Begin Question -->
+A machine with 64KB, byte addressable virtual memory and 4KB physical
+memory has two-level virtual address translation similar to the VAX.
+The page size of this machine is 256 bytes. Virtual address space is
+partitioned into the P0 space, P1 space, system space and reserved
+space.  The space a virtual address belongs to is specified by the
+most significant two bits of the virtual address, with 00 indicating
+P0 space, 01 indicating P1 space, and 10 indicating system
+space. Assume that the PTE is 32 bits and contains only the Valid bit 
+and the PFN in the format V0000000..000PFN.
+
+<p>
+For a single load instruction the physical memory was accessed three
+times <font color="red">(excluding instruction fetch)</font>.  The 
+first access was at location x108 and the value read from
+that location (x108, x109, x10A, x10B) was x80000004. Hint: What does
+this value mean?
+<p>
+The second access was at location x45C and the third access was at
+location x942.
+<p>
+If  SBR = x100, P0BR = x8250 and P1BR = x8350,
+<br>
+<ol TYPE='a'>
+<li>What is  the virtual address corresponding to physical address x45C ? 
+</li>
+<li>What is 32 bit value read from location x45C ?</li>
+<li>What is the virtual address corresponding to physical address x942 
+?</li>
+</ol>
+</li>
+<br><!-- End of Question -->
+
+
+
+
+
+<li>
+Consider a processor that supports a 9-bit physical address space with byte
+addressable memory. We would like the processor to support a virtual memory system.
+The features of the virtual memory system are
+<pre>    Virtual Memory Size : 4 Kbytes (12 bit address-space)
+    Page Size           : 32 bytes
+    PTBR                : 0x380
+    SBR                 : 0x1E0
+   </pre> 
+<font color="red">The virtual memory is divided into two spaces: system space and user 
+space. System space is the first kilobyte of the virtual address space (i.e., most 
+significant two bits of the virtual address are 00).  The rest of the virtual memory is 
+user space.</font>  The system page table remains resident in physical memory. 
+Each PTE contains, in addition to the PFN, a Valid bit, a modified bit and 2 bits for access
+control. The format of the PTE is
+<br>
+<p>
+
+<table border align="center">       
+<tr>
+<td> Valid</td>
+<td> Modified</td>
+<td> Access Control</td>
+<td> PFN</td>
+</tr>
+</table>
+
+<p>
+
+(Valid bit is the most significant bit of the PTE and the PFN is stored 
+in the least significant bits.)
+ 
+<ol type="a">
+<br>
+<li> How many virtual pages does the system accommodate?
+<li> What is the size of the PFN? How big is the PTE?
+<li> How many bytes are required for storing the entire <font color="red">user space</font> 
+page table? How many pages does this correspond to?
+<br>
+
+Since the <font color="red">user space</font> page table can occupy a significant 
+portion of the the physical memory, this system uses a 2 level address translation 
+scheme, by storing the <font color="red"> user space</font> Page Table in virtual 
+memory (similar to VAX).
+
+
+<li> Given the virtual address 0x7AC what is the Physical address?
+
+The following table shows the contents of the physical memory that you may 
+need to do the translation :
+
+
+<table>
+<tr>
+<td width="50%">
+	<center>
+	  <table border="1">	    
+	    <tr>
+	      <th> Address </th>
+	      <th> Data </th>
+	      </tr>
+	    <tr>
+	      <td>
+		x1F8
+	      </td>
+	      <td>
+		xBA
+	    </tr>
+
+	    <tr>
+	      <td>
+		x1F9
+	      </td>
+	      <td>
+		xBB
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		x1FA
+	      </td>
+	      <td>
+		xBC
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		x1FB
+	      </td>
+	      <td>
+		xBD
+	      </td>	 
+	    </tr>
+	    <tr>
+	      <td>
+		x1FC
+	      </td>
+	      <td>
+		xBE
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		x1FD
+	      </td>
+	      <td>
+		xB8
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		x1FE
+	      </td>
+	      <td>
+		xB7
+	      </td>
+	    </tr>	    
+	    <tr>
+	      <td>
+		x1FF
+	      </td>
+	      <td>
+		xB6
+	      </td>
+	    </tr>
+	  </table>
+	</center>
+</td><td width="50%">
+	<center>
+	  <table border="1">	    
+	    <tr>
+	      <th> Address </th>
+	      <th> Data </th>
+	      </tr>
+	    <tr>
+	      <td>
+		x118
+	      </td>
+	      <td>
+		x81
+	    </tr>
+
+	    <tr>
+	      <td>
+		x119
+	      </td>
+	      <td>
+		x72
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		x11A
+	      </td>
+	      <td>
+		x65
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		x11B
+	      </td>
+	      <td>
+		x34
+	      </td>	 
+	    </tr>
+	    <tr>
+	      <td>
+		x11C
+	      </td>
+	      <td>
+		x97
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		x11D
+	      </td>
+	      <td>
+		x83
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		x11E
+	      </td>
+	      <td>
+		xC6
+	      </td>
+	    </tr>	    
+	    <tr>
+	      <td>
+		x11F
+	      </td>
+	      <td>
+		xB2
+	      </td>
+	    </tr>
+	  </table>
+	</center>
+
+  </td></tr></table>
+</ol>
+
+<br>
+
+
+<li><!-- Begin Question -->
+
+A computer has an 8KB write-through cache.  Each cache block is 64
+bits, the cache is 4-way set associative and uses a victim/next-victim
+pair of bits in each block for its replacement policy.  Assume a
+24-bit address space and byte-addressable memory.  How big (in bits) is
+the tag store?
+
+
+</li><!-- End of Question -->
+<p>
+
+<li>An LC-3b system ships with a two-way set associative, write back cache
+with perfect LRU replacement.  The tag store requires a total of 4352
+bits of storage.  What is the block size of the cache?  
+Please show all your work.
+<p>
+
+Hint: 4352 = 2^12 + 2^8
+</li>
+
+
+<li><!-- Begin Question --> 
+(Based on Hamacher  et  al.,  p. 255, question 5.18) 
+You are working with a computer that has a first level cache that we call 
+L1 and a second level cache that we call L2. Use the following information 
+to answer the questions.
+
+<ul>
+
+<li> The L1 hit rate is 0.95 for instruction references and 0.90 for data 
+references. </li>
+
+<li> The L2 hit rate is 0.85 for instruction references and 0.75 for data 
+references. </li>
+
+<li> 30% of all instructions are loads and stores. </li>
+
+<li> The size of each cache block is 8 words. 
+
+<li> The time needed to access a cache block in L1 is 1 cycle and the 
+time needed to access a cache block in L2 is 6 cycles. </li>
+
+
+<li> The accesses to the caches and memory are done sequentially. If there 
+is a miss in the L1 and a hit in the L2 then the total latency is 7 
+cycles. 
+</li>
+
+<li> Memory is accessed only if there is a miss in both caches. </li>
+
+<li> The width of the memory bus is one word. 
+
+<li> It takes one clock cycle to send an address to main memory. </li>
+
+<li> It takes one clock cycle to send one word from the memory to the 
+processor. </li>
+
+<font color="red"><li>The bus allows sending a new address to memory in 
+the same cycle that data is sent from memory to the processor.</font></li>
+
+<li> It takes 20 cycles to access the main memory. 
+
+<li> Data is only accessible to the processor when the whole cache block 
+has been brought in from the memory. However, the processor does not have 
+to wait for the data to be written into the cache. It can access the data 
+during the cache fill.
+
+</ul>
+
+<ol type="a">
+<p>
+
+<li> What is the average access time per instruction?
+
+<p>
+
+<li> What is the average access time per instruction if the main memory is 
+4-way interleaved?
+
+<p>
+
+<li> What is the improvement obtained with interleaving? 
+
+</ol>
+
+<!-- End of Question -->
+
+<p>
+<li><!-- Begin Question -->
+
+Below, we have given you four different sequences of addresses
+generated by a program running on a processor with a data cache. Cache
+hit ratio for each sequence is also shown below. Assuming that the
+cache is initially empty at the beginning of each sequence, find out
+the following parameters of the processor's data cache:
+
+ <blockquote> 
+    * Associativity (1, 2, or 4 ways) <br>
+    * Block size (1, 2, 4, 8, 16, or 32 bytes) <br>
+    * Total cache size (256B, or 512B) <br>
+    * Replacement policy (LRU or FIFO) <br>
+</blockquote>
+Assumptions:All memory accesses are one byte accesses. All addresses are byte addresses.<br>
+Address traces <br>
+ sequence 1:&nbsp; 0, 2, 4, 8, 16, 32 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hit ratio: 0.33 <br>
+ sequence 2:&nbsp; 0, 512, 1024, 1536, 2048, 1536, 1024, 512, 0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hit ratio: 0.33  <br>
+ sequence 3:&nbsp; 0, 64, 128, 256, 512, 256, 128, 64, 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   hit ratio: 0.33 <br>
+ sequence 4:&nbsp; 0, 512, 1024, 0, 1536, 0, 2048, 512 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hit ratio: 0.25 <br>
+</li><!-- End of Question --> 
+
+</ol>
+
+<hr>
+
+<ol start=1>
+
+<p>
+<b> The following problems are meant to help you study for the test. These 
+problems do NOT need to be turned in. </b>
+<br>
+<br>
+
+<li>You will be given a cache simulator (just the executable) with a
+hard-coded configuration. Your job is to determine the configuration
+of the cache. The simulator takes a trace of memory addresses as input
+and provides a hit ratio as output. Find the following:
+ <blockquote> 
+    * Associativity (1, 2, 4, or 8 ways) <br>
+    * Block size (1, 2, 4, 8, 16, or 32 bytes) <br>
+    * Total cache size (256B, 512B, or 1024B) <br>
+    * Replacement policy (LRU or Pseudo-LRU) <br>
+</blockquote>
+Show the traces you used to determine each parameter of the cache.
+Assumptions:All memory accesses are one byte accesses. All addresses
+are byte addresses.<br> <u>Simulator</u><br> The syntax for running
+the program is:<br> %./cachesim &nbsp;&nbsp;&lt;trace.txt></tt><br>
+
+The traces are just text files with one integer memory address per
+line. For example, the following trace would cause conflict misses in
+a direct-mapped, 256B cache: <br> 0<br>256<br>512<br>0<br>256<br> <a
+href="cachesim.linux">Simulator for Linux<a/><br> <a
+href="cachesim.solaris">Simulator for Solaris</a><br> 
+After downloading the file, please do <b>"chmod 700 cachesim.linux"</b> or <b>"chmod 700 cachesim.solaris"</b>.
+</li><!-- End of Question -->
+
+
+<br>&nbsp;
+
+
+
+
+
+<li><!-- Begin Question -->
+<!-- Begin Question -->
+
+The virtual address of variable X is x3456789A. Find the physical address 
+of X. <p>
+
+Assume a Virtual Memory model similar to VAX. 
+
+<pre>Remember that in VAX each Virtual Address consists of 
+
+2  bits to specify the Address Space 
+21 bits to specify Virtual Page Number
+9  bits to specify the byte on the page </pre>
+
+<p>You will need to know the contents of P0BR: x8AC40000 and SBR: x000C8000.
+
+<p>You will also need to know the contents of the following physical memory locations:
+<blockquote>x1EBA6EF0:&nbsp;&nbsp;&nbsp; x80000A72
+<br>x0022D958:&nbsp;&nbsp;&nbsp; x800F5D37</blockquote>
+
+Some intermediate questions to help you:
+
+<ul>
+<li> What virtual page of P0 Space is X on?
+<li> What is VA of the PTE of the page containing X?
+<li> What virtual page of System Space is this PTE on?
+
+<li> What is the PA of the PTE of this page of System Space?
+<li> What is the PA of the PTE of the page containing X?
+</ul>
+
+</li>        
+
+<p></p>
+
+
+<li><!-- Begin Question -->
+
+Let's say we added a virtual memory system to the LC-3b. Which
+instructions can possibly generate a page fault? What is the maximum
+number of page faults an instruction can possibly generate while it is
+being processed? Which instructions can possibly generate that maximum
+number of page faults?
+
+<p>
+
+Assume that the virtual memory system added uses a one-level
+translation scheme and the page table is always resident in physical
+memory.
+
+<p>
+
+An instruction is said to generate a page fault if a page fault occurs
+at any time during the processing of that instruction.
+
+<li><!-- Begin Question -->
+(Hamacher, pg.255, question 5.13)&nbsp; A byte-addressable
+computer has a small data cache capable of holding eight 32-bit words.
+Each cache block consists of one 32-bit word. When a given program is executed,
+the processor reads data from the following sequence of hex addresses:
+
+<pre>&nbsp;&nbsp;&nbsp;&nbsp; 200, 204, 208, 20C, 2F4, 2F0, 200, 204, 218, 21C, 24C, 2F4</pre>
+This pattern is repeated four times.
+<blockquote>a. Show the contents of the cache at the end of each pass throughout
+this loop if a direct-mapped cache is used. Compute the hit rate for this
+example. Assume that the cache is initially empty.
+
+<p>b. Repeat part (a) for a fully-associative cache that uses the LRU-replacement
+algorithm.
+
+<p>c. Repeat part (a) for a four-way set-associative cache that uses
+the LRU replacement algorithm.
+</blockquote>
+</li><!-- End of Question -->
+
+<p></p>
+
+
+</ol>
+<br>
+
+<br>
+
+</body>
+</html>
+
+
+
+
+
+
+
+

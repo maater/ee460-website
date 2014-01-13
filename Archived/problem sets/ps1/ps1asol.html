@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 360N: Problem Set 1a Solution</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../probs.css" />
+</head>
+<body>
+<center>
+<h3>
+Department of Electrical and Computer Engineering
+</h3>
+<h4>
+The University of Texas at Austin
+</h4>
+</center>
+
+EE 360N, Spring 2007 <br />
+Problem Set 1 Solutions <br />
+Yale N. Patt, Instructor
+<br />
+Chang Joo Lee, Rustam Miftakhutdinov, Poorna Samanta, TAs <br />
+
+<ol class="questions">
+
+<li><p>
+The ISA is the contract between the hardware and the software. The microarchitecture is a particular implementation of an ISA. 
+Compiler does not need to know any information about the microarchitecture.</p>
+  <ol>
+  <li>ISA</li>
+  <li>Microarchitecture</li>
+  <li>ISA</li>
+  <li>Microarchitecture</li>
+  <li>ISA</li>
+  <li>Microarchitecture/ISA</li>
+  <li>ISA</li>
+  <li>Microarchitecture</li>
+  <li>Microarchitecture</li>
+  <li>Microarchitecture</li>
+</ol>
+</li>
+
+<li>
+<p>The first program causes <code>x0004</code> to be stored in location <code>x3000</code> when the assembled code is loaded into the memory. The second program causes <code>x0004</code> to be stored in <code>x3000</code> during the execution of the program.</p>
+</li>
+
+<li>
+<p>The following table shows the classification of the LC-3b instructions into Operate, Data Movement and Control instructions.</p>
+<table>
+<tr><th>Instruction</th><th>Operate</th><th>Data Movement</th><th>Control</th></tr>
+<tr><td>ADD</td>     <td>X</td><td> </td><td> </td></tr>
+<tr><td>AND</td>     <td>X</td><td> </td><td> </td></tr>
+<tr><td>BR</td>      <td> </td><td> </td><td>X</td></tr>
+<tr><td>JMP/RET</td> <td> </td><td> </td><td>X</td></tr>
+<tr><td>JSR/JSRR</td><td> </td><td> </td><td>X</td></tr>
+<tr><td>LDB</td>     <td> </td><td>X</td><td> </td></tr>
+<tr><td>LDW</td>     <td> </td><td>X</td><td> </td></tr>
+<tr><td>LEA</td>     <td>X</td><td> </td><td> </td></tr>
+<tr><td>RTI</td>     <td> </td><td> </td><td>X</td></tr>
+<tr><td>SHF</td>     <td>X</td><td> </td><td> </td></tr>
+<tr><td>STB</td>     <td> </td><td>X</td><td> </td></tr>
+<tr><td>STW</td>     <td> </td><td>X</td><td> </td></tr>
+<tr><td>TRAP</td>    <td> </td><td> </td><td>X</td></tr>
+<tr><td>XOR/NOT</td> <td>X</td><td> </td><td> </td></tr>
+</table>
+
+</li>
+
+<li>
+<p>Only the third instruction (never branch) can be used as a NOP. The second instruction always skips
+the next instruction after it, so it is not a NOP. The first instruction (ADD) sets the condition codes based on the 
+value in R1, therefore it is also not a NOP.</p>
+</li>
+
+<li>
+<ol>
+<li>The first option does not support either subroutine nesting or subroutine recursion.</li>
+<li>The second option supports subroutine nesting, but does not support recursion.</li>
+<li>The third option supports both subroutine nesting and subroutine recursion.</li>
+</ol>
+</li>
+
+<li>
+<ol>
+<li>Little endian: <span class="equation">MEM[<code>x1000</code>] + MEM[<code>x1002</code>] = <code>x1A0E</code> + <code>x0C11</code> = <code>x261F</code></span></li>
+<li>Big endian:    <span class="equation">MEM[<code>x1000</code>] + MEM[<code>x1002</code>] = <code>x0E1A</code> + <code>x110C</code> = <code>x1F26</code></span></li>
+</ol>
+</li>
+
+<li>
+32 Megabytes = 2<sup>28</sup> bits
+<ol>
+<li>The memory consists of 2<sup>28</sup> addressable locations. 28 bits are required to uniquely address each location.</li>
+<li>The memory consists of 2<sup>28</sup> &divide; 2<sup>3</sup> = 2<sup>25</sup> addressable locations. 25 bits are required to address a location.</li>
+<li>The memory consists of 2<sup>28</sup> &divide; 2<sup>7</sup> = 2<sup>21</sup> addressable locations. 21 bits are required to address a location.</li>
+</ol>
+</li>
+
+<li>
+<ol>
+<li>Zero-address machine:
+<pre><code>PUSH A
+PUSH B
+PUSH C
+MUL
+ADD
+PUSH D
+PUSH E
+PUSH D
+PUSH C
+MUL
+ADD
+SUB
+MUL
+POP X</code></pre>
+<p>Advantages: good for fast arithmetic; operate instructions only require
+an opcode so they can be encoded very densely.</p>
+<p>Disadvantages: not flexible in terms of manipulating operands, more
+instructions required to write programs.</p>
+</li>
+<li>
+One-address machine:
+<pre><code>LOAD B
+MUL C
+ADD A
+STORE A
+LOAD C
+MUL D
+ADD E
+STORE E
+LOAD D
+SUB E
+MUL A
+STORE X</code></pre>
+<p>Advantages: only a single register required, fewer instructions compared to the stack machine.</p>
+<p>Disadvantage: not as flexible as 2 or 3-address machines. We need
+instructions to move data to and from the accumulator (We don't need
+these in a 3-address machine that supports memory-to-memory
+operations).</p>
+</li>
+<li>
+Two-address machine:
+<pre><code>MUL B, C
+ADD A, B
+MUL C, D
+ADD C, E
+SUB D, C
+MUL A, D
+SUB X, X   ; these two instructions emulate a MOV X, A
+ADD X, A</code></pre>
+<!--
+<p>Advantage: more flexibility in sources and destinations compared to
+stack and accumulator machines.</p>
+<p>Disadvantage: one source is always overwritten. We need MOV
+instructions to preserve the original value of a source operand.</p>
+-->
+</li>
+<li>
+Three-address machine:
+<pre><code>MUL X, B, C
+ADD A, X, A
+MUL X, D, C
+ADD X, E, X
+SUB X, D, X
+MUL X, X, A</code></pre>
+<!--
+<p>Advantage: most flexible in terms of specifying sources and
+destinations of instructions.</p>
+<p>Disadvantage: larger instructions.</p>
+-->
+</li>
+</ol>
+</li>
+<li>
+   <ol>
+   <li>2 address machine.</li>
+   <li>4 registers</li>
+   <li>Lets say you want <code>MOV R2, R1</code> (R2 = R1):
+<pre><code>AND R2, #0
+ADD R2, R1</code></pre>
+or
+<pre><code>LEA  TEMP   ; Absolute address of TEMP in R0
+ST   R1, R0 
+LD   R2, R0
+....
+....
+TEMP  .FILL  xDEAD  ; any garbage value</code></pre>
+</li>
+<li>Use the LEA instruction:
+<pre><code>	LEA LABEL
+	BR  R0
+	....
+LABEL	....	; Branch to this line</code></pre>
+</li>
+</ol>
+
+</li>
+
+</ol>
+
+</body> 
+</html>
+

@@ -1,0 +1,58 @@
+<!-- commenting the email tags out .... 
+From patt@zh2.hps.utexas.edu  Wed Mar 30 16:31:53 2011
+Return-Path: <patt@zh2.hps.utexas.edu>
+Received: from zh2.hps.utexas.edu (zh2.hps.utexas.edu [128.83.178.32])
+	by ego.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p2ULVrvW012666;
+	Wed, 30 Mar 2011 16:31:53 -0500
+Received: from zh2.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by zh2.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p2ULVoBZ027804;
+	Wed, 30 Mar 2011 16:31:50 -0500
+Received: (from patt@localhost)
+	by zh2.hps.utexas.edu (8.13.8/8.13.8/Submit) id p2ULVoRa027803;
+	Wed, 30 Mar 2011 16:31:50 -0500
+Date: Wed, 30 Mar 2011 16:31:50 -0500
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: miladhashemi@gmail.com, faruk@hps.utexas.edu, yuhao.zhu@mail.utexas.edu
+Subject: Re: Questions on Lab 4
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Wed, 30 Mar 2011, 16:31</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Wed, 30 Mar 2011, 16:31</font>
+<p><pre>
+<font color="blue">
+A student writes:
+<font color="black">
+&gt; Suppose we are in the middle of an Exception Handler. One of the 
+&gt; states correspond to cycle number 300 when the timer interrupt is 
+&gt; supposed to come. When do we process the timer interrupt?
+&gt; 
+&gt; Thanks,
+&gt; &lt;&lt;name withheld to protect the student uneasy about cycle 300&gt;&gt;
+</font>
+
+The Timer Interrupt is an interrupt, it gets sampled like all other
+interrupts when it is convenient to do - i.e., at instruction boundaries.
+So, if the Timer Interrupt goes off at cycle 300 and an instruction is in
+the middle, and for example, finishes in cycle 307, then the Timer Interrupt
+will be dealt with after cycle 307.
+
+Also, interrupts interrupt lower priority code that is executing.  It does not
+matter whether this code is application code, the kernel of the O/S, or some
+exception handler.  If the interrupt is more urgent, it interrupts at the next
+instruction boundary, the machine is put into a consistent state, and the PC
+is loaded with the starting address of the handler.
+
+I hope this helps.
+
+Good luck finishing the lab on time.
+
+Yale Patt
+
+</font>
+</pre>
+</body>
+</html>

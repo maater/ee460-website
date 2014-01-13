@@ -1,0 +1,97 @@
+<!-- commenting the email tags out .... 
+                                                                                                                                                                                                                                                               
+Delivered-To: b.sumedha212@gmail.com
+Received: by 10.49.3.100 with SMTP id b4csp60951qeb;
+        Sun, 10 Feb 2013 18:18:30 -0800 (PST)
+X-Received: by 10.60.21.101 with SMTP id u5mr9800976oee.71.1360549110219;
+        Sun, 10 Feb 2013 18:18:30 -0800 (PST)
+Return-Path: <patt@login.hps.utexas.edu>
+Received: from login.hps.utexas.edu (login.hps.utexas.edu. [128.83.178.4])
+        by mx.google.com with ESMTPS id w6si35696353obc.153.2013.02.10.18.18.29
+        (version=TLSv1 cipher=RC4-SHA bits=128/128);
+        Sun, 10 Feb 2013 18:18:30 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of patt@login.hps.utexas.edu designates 128.83.178.4 as permitted sender) client-ip=128.83.178.4;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: best guess record for domain of patt@login.hps.utexas.edu designates 128.83.178.4 as permitted sender) smtp.mail=patt@login.hps.utexas.edu
+Received: from login.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by login.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id r1B2ITrK023260;
+	Sun, 10 Feb 2013 20:18:29 -0600
+Received: (from patt@localhost)
+	by login.hps.utexas.edu (8.13.8/8.13.8/Submit) id r1B2ITGH023258;
+	Sun, 10 Feb 2013 20:18:29 -0600
+Date: Sun, 10 Feb 2013 20:18:29 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: faruk@hps.utexas.edu, b.sumedha212@gmail.com, stephen.pruett@utexas.edu
+Subject: Re: RTI processing
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Sun, 10 Feb 2013, 20:18</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Sun, 10 Feb 2013, 20:18</font>
+<p><pre>
+<font color="green">
+<!-- Message-ID: <20130211021826.GD23025@ece.utexas.edu>
+References: <CACcenmKOmVmuoS33Vcu-La86XBptaVaxx0nq38-JK_1d==a0vQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACcenmKOmVmuoS33Vcu-La86XBptaVaxx0nq38-JK_1d==a0vQ@mail.gmail.com>
+User-Agent: Mutt/1.4.2.2i -->
+
+A student writes:
+<font color = "blue">
+&gt; Dr. Patt,
+&gt; 
+&gt; For the RTI instruction, I am guessing we are supposed to ignore the
+&gt; operation regarding the PSR, because there isn't a PSR latch. So I am
+&gt; currently processing RTI as:
+&gt; 
+&gt; PC = MEM[R6]
+&gt; R6 = R6 + 4;
+&gt; 
+&gt; As opposed to:
+&gt; 
+&gt; if (PSR[15] == 1)
+&gt; PC = MEM[R6];
+&gt; R6 = R6 + 2;
+&gt; TEMP = MEM[R6];
+&gt; R6 = R6 + 2;
+&gt; PSR = TEMP;
+&gt; 
+&gt; Should I be doing anything differently for this instruction?
+</font>
+Yes, you should not be wasting time doing anything to handle RTI
+instructions.  Have you read Clarification #2 associated with the 
+Lab Assignment.
+<font color = "blue">
+&gt; Also, what do we do if a LDW address is not aligned?
+&gt; Do we just skip that instruction, exit with an error message, load that
+&gt; word, or load half of that word and half of the next word?
+</font>
+Have you read Clarification #3 associated with the Lab Assignment.
+<font color = "blue">
+&gt; Thanks,
+&gt; &lt;&lt;name withheld to protect the student who misplaced the Clarifications&gt;&gt;
+</font>
+Perhaps I should not be so abrupt with a student's questions, since I do
+want to encourage you to ask me or the TAs when you do not understand 
+something.  But I would like to think your first step is not to ask, but
+rather to see if you can figure it out for yourself.  And the Clarifications
+should help.  That is why we wrote them.  In this case, Clarifications 2 and 3
+so clearly spell out the answers to the student's questions that it is hard
+for me to believe that a UT senior or graduate student could read those
+answers and still have a question.  Perhaps someone will enlighten me.
+
+In the meantime, I will work on being less harsh, and also wish you good luck
+on getting the lab done before the deadline.
+
+Yale Patt
+
+
+</font>
+</pre>
+</body>
+</html>

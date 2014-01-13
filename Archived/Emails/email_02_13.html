@@ -1,0 +1,86 @@
+<!-- commenting the email tags out .... 
+                                                                                                                                                                                                                                                               
+Delivered-To: b.sumedha212@gmail.com
+Received: by 10.49.3.100 with SMTP id b4csp214624qeb;
+        Wed, 13 Feb 2013 18:50:57 -0800 (PST)
+X-Received: by 10.60.28.228 with SMTP id e4mr18858780oeh.111.1360810257452;
+        Wed, 13 Feb 2013 18:50:57 -0800 (PST)
+Return-Path: <patt@zh2.hps.utexas.edu>
+Received: from zh2.hps.utexas.edu (zh2.hps.utexas.edu. [128.83.178.32])
+        by mx.google.com with ESMTPS id b2si48901810obn.214.2013.02.13.18.50.57
+        (version=TLSv1 cipher=RC4-SHA bits=128/128);
+        Wed, 13 Feb 2013 18:50:57 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of patt@zh2.hps.utexas.edu designates 128.83.178.32 as permitted sender) client-ip=128.83.178.32;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: best guess record for domain of patt@zh2.hps.utexas.edu designates 128.83.178.32 as permitted sender) smtp.mail=patt@zh2.hps.utexas.edu
+Received: from zh2.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by zh2.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id r1E2ouM6029392;
+	Wed, 13 Feb 2013 20:50:56 -0600
+Received: (from patt@localhost)
+	by zh2.hps.utexas.edu (8.13.8/8.13.8/Submit) id r1E2ouQM029390;
+	Wed, 13 Feb 2013 20:50:56 -0600
+Date: Wed, 13 Feb 2013 20:50:56 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: faruk@hps.utexas.edu, b.sumedha212@gmail.com, stephen.pruett@utexas.edu
+Subject: Re: Query regarding data forwarding
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Wed, 13 Feb 2013, 20:50</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Wed, 13 Feb 2013, 20:50</font>
+<p><pre>
+<font color = "green">
+<!-- Message-ID: <20130214025056.GB29216@ece.utexas.edu>
+References: <CAGkqe-N4HSSFRDjThUXm03gzYZ=g6G_oXj98ERA-Gf5PDWxk5Q@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGkqe-N4HSSFRDjThUXm03gzYZ=g6G_oXj98ERA-Gf5PDWxk5Q@mail.gmail.com>
+User-Agent: Mutt/1.4.2.2i -->
+
+A student writes:
+<font color = "blue">
+&gt; Dear Prof Patt,
+&gt; 
+&gt; In the example of data forwarding we discussed in class today. The
+&gt; following was the scenario.
+&gt; 
+&gt; 
+&gt; Cycle 16   |   Cycle 17  |   Cycle 18
+&gt; -
+&gt;    En      |     R11     |                 &lt;- ADD R7, R10, R11
+&gt; -
+&gt;            |             |     E1          &lt;- ADD R5, R11, R5
+&gt; -
+&gt; 
+&gt; En - Last cycle of execution.
+&gt; E1 - First cycle of execution.
+&gt; 
+&gt; You said that E1 can move to Cycle 16. But during cycle 16 the computation
+&gt; is not yet complete. As per my understanding , only at the end of cycle 16
+&gt; the addition operation will be complete and its result can be used by the
+&gt; next instruction i.e. how En and E1 are in the same cycle in a flow
+&gt; dependent (RAW) case.
+&gt; 
+&gt; Regards
+&gt; &lt;&lt;name withheld to protect the student who mis-heard what I *meant*&gt;&gt;
+</font>
+Thanks for the question.  If I said that, I misspoke, since you are
+absolutely right, the first ADD does not finish until the end of cycle 16,
+so data forwarding would enable the second ADD to start in cycle 17.
+You save one cycle by having the microarchitecture send the data to where
+it is needed, rather than have the microarchitecture write it to a register
+and after that have the second ADD source the data from the register.
+
+Good luck with the rest of the course.
+
+Yale Patt
+
+
+</font>
+</pre>
+</body>
+</html>

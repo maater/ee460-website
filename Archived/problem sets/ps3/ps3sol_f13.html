@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Problem Set 2 Solution</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../probs.css" />
+</head>
+<body>
+
+<center>
+<h2>
+Department of Electrical and Computer Engineering</h2></center>
+
+<center>
+<h3>
+The University of Texas at Austin</h3></center>
+EE 460N, Spring 2013
+<br />Problem Set 3 Solutions
+<br />Aater Suleman, Instructor
+<br />Stephen Pruett, Abhishek Agarwal, Chirag Sakhuja, TAs
+<ol class="questions">
+
+<li> <!-- Begin Question -->
+<ol>
+<li>
+<ul>
+<li>Byte on bus <code>Addr[1:0]</code></li>
+<li>Interleave bits <code>Addr[4:2]</code></li>
+<li>Chip address <code>Addr[7:5]</code></li>
+<li>Row decode <code>Addr[11:8]</code></li>
+</ul>
+</li>
+<li><p>577 Cycles. 
+The first 8 memory accesses, A[0][0] to A[0][7], must occur sequentially with no overlap 
+since they are all acesses to the same bank. Thus, it would take 80 cycles for the 1st 8 
+memory accesses, with the 8th access starting in cycle 70. Since the 8th and 9th memory 
+accesses, A[0][7] and A[1][0], respectively, are to different banks, the accesses can overlap, 
+and the 9th access can start in cycle 71 (70 cycles for the 1st 7 accesses plus 1 additional 
+cycle of the 8th access).  Continuing with this logic, the access to A[2][0] could start in 
+cycle 142 (71x2). Finally, the access to A[7][0] could start in cycle 497 (71x7).  Now all 
+that remains are 8 more memory accesses, all to the same bank (A[7][0] to A[7][7]). This 
+takes another 80 cycles, bringing the total to 577 cycles (497 + 80).</p>
+<p>
+If the memory were not interleaved, all 64 memory accesses must happen sequentially with 
+no overlap, so it would take a total of 640 cycles (64*10).  Therefore, we do gain some 
+benefit from this interleaving scheme, but not that much.</p>
+</li>
+<li>
+<p>Yes, a change can be made.  The new bits are:</p>
+<ul>
+<li>Byte on bus <code>Addr[1:0]</code></li>
+<li>Interleave bits <code>Addr[7:5]</code></li>
+<li>Chip address <code>Addr[4:2]</code></li>
+<li>Row decode <code>Addr[11:8]</code></li>
+</ul>
+<p>
+87 Cycles. 
+With the new interleaving scheme, consecutive memory accesses are to different banks, so 
+the accesses can overlap. The 1st access, A[0][0], would begin at cycle 0, the 2nd, 
+A[0][1], at cycle 1, and so on. The 8th access, A[0][7], would start at cycle 7.  However, 
+the 9th access, A[1][0], cannot start at cycle 8. It would have to wait 2 more cycles for 
+the 1st access to finish since it is on the same bank as the 1st access; therefore, it 
+would start at cycle 10. Continuing this logic, the access to A[2][0] would start 
+at cycle 20, and finally, the access to A[7][0] would start at cycle 70.  Now, all that 
+is left are 8 accesses, but they are all to different banks so they can start 1 cycle after 
+each other.  The access to A[7][1] would begin at cycle 71, A[7][2] at 72, and finally A[7][7], 
+the last memory access, would begin at cycle 77 and, therefore, end at cycle 87.</p>
+</li>
+<li><p>Only one line of code needs to be changed:</p>
+<pre><code>sum = sum + A[i][j];
+to
+sum = sum + A[j][i];</code></pre>
+
+<p>Alternatively, you could keep that line the same, but swap the variable (<code>i</code>/<code>j</code>) of the inner 
+and outer loops as shown below.</p>
+<p>
+Original code:</p>
+<pre><code>     for(i = 0; i &lt; 8; ++i){
+       for(j = 0; j &lt; 8; ++j){
+         sum = sum + A[i][j];
+       }
+     }</code></pre>
+<p>New code:</p>
+<pre><code>     for(j = 0; j &lt; 8; ++j){
+       for(i = 0; i &lt; 8; ++i){
+         sum = sum + A[i][j];
+       }
+     }</code></pre>
+<p>87 Cycles, for similar reasons to the explanation provided in part (c).</p>
+</li>
+</ol>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>Postponed until PS4.</p>
+</li><!-- End Question -->
+
+<li><!-- Begin Question -->
+<ol>
+  <li><br /><img src="code.jpg" alt="Filled out instruction sequence" /></li>
+
+  <li><br /><img src="tomasulo_sol.jpg" alt="Filled out reservation stations" /></li>
+
+  <li><br /><img src="RAT.jpg" alt="Filled out register alias table" />
+  <br /><img src="ROB.jpg" alt="Filled out reorder buffer" />
+  </li>
+</ol>
+</li><!-- End Question -->
+
+<li><!-- Begin Question -->
+<p>Interleave into 64 banks in order to hide the latency in sequential
+accesses (note, minimum needed is 37 banks but one would really prefer
+to use a power of 2, therefore 64).</p>
+</li><!-- End Question -->
+
+</ol>
+
+</body>
+</html>

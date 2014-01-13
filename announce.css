@@ -1,0 +1,26 @@
+ul.announcements {
+	padding: 1ex 0em;
+	margin: 0ex 0em;
+}
+
+ul.announcements  li {
+	list-style-type: none;
+	border-bottom: 1px solid gray;
+	margin: 1ex 1em;
+	padding: 0ex 0em;
+}
+
+ul.announcements ul li {
+	list-style-type: disc;
+	border-bottom: none;
+}
+
+ul.announcements .date {
+	font-weight: bold;
+}
+
+ul.announcements h3 {
+	font-size: 100%;
+	font-weight: bold;
+	text-decoration: underline;
+}

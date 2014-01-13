@@ -1,0 +1,99 @@
+html, body {
+	color: black;
+	background-color: white;
+}
+
+tt, kbd {
+	font-size: 100%;
+	font-weight: bold;
+}
+
+code {
+	font-size: 100%;
+	white-space: nowrap;
+}
+
+pre code {
+	white-space: pre;
+}
+
+table, tr, th, td {
+	border: 1px solid black;
+	margin: 0px 0px;
+	padding: 0.5ex 0.5em;
+	border-collapse: collapse;
+}
+
+.edit {
+	color: red;
+	font-weight: bold;
+}
+
+.edit_note {
+	color: red;
+	font-size: smaller;
+	font-weight: bold;
+}
+
+ol, ul {
+	margin-top: 2ex;
+	margin-bottom: 2ex;
+}
+
+dt {
+	font-weight: bold;
+}
+
+span.equation {
+	white-space: nowrap;
+	font-weight: bold;
+}
+
+div.equation {
+	margin: 2ex 2em 2ex 2em;
+	white-space: nowrap;
+	font-weight: bold;
+}
+
+pre, samp, kbd, code, tt {
+	font-family: "Courier New", Courier, monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	page-break-after: avoid;
+}
+
+table.pipeline {
+	border: none;
+}
+
+table.pipeline tr {
+	border: none;
+}
+
+table.pipeline th {
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid black;
+	font-size: smaller;
+}
+
+table.pipeline td {
+	empty-cells: show;
+	width: auto;
+	text-align: center;
+	border-left: none;
+	border-right: none;
+	border-top: 1px dashed black;
+	border-bottom: 1px dashed black;
+}
+
+table.pipeline td.comment {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+table.pipeline td.instr {
+	font-family: "Courier New", Courier, monospace;
+}

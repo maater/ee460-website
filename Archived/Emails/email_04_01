@@ -1,0 +1,132 @@
+                                                                                                                                                                                                                                                               
+Delivered-To: b.sumedha212@gmail.com
+Received: by 10.49.42.10 with SMTP id j10csp73780qel;
+        Mon, 1 Apr 2013 00:32:30 -0700 (PDT)
+X-Received: by 10.236.202.67 with SMTP id c43mr8501970yho.28.1364801550390;
+        Mon, 01 Apr 2013 00:32:30 -0700 (PDT)
+Return-Path: <patt@login.hps.utexas.edu>
+Received: from login.hps.utexas.edu (login.hps.utexas.edu. [128.83.178.4])
+        by mx.google.com with ESMTPS id z66si15539544yhh.10.2013.04.01.00.32.30
+        (version=TLSv1 cipher=RC4-SHA bits=128/128);
+        Mon, 01 Apr 2013 00:32:30 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of patt@login.hps.utexas.edu designates 128.83.178.4 as permitted sender) client-ip=128.83.178.4;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: best guess record for domain of patt@login.hps.utexas.edu designates 128.83.178.4 as permitted sender) smtp.mail=patt@login.hps.utexas.edu
+Received: from login.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by login.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id r317WT81027987;
+	Mon, 1 Apr 2013 02:32:29 -0500
+Received: (from patt@localhost)
+	by login.hps.utexas.edu (8.13.8/8.13.8/Submit) id r317WTOG027986;
+	Mon, 1 Apr 2013 02:32:29 -0500
+Date: Mon, 1 Apr 2013 02:32:29 -0500
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: faruk@hps.utexas.edu, b.sumedha212@gmail.com, stephen.pruett@utexas.edu
+Subject: Lab 4 questions
+Message-ID: <20130401073229.GD27286@ece.utexas.edu>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.4.2.2i
+
+A student writes:
+
+> Professor Patt,
+>
+> Could you please clarify a few things for me:
+
+Certainly.  This student has a lot of questions that I feel require 
+detailed answers.  So my response to his few things (five) will be long.
+Feel free to skip it if you already understand it, or read it carefully
+if you feel it is useful.
+
+> 1) for an interrupt (in general), is the INTV register populated
+> automatically by the external device, or does the particular interrupt
+> signal cause a specific vector to be loaded?
+> i.e. would the device send both a 1-bit alert signal and an 8-bit vector in
+> parallel to both trigger the interrupt and supply the vector, or would it
+> simply send the alert signal and have the processor recognize that an alert
+> on that particular input corresponds to a certain vector?
+
+Every interrupt has associated with it an interrupt vector that the hardware
+uses to access the interrupt vector table in order to find the starting address
+of the corresponding interrupt service routine.  As you know, different 
+interrupts require different service routines.  Therefore, they must have
+different interrupt vectors.
+
+If an external device wants service, it raises its interrupt line at the time
+it wants service.  Most likely, the processor is in the middle of executing an
+instruction.  The hardware identifies the highest priority interrupt, and in
+the last clock cycle of the current instruction's execution, it loads
+its interrupt vector into the INTV register.  The processor also asserts the 
+one-bit INT register signifying that an interrupt wants service.  
+
+After the current instruction is finished, the state machine uses that one-bit
+INT register to either continue processing the next instruction OR start the 
+process of initiating the interrupt.  One of your jobs is to add the logic 
+to the microsequencer that is necessary to make that happen.
+
+> 2) when adding onto the data path and state machine, is there a preference
+> between adding control store bits vs adding states?  I've found that I can
+> potentially reduce 2 particular states in the interrupt sequence by adding
+> 2 control store signals.  Is it worth increasing the control store by a
+> couple bits (which will only be used by 1 or 2 states) just to avoid adding
+> 1 or 2 new states?
+
+Whatever you want to is fine with me.  Your job is to do what is specified
+by the Lab 4 specification.  You will need to add control signals (bits to
+the microinstruction).  You will need to add states to the state machine.
+You will need to add logic to the microsequencer and data path.  How much 
+of each is up to you.
+
+> 3) On the Protection Exception: should the PC always be able to access
+> system memory (0x0000-0x2FFF), or only in supervisor mode? Implementing
+> vectors requires the PC be loaded with addresses in system space, but
+> should we detect a user's attempt to jump into that space by one of the
+> available opcodes?
+
+You are missing something very fundamental.  If a program running in
+user mode tries to access locations in system space, the program causes
+an exception -- an access control violation.  We talked about that when
+we discussed virtual memory.  There, the PTE provided the protection field
+associated with the page.  Here, we have hardwired system memory to specific
+locations (x0000 to x2FFF and xFE00 to xFFFF).
+
+HOWEVER, you are not talking about a user program trying to access system
+memory, you are talking about the hardware needing to access system memory
+in order to find the starting address of an exception or interrupt service
+routine.  To do this, indeed, the hardware will have to be in supervisor
+mode.  Your state machine, which will initiate the interrupt or exception
+service routine, AFTER it knows that it is taking an interrupt or exception,
+must first change the PSR[15] to supervisor mode before it can access the
+interrupt or exception vector table.
+
+> 4) can we assume that the existing hardware for LSHF will not produce an
+> odd value? Or even better, that all hardware functions as intended, and no
+> random bit errors occur?
+
+I guess this one I will answer with a question: What does LSHF do?
+
+> 5) in cases where we use logic blocks to read and produce signals, should
+> we show the combinational logic required (specific gates +
+> interconnections) or can we simply include a description of the block's
+> functionality?  In the former case, would you emphasize the intended
+> functionality of the logic block, or how well we implemented it at the gate
+> level when judging the design?
+
+Logic block details should be included, since it will help us understand
+what you are designing, but if you use a higher level structures in your
+logic (e.g., comparators), AND it is clear to us what you are doing, that
+will be fine.  For this lab, our primary concern is function correctness,
+so if we can easily tell that from your description, that will be good 
+enough.
+
+> I apologize if something I asked about was covered elsewhere already.  Hope
+> you hear back from you soon.
+>
+> Thanks,
+> <<name withheld to protect the student who wanted a few things clarified>>
+
+Good luck finishing the programming lab.
+
+Yale Patt
+

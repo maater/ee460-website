@@ -1,0 +1,289 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.79 [en] (X11; U; Linux 2.4.7-10smp i686) [Netscape]">
+   <title>EE 360N - Problem Set 4</title>
+</head>
+<body bgcolor="#FFFFFF">
+
+<center>
+<h2>
+Department of Electrical and Computer Engineering</h2></center>
+
+<center>
+<h3>
+The University of Texas at Austin</h3></center>
+EE 360N, Fall 2005
+<br>Problem Set 4
+<br>Due: 9 November 2005, before class
+<br>Yale N. Patt, Instructor
+<br>Aater Suleman, Linda Bigelow, Jose Joao, Veynu Narasiman, TAs
+<p>Instructions:
+
+<br>You are encouraged to work on the problem set in groups and turn in
+one problem set for the entire group. Remember to put all your names on
+the solution sheet. Also remember to put the name of the TA in whose discussion
+section you would like the problem set returned to you.
+<ol>
+
+<li>
+In class, we discussed two types of busses: "pending bus" and "split
+transaction bus". What is the advantage of a split-transaction bus
+over a pending bus?
+
+<p>
+<li>
+In class, we discussed the asynchronous finite state machine for the
+device controller of an input-output device within the context of a
+priority arbitration system. Draw the state diagram for this device
+controller (as drawn in lecture), identify the input and output
+signals, and briefly explain the function of each input and output
+signal.
+
+<p>
+As mentioned in class, the finite state machine has some race
+conditions. Identify the race conditions and show what simple
+modifications can be made to eliminate them. 
+</li>
+
+<p>
+
+<!-- Begin Question -->
+
+<li> In class we discussed asynchronous buses with central arbitration. 
+Our job in this problem is to design the state machine for a 
+synchronous bus using distributed arbitration. Recall that with 
+distributed arbitration, each device receives the Bus Request signals 
+from all other devices, and determines whether or not it is the next 
+Bus Master. Assume all bus transactions take exactly one cycle, and that 
+no device may be the Bus Master for two consecutive cycles.
+
+<p>
+Assume four devices, having priorities 1, 2, 3, and 4 respectively. 
+Their respective controllers request the bus via asserting BR1, BR2, 
+BR3, and BR4 respectively. Priority 4 is the highest priority. 
+
+<p>
+<ol type="a">
+<li> Show the interconnections required for distributed arbitration for 
+the four devices and their controllers connected to the bus. Be sure to 
+label each signal line and designate by arrows whether the signals are 
+input or output with respect to the device.   
+
+</li>
+<li>Is it possible for starvation to occur in this configuration? Describe 
+the situation where this can occur.
+</li>
+
+<li>Assume each I/O Controller is implemented using a clocked finite 
+state machine. Draw a Moore model state machine for the controller 
+operating at priority level 2. Label each state clearly. Label all 
+necesary inputs and outputs. You do not need to show the clock signal 
+on the state machine diagram. State transitions are synchronized to the 
+clock. 
+
+
+
+</ol>
+</li>
+<p>
+
+
+
+
+
+
+<li><!-- Begin Question -->
+Given the following code:
+
+<pre>MUL R3, R1, R2
+ADD R5, R4, R3
+ADD R6, R4, R1
+MUL R7, R8, R9
+ADD R4, R3, R7
+MUL R10, R5, R6</pre>
+
+Note: Each instruction is specified with the destination register first.
+
+<p> 
+
+Calculate the number of cycles it takes to execute the given code on the 
+following models:
+
+<ol type="a">
+<li> A non-pipelined machine.
+<li> A pipelined machine with scoreboarding and five adders and five multipliers.
+<li> A pipelined machine with scoreboarding and one adder and one multiplier.
+<br>
+</ol>
+
+<blockquote>
+Note: For all machine models, use the basic instruction cycle as follows:
+<ul>
+Fetch (one clock cycle)
+<br>
+Decode (one clock cycle)
+<br>
+Execute (MUL takes 6, ADD takes 4 clock cycles)
+<br>
+Write-back (one clock cycle)
+</ul>
+</blockquote>
+<p>
+
+Do not forget to list any assumptions you make about the pipeline
+structure (e.g., data forwarding between pipeline stages).
+</li>
+
+<li>
+
+Suppose we have the following loop executing on a pipelined LC-3b machine.
+
+<pre>         
+DOIT     STW   R1, R6, #0
+         ADD   R6, R6, #1
+         AND   R3, R1, R2
+         BRz   EVEN
+         ADD   R1, R1, #3
+         ADD   R5, R5, #-1
+         BRp   DOIT
+EVEN     ADD   R1, R1, #1
+         ADD   R7, R7, #-1 
+         BRp   DOIT</pre>
+<br>
+Assume that before the loop starts, the registers have the following 
+<b>decimal</b> values stored in them:
+<pre>       R0:       0
+       R1:       0
+       R2:       1
+       R3:       0
+       R4:       0
+       R5:       5
+       R6:    4000
+       R7:       5</pre>
+
+<p>
+
+
+Fetch-stage takes 1 cycle, Decode-stage takes 1 cycle, Execute-stage takes 
+variable number of cycles depending on the type of instruction (see below), 
+and Store-stage takes 1 cycle. 
+
+<br><br>
+All execution units (including the load/store unit) are fully pipelined and 
+the following instructions that use these units take the indicated number of 
+cycles:
+
+<pre>       STW:       3 
+       ADD:       3 
+       AND:       2 
+       BR :       1 </pre>
+
+<ul>
+<li>
+Data forwarding is used wherever possible. Instructions that are
+dependent on the previous instructions can make use of the results
+produced right after the previous instruction finishes the
+Execute-stage.
+<li> The target instruction after a branch can be fetched when the
+BR instruction is in ST stage. 
+
+
+For example, the execution of an ADD instruction followed by a BR would look 
+like:
+
+<pre>ADD       F | D | E1 | E2 | E3 | ST
+BR            F | D  | -  | -  | E1  | ST
+TARGET                                 F  | D</pre>
+
+
+
+
+<li>
+The pipeline implements "in-order execution". A scoreboarding scheme is used 
+as discussed in class.
+</ul>
+<p>
+Answer the following questions:
+<ol type="a">
+<li> How many cycles does the above loop take to execute if no branch 
+prediction is used?
+<li> How many cycles does the above loop take to execute if all branches are predicted with 100% accuracy.
+<li> How many cycles does the above loop take to execute if a static BTFN (backward taken-forward not taken) branch prediction scheme is used to predict branch directions? What is the overall branch prediction accuracy? What is the prediction accuracy for each branch?
+</ul>
+</ol>
+
+<p><li>
+A five instruction sequence executes according to Tomasulo's
+algorithm.  Each instruction is of the form ADD DR,SR1,SR2 or MUL
+DR,SR1,SR2.  ADDs are pipelined and take 9 cycles
+(F-D-E1-E2-E3-E4-E5-E6-WB).  MULs are also pipelined and take 11 cycles (two
+extra execute stages).  The microengine must wait until a result is in
+a register before it sources it (reads it as a source operand). 
+
+<p>
+
+
+The register file before and after the sequence are shown
+below (tags for ``After'' are ignored).<p>
+
+<center><img src="Table1.jpg"></center>
+
+<p>
+<ol type="a"><li> 
+Complete the five instruction sequence in program order in the space below.
+Note that we have helped you by giving you the opcode and two source operand
+addresses for instruction 4.  (The program sequence is unique.) <br>
+
+<p>
+
+<center><img src="Table2.jpg" ></center>
+
+
+<p>
+
+<li> In cycle 1 instruction 1 is fetched.  In cycle 2,
+instruction 1 is decoded and instruction 2 is fetched.  In cycle 3,
+instruction 1 starts execution, instruction 2 is decoded, and
+instruction 3 is fetched. <br>  
+
+Assume the reservation stations are
+all initially empty. Put each instruction into the next available
+reservation station. For example, the first ADD goes into ``a''. The
+first MUL goes into ``x''. Instructions remain in the reservation
+stations until they are completed. Show the state of the reservation
+stations at the end of cycle 8.
+<p>
+
+
+Note: To make it easier for the grader, when allocating source registers
+to reservation stations, please always have the higher numbered register be
+assigned to SR2.<p>
+
+<center><img src="Table3.jpg"></center>
+
+<p>
+
+<li> Show the state of the Register Alias Table (V, tag, Value) at the end of
+cycle 8.<p>
+
+<center><img src="Table4.jpg"></center>
+
+
+<p>
+
+
+</ol>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
