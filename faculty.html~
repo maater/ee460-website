@@ -64,19 +64,19 @@
         </ul>
         </li>   
 
-       <li>
-        <h3><a id="Sakhuja">Chirag Sakhuja</a></h3>
+        <li>
+        <h3><a id="TA_LAST_NAME"> TA_NAME</a></h3>
         <ul>
-          <li>Email: <a href="mailto:chirag.sakhuja@utexas.edu">chirag.sakhuja@utexas.edu</a></li>
+          <li>Email: <a href="mailto:stephen.pruett@utexas.edu">stephen.pruett@utexas.edu</a></li>
           <li>Office Hours:</li>
-          <!--<li><font color="red">Weekend Office Hours for Exam 1: Saturday (March 2) 4:00 pm to 6:00 pm in ENS 313 (3rd floor lounge)</font></li>-->
+          <!--<li><font color="red">Temporary Office Hours (Week of Jan. 29th): M 1:00pm-3:00pm, T
+            3:30pm-6:00pm in ENS 5th floor lab</font></li>-->
           <li>Discussion Sections:
           <ul>
-            <li>Unique #16995 (Grad: 17285), F 12:00pm &ndash; 1:30pm in <a
-              href="http://www.utexas.edu/maps/main/buildings/ens.html">ENS</a> 116</li>
+            <li>Unique #NO (Grad: NO), WEEK-ACRONYM TIME &ndash; TIME in <a
+              href="http://www.utexas.edu/maps/main/buildings/ens.html">PLACE</a> NUMBER</li>
           </ul></li>
         </ul>
-        </li>   
         </li>
 
       </ul>
