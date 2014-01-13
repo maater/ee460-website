@@ -1,0 +1,189 @@
+  <li><!-- Begin Question -->
+<ol>
+<li>The probability of a single bit flipping is <span class="equation"><var>p<sub>f</sub></var> = 10<sup>-7</sup></span>. Therefore, the probability of a bit remaining correct is <span class="equation"><var>p<sub>c</sub></var> = (1 - 10<sup>-7</sup>)</span>. The probability that a transmitted nine bit message will have zero flipped bits is <span class="equation"><var>p<sub>c</sub></var><sup>9</sup> = (1 - 10<sup>-7</sup>)<sup>9</sup></span>. Thus, the probability of at least one of the bits being flipped is <span class="equation">1 - <var>p<sub>c</sub></var><sup>9</sup> = 1 - (1 - 10<sup>-7</sup>)<sup>9</sup> &asymp; 9 &times; 10<sup>-7</sup></span>.</li>
+<li>Parity check logic <em>can</em> detect an odd number of errors: 1, 3, 5, 7, and 9.</li>
+<li>Parity check logic <em>cannot</em> detect an even number of errors: 2, 4, 6, 8.</li>
+<li><ul>
+<li>There are <span class="equation">choose(9, 1) = 9</span> possible combinations that result in a single flipped bit. Thus, the probability of one bit being flipped is <span class="equation"><var>p<sub>1</sub></var> = 9 &times; <var>p<sub>f</sub></var> &times; <var>p<sub>c</sub></var><sup>8</sup> &asymp; 9 &times; 10<sup>-7</sup></span>.</li>
+<li>There are <span class="equation">choose(9, 2) = 36</span> possible combinations that result in two flipped bits. Thus, the probability of two bits being flipped is <span class="equation"><var>p<sub>2</sub></var> = 36 &times; <var>p<sub>f</sub></var><sup>2</sup> &times; <var>p<sub>c</sub></var><sup>7</sup> &asymp; 3.6 &times; 10<sup>-13</sup></span>.</li>
+<li>There are <span class="equation">choose(9, 3) = 84</span> possible combinations that result in three flipped bits. Thus, the probability of three bit being flipped is <span class="equation"><var>p<sub>3</sub></var> = 84 &times; <var>p<sub>f</sub></var><sup>3</sup> &times; <var>p<sub>c</sub></var><sup>6</sup> &asymp; 8.4 &times; 10<sup>-20</sup></span>.</li>
+</ul></li>
+<li>Ignoring the probability of three or more bit errors, the probability of a detected error is just the probability of a single bit error (calculated above). Thus, the rate of detected errors is <span class="equation"><var>p<sub>1</sub></var> &times; 10<sup>9</sup> &divide; 9 &asymp; 100</span> errors per second.</li>
+<li>Similarly, the probability of an undetected error is approximately the probability of a double error. Thus, the rate of undetected errors is <span class="equation"><var>p<sub>2</sub></var> &times; 10<sup>9</sup> &divide; 9 &asymp; 4 &times; 10<sup>-5</sup></span> corrupt messages per second (or twice as many undetected <em>bit</em> errors, since we assume each undetected corrupt message contains two flipped bits), which is equivalent to one undetected corrupt message about every 7 hours.</li>
+</ol>
+</li><!-- End Question -->
+
+<li><!-- Begin Question -->
+&nbsp;<br />
+<table>
+<thead>
+<tr><th>Reference</th><th>TLB hit</th><th>Page Fault</th></tr>
+</thead>
+<tbody>
+<tr><td>0</td><td>X</td><td></td></tr>
+<tr><td>13</td><td>X</td><td></td></tr>
+<tr><td>5</td><td></td><td></td></tr>
+<tr><td>2</td><td></td><td></td></tr>
+<tr><td>14</td><td></td><td>X</td></tr>
+<tr><td>14</td><td>X</td><td></td></tr>
+<tr><td>13</td><td></td><td></td></tr>
+<tr><td>6</td><td></td><td>X</td></tr>
+<tr><td>6</td><td>X</td><td></td></tr>
+<tr><td>13</td><td>X</td><td></td></tr>
+<tr><td>15</td><td></td><td>X</td></tr>
+<tr><td>14</td><td></td><td></td></tr>
+<tr><td>15</td><td>X</td><td></td></tr>
+<tr><td>13</td><td>X</td><td></td></tr>
+<tr><td>4</td><td></td><td>X</td></tr>
+<tr><td>3</td><td></td><td>X</td></tr>
+</tbody>
+</table>
+<p>TLB hit rate = 7/16.</p>
+<p>TLB contains entries for pages 3, 4, and 13.</p>
+<p>Solutions for the final contents of the frames of physical memory may differ 
+slightly depending on what order the initially empty frames were allocated; however, 
+no page should appear in more than one frame.  Possible answers are shown below.</p>
+<table>
+<tr><td>Frame 0</td><td>Page 14 (or 6 or 15)</td></tr>
+<tr><td>Frame 1</td><td>Page 13</td></tr>
+<tr><td>Frame 2</td><td>Page 3</td></tr>
+<tr><td>Frame 3</td><td>Page 2</td></tr>
+<tr><td>Frame 4</td><td>Page 6 (or 14 or 15)</td></tr>
+<tr><td>Frame 5</td><td>Page 4</td></tr>
+<tr><td>Frame 6</td><td>Page 15 (or 6 or 14)</td></tr>
+<tr><td>Frame 7</td><td>Page Table</td></tr>
+</table>
+</li><!-- End Question -->
+
+<li><!-- Begin Question -->
+<p>We can determine from the given information that:</p>
+<ul>
+<li>A Virtual Address (VA) is 16 bits (2<sup>16</sup> = 64KB)</li>
+<li>A Physical Address (PA) is 12 bits (2<sup>12</sup> = 4KB)</li>
+<li>The number of bits for the offset is 8 (2<sup>8</sup> = 256 bytes)</li>
+</ul>
+<p>The breakdown for a Virtual Address (VA) must be:</p>
+<ul>
+<li>VA[15:14] (2 bits) : Denotes the region of memory (P0, P1, System)</li>
+<li>VA[13:8] (6 bits) : The Virtual Page Number (VPN)</li>
+<li>VA[7:0] (8 bits) : The offset</li>
+</ul>
+
+<p>The breakdown for a Physical Address (PA) must be:</p>
+<ul>
+<li>PA[11:8] (4 bits) : The Page Frame Number (PFN)</li>
+<li>PA[7:0] (8 bits) : The offset</li>
+</ul>
+
+<ol type="a">
+<li><p>Answer: <code>x825C</code></p>
+<p>Given the VAX 2-level translation scheme, we know that this VA must be in 
+system space.  Therefore, the top 2 bits of the VA (VA[15:14]) must be <code>10</code> 
+(in binary).  We also know that the offset of the VA is the same as the offset 
+of the PA, so the bottom 8 bits of the VA (VA[7:0]) must be <code>x5C</code> (<code>01011100</code> in binary).  
+Now, all we have to figure out is the 6 bit Virtual Page Number (VPN).  It 
+was given that the 1st access to physical memory (let's call this PA1) was at 
+location <code>x108</code>.  Once again, given the VAX 2-level translation scheme, we know 
+that <span class="equation">PA1 = SBR + (size of PTE in bytes) &times; VPN</span>. Solving this equation for VPN we get
+<span class="equation">VPN = (PA1 - SBR) &divide; (size of PTE in bytes)</span>.</p>
+<p>It was given that PA1 is <code>x108</code>, SBR is <code>x100</code>, and the size of a PTE is 4 bytes.  Therefore, 
+the VPN is <code>x2</code> (<code>000010</code> in binary).  The complete VA is therefore <code>10 000010 01011100</code> (in binary) 
+which is <code>x825C</code>.</p>
+</li>
+<li><p>Answer: <code>x80000009</code></p>
+<p>The contents of physical address <code>x45C</code> (the 2nd access to physical memory) is a PTE.  
+We know that a PTE is a 32 bit value that consists of 1 valid bit (PTE[31]), and 
+a 4-bit PFN (PTE[3:0]).  All other bits of the PTE (PTE[30:4]) are 0.  The contents 
+of this PTE are used to form the address of the 3rd access to physical memory (<code>x942</code>).  
+Therefore, the PFN bits of the PTE must be x9, and the valid bit must be 1.  This 
+implies that the PTE is <code>x80000009</code>.</p>
+</li>
+<li><p>Answer <code>x0342</code></p>
+<p>First, we must determine if this VA is in P0 space or P1 space.  To determine this, 
+we have to figure out if P0BR or P1BR was used to compute the virtual address <code>x825C</code> 
+(the answer to part a).  It was given that P0BR is <code>x8250</code>, and that P1BR is <code>x8350</code>.  
+Since <code>x8350</code> is greater than <code>x825C</code>, we know that we could not have used P1BR to 
+compute <code>x825C</code>, and therefore we must have used P0BR which means the VA is in P0 space.  
+Therefore, the top 2 bits of the virtual address (VA[15:14]) must be <code>00</code> (in binary).  
+We also know that the offset of the VA is the same as the offset of the PA, so the 
+bottom 8 bits of the VA (VA[7:0]) must be <code>x42</code> (<code>01000010</code> in binary).  Now, all we have 
+to figure out is the 6 bit Virtual Page Number (VPN).  Once again, given the VAX 2-level 
+translation scheme, we know that <span class="equation"><code>x825C</code> = P0BR + ((size of PTE in bytes) &times; VPN )</span>.</p>
+<p>Solving this equation for VPN we get <span class="equation">VPN = (<code>x825C</code> - P0BR) &divide; (size of PTE in bytes)</span>.</p>
+<p>It was given that P0BR is <code>x8250</code>, and the size of a PTE is 4 bytes.  Therefore, the 
+VPN is <code>x3</code> (<code>000011</code> in binary).  The complete VA is therefore <code>00 000011 01000010</code> 
+(in binary) which is <code>x0342</code>.</p>
+</li>
+</ol>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<ol type="a">
+<li>
+<span class="equation"># virtual pages = virtual address space &divide; size of page = 2<sup>12</sup> Bytes &divide; 2<sup>5</sup> Bytes/page = 
+2<sup>7</sup> pages</span>
+</li>
+
+<li>
+<p><span class="equation"># physical frames = physical address space &divide; size of frame = 2<sup>9</sup>Bytes &divide; 2<sup>5</sup> Bytes/frame = 
+2<sup>4</sup> frames</span>. Therefore, 4 bits are needed to specify the PFN.</p>
+<p><span class="equation">Size of PTE = Valid bit + Modified bit + access control bits + PFN bits = 1 + 1 + 2 + 4 = 8 bits (1 Byte)</span></p>
+</li>
+<li><p><span class="equation">User space = (3/4) &times; Virtual address space = (3/4) &times; 2<sup>7</sup> pages = 3 &times; 2<sup>5</sup> pages</span>. Each 
+page of user space will have a PTE in the user space page table.</p>
+<p>Size of user page table is <span class="equation"># of entries &times; size of PTE = (3 &times; 2<sup>5</sup> entries) &times; 1 Byte/entry = 96 Bytes</span>.</p>
+<p><span class="equation"># of pages = 96 Bytes &divide; 2<sup>5</sup> Bytes/page = 3 pages</span>.</p>
+</li>
+<li>
+<p>We'll use the prefix &ldquo;b&rdquo; to indicate a binary number in this solution. Also, for clarity, we will call 
+the virtual address <code>x7AC</code> the virtual address of <var>X</var> (VA_X).</p>
+
+Virtual address VA_X = <code>x7AC</code><br />
+The three parts of this virtual address are:<br />
+VA_X[11:10]: <code>b01</code> (indicates that this is an address in user space)<br />
+VA_X[11:5] (7 bits): Virtual Page Number = <code>b0111101</code><br />
+VA_X[4:0] Offset within page: <code>b01100</code><br />
+
+<ul>
+<li><var>X</var> is on page <code>x03D</code> of user space</li>
+<li>VA of the PTE of the page containing x is VA_PTE_X = PTBR + (<code>x03D</code> &times; 1) = <code>x380</code> + <code>x03D</code> = <code>x3BD</code>.</li>
+<li>Virtual page of System Space of PTE is VA_PTE_X[11:5] = <code>x01D</code>.</li>
+<li>PA of the PTE of this page of System Space is PA_PTE_PTE = SBR + VA_PTE_X[11:5] &times; 1 = <code>x1E0</code> + <code>x01D</code> = <code>x1FD</code>.</li>
+<li>The PTE of this page of System Space is: <br />
+PTE_PTE_X = Memory[<code>x1FD</code>] = <code>xB8</code><br />
+PFN_PTE_X = PTE_PTE_X[3:0] = <code>x8</code><br />
+PA of the PTE of the page containing <var>X</var>:<br />
+PA_PTE_X = PFN_PTE_X concatenated with VA_PTE_X[4:0] = <code>x11D</code><br />
+PTE_X = Memory[<code>x11D</code>] = <code>x83</code><br />
+PFN_X = PTE_X[3:0] = <code>x3</code><br />
+PA_X = PFN_X concantenated with VA_X[4:0] = <code>x06C</code>
+</li>
+</ul>
+</li>
+</ol>
+</li><!-- End Question -->
+
+<li><!-- Begin Question -->
+<p>We'll use the prefix &ldquo;b&rdquo; to indicate a binary number in this solution.</p>
+
+Virtual address VA_X = <code>x3456789A</code><br />
+The three parts of this virtual address are:<br />
+VA_X[31:30]: <code>b00</code> (indicates that this is an address in P0 space)<br />
+VA_X[29:9] (21 bits): Virtual Page Number = <code>b 11 0100 0101 0110 0111 100</code> (<code>x1A2B3C</code>)<br />
+VA_X[8:0] Offset within page: <code>b010011010</code><br />
+<ul>
+<li>x is on page <code>x1A2B3C</code> of P0 space</li>
+<li>VA of the PTE of the page containing <var>X</var>:<br />
+VA_PTE_X = P0BR + (<code>x1A2B3C</code> &times; 4) = <code>x8AC40000</code> + <code>x68ACF0</code> = <code>x8B2CACF0</code></li>
+<li>Virtual page of System Space of PTE is VA_PTE_X[29:9] = <code>x59656</code> </li>
+<li>PA of the PTE of this page of System Space is PA_PTE_PTE = SBR + VA_PTE_X[29:9] &times; 4 = <code>x22D958</code></li>
+<li>The PTE of this page of System Space is PTE_PTE_X = Memory[<code>x22D958</code>] = <code>x800F5D37</code><br />
+PFN_PTE_X = PTE_PTE_X[20:0] = <code>xF5D37</code><br />
+PA of the PTE of the page containing <var>X</var>:<br />
+PA_PTE_X = PFN_PTE_X concatenated with VA_PTE_X[8:0] = <code>x1EBA6EF0</code><br />
+PTE_X = Memory[<code>x1EBA6EF0</code>] = <code>x80000A72</code><br />
+PFN_X = PTE_X[20:0] = <code>xA72</code><br />
+PA_X = PFN_X concantenated with VA_X[8:0] = <code>x14E49A</code></li>
+</ul>
+</li><!-- End Question -->     
+

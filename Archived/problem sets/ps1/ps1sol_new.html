@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Problem Set 1 Solution</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../probs.css" />
+</head>
+<body>
+<center>
+<h3>
+Department of Electrical and Computer Engineering
+</h3>
+<h4>
+The University of Texas at Austin
+</h4>
+</center>
+
+EE 460N, Fall 2013<br />
+Problem Set 1 Solutions <br />
+Aater Suleman, Instructor
+<br />
+Stephen Pruett, Abhishek Agarwal, Chirag Sakhuja TAs
+
+<ol class="questions">
+
+<li><p>
+<!--
+The ISA is the contract between the hardware and the software. The microarchitecture is a particular implementation of an ISA. 
+Compiler does not need to know any information about the microarchitecture.</p>
+  <ol>
+  <li>ISA</li>
+  <li>Microarchitecture</li>
+  <li>ISA</li>
+  <li>Microarchitecture</li>
+  <li>ISA</li>
+  <li>Microarchitecture/ISA</li>
+  <li>ISA</li>
+  <li>Microarchitecture</li>
+  <li>Microarchitecture</li>
+  <li>Microarchitecture</li>
+</ol>
+--!>
+</li>
+
+<li>
+<p>The first program causes <code>x0004</code> to be stored in location <code>x3000</code> when the assembled code is loaded into the memory. The second program causes <code>x0004</code> to be stored in <code>x3000</code> during the execution of the program.</p>
+</li>
+
+<li>
+<p>The following table shows the classification of the LC-3b instructions into Operate, Data Movement and Control instructions.</p>
+<table>
+<tr><th>Instruction</th><th>Operate</th><th>Data Movement</th><th>Control</th></tr>
+<tr><td>ADD</td>     <td>X</td><td> </td><td> </td></tr>
+<tr><td>AND</td>     <td>X</td><td> </td><td> </td></tr>
+<tr><td>BR</td>      <td> </td><td> </td><td>X</td></tr>
+<tr><td>JMP/RET</td> <td> </td><td> </td><td>X</td></tr>
+<tr><td>JSR/JSRR</td><td> </td><td> </td><td>X</td></tr>
+<tr><td>LDB</td>     <td> </td><td>X</td><td> </td></tr>
+<tr><td>LDW</td>     <td> </td><td>X</td><td> </td></tr>
+<tr><td>LEA</td>     <td>X</td><td> </td><td> </td></tr>
+<tr><td>RTI</td>     <td> </td><td> </td><td>X</td></tr>
+<tr><td>SHF</td>     <td>X</td><td> </td><td> </td></tr>
+<tr><td>STB</td>     <td> </td><td>X</td><td> </td></tr>
+<tr><td>STW</td>     <td> </td><td>X</td><td> </td></tr>
+<tr><td>TRAP</td>    <td> </td><td> </td><td>X</td></tr>
+<tr><td>XOR/NOT</td> <td>X</td><td> </td><td> </td></tr>
+</table>
+
+</li>
+
+<li>
+<p>Both the second and the third instruction (never branch) can be used as a NOP. The first instruction (ADD) sets the condition codes based on the 
+value in R1, therefore it is also not a NOP.</p>
+</li>
+
+<li>
+<!--
+<ol>
+<li>The first option does not support either subroutine nesting or subroutine recursion.</li>
+<li>The second option supports subroutine nesting, but does not support recursion.</li>
+<li>The third option supports both subroutine nesting and subroutine recursion.</li>
+</ol>
+--!>
+</li>
+
+<li>
+<!--
+<ol>
+<li>Little endian: <span class="equation">MEM[<code>x1000</code>] + MEM[<code>x1002</code>] = <code>x1A0E</code> + <code>x0C11</code> = <code>x261F</code></span></li>
+<li>Big endian:    <span class="equation">MEM[<code>x1000</code>] + MEM[<code>x1002</code>] = <code>x0E1A</code> + <code>x110C</code> = <code>x1F26</code></span></li>
+</ol>
+</li>
+--!>
+
+<li>
+32 Megabytes = 2<sup>28</sup> bits
+<ol>
+<li>The memory consists of 2<sup>28</sup> addressable locations. 28 bits are required to uniquely address each location.</li>
+<li>The memory consists of 2<sup>28</sup> &divide; 2<sup>3</sup> = 2<sup>25</sup> addressable locations. 25 bits are required to address a location.</li>
+<li>The memory consists of 2<sup>28</sup> &divide; 2<sup>7</sup> = 2<sup>21</sup> addressable locations. 21 bits are required to address a location.</li>
+</ol>
+</li>
+
+<li>
+<ol>
+<li>Zero-address machine:
+<pre><code>PUSH A
+PUSH B
+PUSH C
+MUL
+ADD
+PUSH D
+PUSH E
+PUSH D
+PUSH C
+MUL
+ADD
+SUB
+MUL
+POP X</code></pre>
+<p>Advantages: <!--good for fast arithmetic;--> Operate instructions only require
+an opcode so they can be encoded very densely.</p>
+<p>Disadvantages: not flexible in terms of manipulating operands, more
+instructions required to write programs.</p>
+</li>
+<li>
+One-address machine:
+<pre><code>LOAD B
+MUL C
+ADD A
+STORE A
+LOAD C
+MUL D
+ADD E
+STORE E
+LOAD D
+SUB E
+MUL A
+STORE X</code></pre>
+<p>Advantages: only a single register required, fewer instructions compared to the stack machine.</p>
+<p>Disadvantage: not as flexible as 2 or 3-address machines. We need
+instructions to move data to and from the accumulator (We don't need
+these in a 3-address machine that supports memory-to-memory
+operations).</p>
+</li>
+<li>
+Two-address machine:
+<pre><code>MUL B, C
+ADD A, B
+MUL C, D
+ADD C, E
+SUB D, C
+MUL A, D
+SUB X, X   ; these two instructions emulate a MOV X, A
+ADD X, A</code></pre>
+<!--
+<p>Advantage: more flexibility in sources and destinations compared to
+stack and accumulator machines.</p>
+<p>Disadvantage: one source is always overwritten. We need MOV
+instructions to preserve the original value of a source operand.</p>
+-->
+</li>
+<li>
+Three-address machine:
+<pre><code>MUL X, B, C
+ADD A, X, A
+MUL X, D, C
+ADD X, E, X
+SUB X, D, X
+MUL X, X, A</code></pre>
+<!--
+<p>Advantage: most flexible in terms of specifying sources and
+destinations of instructions.</p>
+<p>Disadvantage: larger instructions.</p>
+-->
+</li>
+</ol>
+</li>
+<li>
+   <ol>
+   <li>2 address machine.</li>
+   <li>4 registers</li>
+   <li>Lets say you want <code>MOV R2, R1</code> (R2 = R1):
+<pre><code>AND R2, #0
+ADD R2, R1</code></pre>
+or
+<pre><code>LEA  TEMP   ; Absolute address of TEMP in R0
+ST   R1, R0 
+LD   R2, R0
+....
+....
+TEMP  .FILL  xDEAD  ; any garbage value</code></pre>
+</li>
+<li>Use the LEA instruction:
+<pre><code>	LEA LABEL
+        ADD R2, R3 ; Set the Condition Codes
+	BR  R0
+	....
+LABEL	....	; Branch to this line</code></pre>
+</li>
+</ol>
+
+
+<li>
+
+<ol>
+<li>
+
+<br>
+<br>
+<table>
+<thead>
+<tr><th>Symbol</th><th>Address</th></tr>
+</thead>
+<tr>
+<td>AGAIN</td>
+<td>x300E</td>
+</tr>
+
+<tr>
+<td>NO</td>
+<td>x3022</td>
+</tr>
+
+<tr>
+<td>B</td>
+<td>x3024</td>
+</tr>
+
+<tr>
+<td>A</td>
+<td>x3026</td>
+</tr>
+</table>
+</li>
+
+
+<br>
+<li>
+If the high and low byte of the word stored at location x4000 are equal, 
+R5 is set to 1, else to 0.
+</li>
+
+<br>
+<li>
+There are several possible answers to this code
+optimization question. Some of these are:
+
+<p>
+<ul>
+<li>
+The programmer used a loop to left shift a value
+in R2 by 8 bits. He/she could have done this using a single LC-3b
+instruction, LSHF. He/she should have replaced the loop
+
+<pre>AGAIN   ADD R2, R2, R2
+        ADD R3, R3, #-1
+        BRp AGAIN</pre>
+
+with
+   
+<pre>        LSHF R2, R2, #8</pre>
+<br>
+</li>
+
+<li>
+Instead of using "subtraction" to compare the high and low byte, the
+programmer could have used a single XOR instruction to check the
+equality of the two bytes. He/she could have replaced the following
+instructions
+
+<pre>        NOT R1, R1
+	     ADD R1, R1, #1
+	     ADD R2, R2, R1</pre>
+
+with
+
+<pre>        XOR R2, R1, R2</pre>
+</li>
+
+<li>
+The program is comparing the high byte and low byte of the word in
+memory location x4000.  The programmer could have utilized the LDB
+instruction to load the high byte and low byte into two separate
+registers and compare them.  This way there would be no need for
+shifting and masking. The optimized program could look like this:
+
+<pre>        .ORIG   x3000
+	AND     R5, R5, #0
+	LEA	R0, A
+	LDW	R0, R0, #0
+	LDB	R1, R0, #0
+	LDB	R2, R0, #1
+	XOR	R2, R1, R2
+	BRnp    NO
+	ADD     R5, R5, #1
+NO	HALT
+A       .FILL   x4000
+        .END	 </pre>
+
+</li>
+</ol>
+</li>
+
+<p>
+<li>
+	<ol>
+		<li><br>
+<table><tr><td valign="top"><pre>	.ORIG	x4000<br>MAIN	LEA	R2,L0<br>	JSRR	R2<br>	JSR	L1<br>	HALT<br>	;<br>L0	ADD	R0,R0,#5<br>	RET<br>	;<br>L1	ADD	R1,R1,#5<br>	RET<br>      </pre></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td valign="top"><pre><br>x4000	xE403<br>x4002	x4080<br>x4004	x4803<br>x4006	xF025<br>&nbsp;<br>x4008	x1025<br>x400A	xC1C0<br>&nbsp;<br>x400C	x1265<br>x400E	xC1C0<br></pre></td></tr></table>
+	   </li>
+		<li>
+As long as the subroutine we are calling is located at most
+1023 instructions before the JSR instruction or at most 1024
+instructions after the JSR instruction, there is no need to use the
+first way, which requires at least two instructions. This is due to
+the fact that JSR instruction can change the PC to an address within
+the range PC + 2 - 2048 and PC + 2 + 2046, because it uses a limited
+offset of 11 bits.
+<p>
+The method that requires two instructions is necessary if the
+subroutine we are calling is not within the range of the JSR
+instruction. Note that the JSRR instruction can change the PC to any
+address residing in its base register.  The address in the base
+register can be set to any address in memory.<br>
+
+<p>
+For example if we have a program starting at memory location x3000 and
+we would like to call a subroutine starting at memory location 0xF000,
+there is no way to do this by just using a JSR instruction at location
+x3000. However, we can call the subroutine at 0xF000 using JSRR with
+the following sequence of instructions:
+
+<pre>           .ORIG      x3000
+           LEA        R0, SUBADDR
+           LDW        R1, R0, #0
+           JSRR	      R1
+           HALT
+SUBADDR    .FILL      xF000
+           .END</pre>
+		</li>
+	</ol>
+
+		</li>
+<li><p>Yes, there is a difference. The program at x5000 does not save the return address from the subroutine at L2 because it uses a JMP instruction. Thus, that program will not work correctly.</p>
+<p>A possible change that could be made:</p>
+<pre><code>
+      .ORIG x5000
+      LEA   R7,B
+MAIN2 LEA   R3,L2
+A2    JMP   R3
+B     HALT
+      ;
+L2    ADD   R2,R1,R0
+      RET</code></pre>
+</li>
+<li><p>Possible Solutions:</p>
+<ol>
+  <li>
+  <p>4 opcode bits, 3 NZP bits, 3 DR bits, 3 SR1 bits, 3 SR2 bits</p>
+  </li>
+  <li>
+  <p>A 2 address operation can be used instead of a 3 address. Thus, we have 4 opcode bits, 3 NZP bits, 3 DR/SR1 bits, 1 steering bit. The remaining 5 bits will either be used as 5 immediate bits, or 2 unused bits + 3 SR2 bits.</p>
+  </li>
+</ol>
+</li>
+
+<li><!-- Begin Question -->
+<p>Variable instruction length ISAs have more complex decode logic. Variable
+instruction length ISA programs can be encoded more densely. Variable
+instruction length ISAs also generally imply a richer instruction set than that
+of a fixed length ISA. Since a richer instruction set has more instructions
+that directly correspond to higher level language programming constructs, the
+compilation process can be easier.</p>
+</li><!-- End Question -->
+
+</ol>
+</body> 
+</html>

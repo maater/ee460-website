@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Problem Set 1</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../probs.css" />
+</head>
+<body>
+
+<center> 
+<h2>Department of Electrical and Computer Engineering</h2>
+ 
+<h3>The University of Texas at Austin</h3>
+ </center>
+ EE 460N, Spring 2013<br />
+ Problem Set 1 <br />
+ Due: January 28, before class<br />
+ Yale N. Patt, Instructor<br />
+ Faruk Guvenilir, Sumedha Bhangale, Stephen Pruett, TAs
+
+<h2>Instructions</h2>
+<p>You are encouraged to work on the problem set in groups and turn in one problem
+set for the entire group. Remember to put all your names on the solution
+sheet. Also remember to put the name of the TA in whose discussion section
+you would like the problem set turned back to you.</p>
+
+<p><em>You will need to refer to the assembly language handouts and the LC-3b ISA on the course website.</em></p>
+
+<h2>Questions</h2>
+<ol class="questions">
+<li>
+<p>Briefly explain the difference between the microarchitecture
+level and the ISA level in the transformation hierarchy. What information
+does the compiler <em>need</em> to know about the microarchitecture of the
+machine in order to compile the program correctly?</p>
+<p>Classify the following attributes of LC-3b as either a property of
+its microarchitecture or ISA: </p>
+    <ol>
+      <li>There is no subtract instruction in LC-3b.</li>
+      <li>The ALU of LC-3b does not have a subtract unit.</li>
+      <li>LC-3b has three condition code bits (n, z, and p).</li>
+      <li>The n, z, and p bits are stored in three 1-bit registers.</li>
+      <li>A 5-bit immediate can be specified in an <code>ADD</code> instruction</li>
+      <li>It takes <i>n</i> cycles to execute an <code>ADD</code> instruction.</li>
+      <li>There are 8 general purpose registers used by operate, data movement
+and control instructions.</li>
+      <li>The registers MDR (Memory Data Register) and MAR (Memory Address Register) are used for Loads and Stores.
+     </li>
+      <li>A 2-to-1 mux feeds one of the inputs to ALU.</li>
+      <li>The register file has one input and two output ports.</li>
+    </ol>
+  </li>
+  <li style="page-break-before: always"><p>Both of the following programs cause the value
+<code>x0004</code> to be stored in location <code>x3000</code>, but they do so at different times.
+Explain the difference.</p>
+    <ol>
+      <li>First program:<pre><code>      .ORIG x3000
+      .FILL x0004
+      .END</code></pre></li>
+       
+      <li>Second program:<pre><code>      .ORIG x4000
+      AND R0, R0, #0
+      ADD R0, R0, #4
+      LEA R1, A
+      LDW R1, R1, #0
+      STW R0, R1, #0
+      HALT
+A     .FILL x3000	
+      .END</code></pre></li>
+     
+    </ol>
+   </li>
+  <li><p>Classify the LC-3b instructions into Operate,
+Data Movement, or Control instructions.</p></li>
+  <li><p>At location <code>x3E00</code>, we would like to put an
+instruction that does nothing. Many ISAs actually have an opcode devoted
+to doing nothing. It is usually called NOP, for NO OPERATION. The instruction
+is fetched, decoded, and executed. The execution phase is to do <b>nothing</b>!
+Which of the following three instructions could be used for NOP and have
+the program still work correctly?</p>
+    <ol>
+       
+      <li><code>0001 001 001 1 00000</code>
+       </li>
+       
+      <li><code>0000 111 000000000</code>
+       </li>
+       
+      <li><code>0000 000 000000000</code>
+       </li>
+     
+    </ol>
+
+    <p>For each of the three that can not be used for NOP, explain why.</p>
+   </li>
+  <li><p>Consider the following possibilities for saving
+the return address of a subroutine:</p>
+    <ol>
+       
+      <li>In a processor register.</li>
+       
+      <li> In a memory location associated with the subroutine; i.e., a different
+memory location is used for each different subroutine.</li>
+       
+      <li>On a stack.</li>
+     
+    </ol>
+    <p>Which of these possibilities supports subroutine nesting, and which supports
+subroutine recursion (that is, a subroutine that calls itself)?</p>
+    </li>
+  <li><p>A small section of byte-addressable memory is given below:</p>
+    <table>
+       <tbody>
+         <tr>
+           <th>Address</th>
+           <th>Data</th>
+         </tr>
+         <tr>
+           <td><code>x0FFE</code></td>
+           <td><code>xA2</code></td>
+         </tr>
+         <tr>
+           <td><code>x0FFF</code></td>
+           <td><code>x25</code></td>
+         </tr>
+         <tr>
+           <td><code>x1000</code></td>
+           <td><code>x0E</code></td>
+         </tr>
+         <tr>
+           <td><code>x1001</code></td>
+           <td><code>x1A</code></td>
+         </tr>
+         <tr>
+           <td><code>x1002</code></td>
+           <td><code>x11</code></td>
+         </tr>
+         <tr>
+           <td><code>x1003</code></td>
+           <td><code>x0C</code></td>
+         </tr>
+         <tr>
+           <td><code>x1004</code></td>
+           <td><code>x0B</code></td>
+         </tr>
+         <tr>
+           <td><code>x1005</code></td>
+           <td><code>x0A</code></td>
+         </tr>
+       
+      </tbody>     
+    </table>
+<p>Add the 16-bit two's complement numbers specified by addresses <code>x1000</code> and
+<code>x1002</code> if</p>
+    <ol>
+       
+      <li>the ISA specifies a little-endian format </li>
+       
+      <li>the ISA specifies a big-endian format </li>
+     
+    </ol>
+   </li>
+  <li><p>Say we have 32 megabytes of storage, calculate the number of
+bits required to address a location if</p>
+    <ol>
+       
+      <li>the ISA is bit-addressable</li>
+       
+      <li>the ISA is byte-addressable</li>
+       
+      <li>the ISA is 128-bit addressable </li>
+     
+    </ol>
+   </li>
+  <li>     
+      <p>A zero-address machine is a stack-based machine where all operations
+are done using values stored on the operand stack. For this problem, you
+may assume that its ISA allows the following operations:</p>
+        <ul>
+           
+          <li><code>PUSH M</code> - pushes the value stored at memory location M onto
+the operand stack. </li>
+           
+          <li><code>POP M</code> - pops the operand stack and stores the value into memory
+location M. </li>
+           
+	  <li><code>OP</code> - Pops two values off the operand stack, performs the binary
+operation OP on the two values, and pushes the result back onto the
+operand stack.</li>
+        </ul>
+<p>Note: To compute A - B with a stack machine, the following sequence
+of operations are necessary: <code>PUSH A</code>, <code>PUSH B</code>, <code>SUB</code>.  After execution of <code>SUB</code>,
+A and B would no longer be on the stack, but the value A-B would be at
+the top of the stack.</p>
+      <p>A one-address machine uses an accumulator in order to perform computations.
+For this problem, you may assume that its ISA allows the following operations:</p>
+        <ul>
+           
+          <li><code>LOAD M</code> - Loads the value stored at memory location M into the
+accumulator. </li>
+           
+          <li><code>STORE M</code> - Stores the value in the accumulator into Memory Location
+M.</li>
+           
+          <li><code>OP M</code> - Performs the binary operation OP on the value stored
+at memory location M and the value present in the accumulator. The result
+is stored into the accumulator (ACCUM = ACCUM OP M).</li>
+        </ul>
+      <p> A two-address machine takes two sources, performs an operation
+on these sources and stores the result back into one of the sources. For
+this problem, you may assume that its ISA allows the following operation:</p>
+        <ul>
+          <li><code>OP M1, M2</code> - Performs a binary operation OP on the values stored
+at memory locations M1 and M2 and stores the result back into memory location
+M1 (M1 = M1 OP M2).</li>
+        </ul>
+    <p>Note 1: <code>OP</code> can be <code>ADD</code>, <code>SUB</code> or <code>MUL</code> for the purposes of this problem.</p>
+    <p>Note 2: A, B, C, D, E and X refer to memory locations and can be also used to store temporary results.</p>
+     
+    <ol>
+       
+      <li><p>Write the assembly language code for calculating the expression (do not simplify the expression):</p>
+<div class="equation">
+ X = (A + (B &times; C)) &times; (D - (E + (D &times; C)))
+</div>
+        <ol>
+          <li>In a zero-address machine</li>
+          <li>In a one-address machine</li>
+          <li>In a two-address machine</li>
+          <li>In a three-address machine like the LC-3b, but which can do
+memory to memory operations and also has a <code>MUL</code> instruction.</li>
+        </ol>
+       </li>
+       
+      <li><p>Give an advantage and a disadvantage of a one-address machine versus a zero-address machine.</p></li>
+    </ol>
+   </li>
+  <li><p>The following table gives the format of the instructions for the LC-1b 
+computer that has 8 opcodes.</p>
+<table cellpadding="0" cellspacing="1" border="1" style="width: 504px; height: 269px; ">
+<thead>
+<tr><th>Opcode</th><th>7</th><th>6</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th><th>0</th></tr>
+</thead>
+<tbody>
+<tr><td>ADD</td>  <td>0</td><td>0</td><td>0</td><td colspan="2">DR</td><td>A</td><td colspan="2">SR</td></tr>
+<tr><td>AND</td>  <td>0</td><td>0</td><td>1</td><td colspan="2">DR</td><td>A</td><td colspan="2">SR</td></tr>
+<tr><td>BR(R)</td><td>0</td><td>1</td><td>0</td><td>N</td><td>Z</td>   <td>P</td><td colspan="2">TR</td></tr>
+<tr><td>LDImm</td><td>0</td><td>1</td><td>1</td><td colspan="5">signed immediate</td></tr>
+<tr><td>LEA</td>  <td>1</td><td>0</td><td>0</td><td colspan="5">signed offset</td></tr>
+<tr><td>LD</td>   <td>1</td><td>0</td><td>1</td><td colspan="2">DR</td><td>0</td><td colspan="2">TR</td></tr>
+<tr><td>ST</td>   <td>1</td><td>1</td><td>0</td><td colspan="2">SR</td><td>0</td><td colspan="2">TR</td></tr>
+<tr><td>NOT</td>  <td>1</td><td>1</td><td>1</td><td colspan="2">DR</td><td>0</td><td>0</td><td>0</td>   </tr>
+</tbody>
+</table>
+    <p>Notes:</p>
+        <ul>                                                                        
+        <li>Interpretation of all instructions is similar to that of the LC-3b,
+        unless specifically stated otherwise.</li>
+                                                                                
+        <li>The destination register for the instructions <code>LDImm</code> and
+        <code>LEA</code> is always register R0. (e.g.   <code>LDImm #12</code>  loads decimal 12 to register R0.)</li>
+                                                                                
+        <li>TR stands for Target Register.  In the case of the conditional
+        branch instruction <code>BR</code>, it contains the target address of the branch.
+        In the case of <code>LD</code>, it contains the address of the source of the load. In the
+        case of <code>ST</code>, it contains the address of the destination of the load.</li>
+                                                                                
+        <li><code>ADD</code> and <code>AND</code> provide immediate addressing by means of a steering bit,
+        bit[2], labeled A.  If  A is 0, the second source operand is obtained
+        from SR. If A is 1, the second source operand is obtained by
+        sign-extending bits[1:0] of the instruction. A bit is called a
+        &ldquo;steering&rdquo; bit if its value &ldquo;steers&rdquo; the interpretation of other bits
+        (instruction bits 1:0 in this case).</li>
+
+        <li>Bits labeled 0 must be zero in the encoding of the instruction.</li>
+	</ul>
+    <ol>
+    <li>What kind of machine (n-address) does the above ISA specification
+represent?</li>
+     
+    <li>How many general purpose registers does the machine have?</li>
+     
+    <li>Using the above instructions, write the assembly code to implement
+a register to register mov operation.
+     </li>
+     
+    <li>How can we make a PC-relative branch? (HINT: You will need more than one LC-1b instruction)</li>
+   
+    </ol>
+   </li>
+
+<li style="page-break-before: always"><p>Consider the following LC-3b assembly language program:</p>
+<pre><code>        .ORIG x3000
+	AND R5, R5, #0
+	AND R3, R3, #0
+	ADD R3, R3, #8
+	LEA R0, B
+	LDW R1, R0, #1
+	LDW R1, R1, #0
+	ADD R2, R1, #0
+AGAIN	ADD R2, R2, R2
+	ADD R3, R3, #-1
+	BRp AGAIN
+	LDW R4, R0, #0
+	AND R1, R1, R4
+	NOT R1, R1
+	ADD R1, R1, #1
+	ADD R2, R2, R1
+	BRnp NO
+	ADD R5, R5, #1
+NO	HALT
+B	.FILL XFF00
+A	.FILL X4000
+	.END</code></pre>
+
+<ol>
+<li>
+<p>The assembler creates a symbol table after the first pass. Show
+the contents of this symbol table.</p>
+</li>
+<li>
+<p>What does this program do? (in less than 25 words)</p>
+</li>
+<li>
+<p>When the programmer wrote this program, he/she did not take full
+advantage of the instructions provided by the LC-3b ISA. Therefore the program
+executes too many unnecessary instructions. Show what the programmer should
+have done to reduce the number of instructions executed by this program.</p>
+</li>
+</ol>
+</li>
+<li style="page-break-before: always">
+<p>Consider the following LC-3b assembly language
+program.</p>
+<pre><code>        .ORIG	x4000
+MAIN	LEA	R2,L0
+	JSRR	R2
+	JSR	L1
+	HALT
+	;
+L0	ADD	R0,R0,#5
+	RET
+	;
+L1	ADD	R1,R1,#5
+	RET</code></pre>
+<ol>
+<li>
+<p>Assemble the above program. Show the LC-3b machine code for each instruction in the program as a hexadecimal number.</p>
+</li>
+<li>
+<p>This program shows two ways to call a subroutine. One requires two instructions:
+<code>LEA</code> and <code>JSRR</code>. The second requires only one instruction: <code>JSR</code>. Both ways work
+correctly in this example. Is it ever necessary to use <code>JSRR</code>? If so, in what
+situation?</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Consider the following two LC-3b assembly language programs.</p>
+
+<pre><code>
+      .ORIG x4000            .ORIG x5000
+MAIN1 LEA   R3,L1      MAIN2 LEA   R3,L2
+A1    JSRR  R3         A2    JMP   R3
+      HALT                   HALT
+      ;                      ;
+L1    ADD   R2,R1,R0   L2    ADD   R2,R1,R0
+      RET                    RET</code></pre>
+<p>Is there a difference in the result of executing these two programs?
+If so, what/why is there a difference? Could a change be made (other
+than to the instructions at Labels A1/A2) to either of these programs to
+ensure the result is the same?</p>
+</li>
+<li>
+<p>Use one of the unused opcodes in the LC-3b ISA to implement a conditionally executed ADD instruction.
+Show the format of the 16 bit instruction and discuss your reasoning assuming that:
+<ol>
+<li>
+<p>The instruction doesn't require a steering bit. (The ADD is a register-register operation).</p>
+</li>
+<li>
+<p>The instruction requires a steering bit. (The ADD has both register-register and register-immediate forms).</p>
+</li>
+</ol>
+</li>
+<li><!--<font color="red" size="-1">Postponed until Problem Set 2.</font>-->
+<p>Discuss the tradeoffs between a variable instruction length ISA and a fixed instruction length ISA.
+How do variable length instructions affect the hardware? What about the software?</p>
+</li>
+
+<li>
+<p><b>Please go to the handouts section of the course web site, print and fill out the student information sheet, and turn it in with a recognizable recent photo of yourself on January 28th (the same day this problem set is due).</b></p>
+</li>
+
+</ol>
+ 
+</body>
+</html>

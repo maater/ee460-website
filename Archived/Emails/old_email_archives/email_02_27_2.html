@@ -1,0 +1,67 @@
+<!-- commenting the email tags out .... 
+From patt@login.hps.utexas.edu  Sun Feb 27 04:51:52 2011
+Return-Path: <patt@login.hps.utexas.edu>
+Received: from login.hps.utexas.edu (login.hps.utexas.edu [128.83.178.4])
+	by ego.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p1RApqLJ003111;
+	Sun, 27 Feb 2011 04:51:52 -0600
+Received: from login.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by login.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p1RApoab022365;
+	Sun, 27 Feb 2011 04:51:50 -0600
+Received: (from patt@localhost)
+	by login.hps.utexas.edu (8.13.8/8.13.8/Submit) id p1RApo3B022363;
+	Sun, 27 Feb 2011 04:51:50 -0600
+Date: Sun, 27 Feb 2011 04:51:50 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: miladhashemi@gmail.com, faruk@hps.utexas.edu, yuhao.zhu@mail.utexas.edu
+Subject: Re: Question regarding the previous email
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Sun, 27 Feb 2011, 04:51</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Sun, 27 Feb 2011, 04:51</font>
+<p><pre>
+<font color="blue">
+A student read my earlier email, and immediately picked up on my phrase
+"ALL storage."
+<font color="black">
+&gt; Dr. Patt,
+&gt; 
+&gt; In your previous email in response to the student confused about what 
+&gt; goes on in a cycle you said the following
+&gt;<font color="green">
+&gt; &gt; MDR is loaded with data coming from memory (or device register) at 
+&gt; &gt; the END of the cycle, as is the case with ALL storage.  Processing 
+&gt; &gt; goes on during the cycle, results are latched into registers at the 
+&gt; &gt; end of the cycle so as to be available for use in the next cycle</font>
+&gt; 
+&gt; Does "ALL storage" include stores as well, that is, is data supposed 
+&gt; to be stored into memory at the END of the 5th cycle? Thanks
+</font>
+
+Actually, when I was writing the email, I was focusing on the data path,
+where storage refers to registers made up of flip-flops (think edge-triggered
+D flip-flops, for example).  I wanted to emphasize the notion that we load
+at the end of the clock cycle and what is loaded is then available for use
+at the start of the next cycle.   
+
+Memory is a little trickier, since we don't make memory cells out of 
+edge-triggered D flip-flops normally.  But, you can think of the same way.  
+That, at the end of the 5th clock cycle (in our case), the memory has been 
+loaded and is now available for reading.  Of course the notion is somewhat 
+less useful in the case of memory, since before you can read, you are going 
+to have to load MAR with the new address, so the idea of the result of 
+processing stored at the end of one clock cycle and available for use at 
+the start of the next cycle is somewhat vacuous in the case of LC-3b memory.
+
+Good luck finishing the problem set by midnight tonight.
+
+Yale Patt
+
+
+</font>
+</pre>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Problem Set 4</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../probs.css" />
+</head>
+<body>
+
+<center>
+<h2>Department of Electrical and Computer Engineering</h2></center>
+<center>
+<h3>The University of Texas at Austin</h3></center>
+EE 460N, Spring 2013
+<br />Problem Set 4
+<br />Due: April 15, before class
+<br />Yale N. Patt, Instructor
+<br />Faruk Guvenilir, Sumedha Bhangale, Stephen Pruett, TAs
+<h2>Instructions</h2>
+<p>You are encouraged to work on the problem set in groups and turn in
+one problem set for the entire group. Remember to put all your names on
+the solution sheet. Also remember to put the name of the TA in whose discussion
+section you would like the problem set returned to you.</p>
+
+<h2>Questions</h2>
+<ol start="1" class="questions">
+
+<li><!-- Begin Question -->
+<p>A computer has an 8KB write-through cache.  Each cache block is 64
+bits, the cache is 4-way set associative and uses a victim/next-victim
+pair of bits in each block for its replacement policy.  Assume a
+24-bit address space and byte-addressable memory.  How big (in bits) is
+the tag store?</p>
+</li><!-- End of Question -->
+
+
+<li><!-- Begin Question -->
+<p>An LC-3b system ships with a two-way set associative, write back cache
+with perfect LRU replacement.  The tag store requires a total of 4352
+bits of storage.  What is the block size of the cache?  
+Please show all your work.</p>
+
+<p>Hint: <span class="equation">4352 = 2<sup>12</sup> + 2<sup>8</sup></span>.</p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question --> 
+<p> Based on <cite>Hamacher et al., p. 255, question 5.18</cite>.
+You are working with a computer that has a first level cache that we call 
+L1 and a second level cache that we call L2. Use the following information 
+to answer the questions.</p>
+<ul>
+
+	<li>The L1 hit rate is 0.95 for instruction references and 0.90 for data 
+	references.</li>
+	<li>The L2 hit rate is 0.85 for instruction references and 0.75 for data
+	references.</li>
+	<li>30% of all instructions are loads and stores.</li>
+	<li>The size of each cache block is 8 words.</li>
+	<li>The time needed to access a cache block in L1 is 1 cycle and the time 
+	needed to access a cache block in L2 is 6 cycles.</li>
+	<li>The accesses to the caches and memory are done sequentially. If there 
+			  is a miss in the L1 and a hit in the L2 then the total latency is 7
+			  cycles.</li>
+			  <li>Memory is accessed only if there is a miss in both caches.</li>
+			  <li>The width of the memory bus is one word.</li>
+			  <li>It takes one clock cycle to send an address to main memory.</li>
+			  <li>It takes 20 cycles to access the main memory.</li>
+			  <li>It takes one cycle to send one word from the memory to the
+			  processor.  Thus 
+			    the total latency to get a word from memory to the processor is 22
+				 cycles.</li>
+				 <li>The bus allows sending a new address to memory in the same cycle
+				 that data 
+				 is sent from memory to the processor.</li>
+				 <li>Assume the data is accessible to the processor only AFTER the
+					whole cache 
+					  block has been brought in from the memory, and buffered on the
+					  processor 
+					    chip.  The processor can then access the data independent of
+						 and during 
+						 the cache fill.</li>
+
+
+</ul>
+<ol type="a">
+	<li>What is the average access time per instruction (assume
+	no interleaving)?</li>
+	<li>What is the average access time per instruction if the
+							main memory is 4-way 
+							interleaved?</li>
+							<li>What is the average access time per instruction if
+								the main memory is 8-way 
+								interleaved?</li>
+<li>What is the improvement obtained with interleaving?</li>
+</ol>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p><cite>Hamacher, pg.255, question 5.13.</cite> A byte-addressable
+computer has a small data cache capable of holding eight 32-bit words.
+Each cache block consists of one 32-bit word. When a given program is executed,
+the processor reads data from the following sequence of hex addresses:</p>
+
+<pre>200, 204, 208, 20C, 2F4, 2F0, 200, 204, 218, 21C, 24C, 2F4</pre>
+<p>This pattern is repeated four times.</p>
+<ol start="a">
+<li>
+<p>Show the contents of the cache at the end of each pass throughout
+this loop if a direct-mapped cache is used. Compute the hit rate for this
+example. Assume that the cache is initially empty.</p>
+</li>
+<li>
+<p>Repeat part (a) for a fully-associative cache that uses the LRU-replacement
+algorithm.</p>
+</li>
+<li>
+<p>Repeat part (a) for a four-way set-associative cache that uses
+the LRU replacement algorithm.</p>
+</li>
+</ol>
+</li><!-- End of Question -->
+
+
+<li>
+<p>In class, we discussed two types of busses: &ldquo;pending bus&rdquo; and &ldquo;split
+transaction bus&rdquo;. What is the advantage of a split-transaction bus
+over a pending bus?</p>
+</li>
+<li>
+<p>In class, we discussed the asynchronous finite state machine for the
+device controller of an input-output device within the context of a
+priority arbitration system. Draw the state diagram for this device
+controller (as drawn in lecture), identify the input and output
+signals, and briefly explain the function of each input and output
+signal.</p>
+
+<p>As mentioned in class, the finite state machine has some race
+conditions. Identify the race conditions and show what simple
+modifications can be made to eliminate them.</p>
+</li>
+
+<li><!-- Begin Question -->
+<p>In class we discussed asynchronous buses with central arbitration. 
+Our job in this problem is to design the state machine for a 
+synchronous bus using distributed arbitration. Recall that with 
+distributed arbitration, each device receives the Bus Request signals 
+from all other devices, and determines whether or not it is the next 
+Bus Master. Assume all bus transactions take exactly one cycle, and that 
+no device may be the Bus Master for two consecutive cycles.</p>
+
+<p>Assume four devices, having priorities 1, 2, 3, and 4 respectively. 
+Their respective controllers request the bus via asserting BR1, BR2, 
+BR3, and BR4 respectively. Priority 4 is the highest priority.</p>
+
+<ol type="a">
+<li>
+<p>Show the interconnections required for distributed arbitration for 
+the four devices and their controllers connected to the bus. Be sure to 
+label each signal line and designate by arrows whether the signals are 
+input or output with respect to the device.</p>
+</li>
+<li>
+<p>Is it possible for starvation to occur in this configuration? Describe 
+the situation where this can occur.</p>
+</li>
+
+<li><!-- Begin Question -->
+<p>Assume each I/O Controller is implemented using a clocked finite 
+state machine. Draw a Moore model state machine for the controller 
+operating at priority level 2. Label each state clearly. Label all 
+necesary inputs and outputs. You do not need to show the clock signal 
+on the state machine diagram. State transitions are synchronized to the 
+clock.</p>
+</li>
+</ol>
+</li>
+
+
+
+<li><!-- Begin Question -->
+<p>Below, we have given you four different sequences of addresses
+generated by a program running on a processor with a data cache. Cache
+hit ratio for each sequence is also shown below. Assuming that the
+cache is initially empty at the beginning of each sequence, find out
+the following parameters of the processor's data cache:</p>
+
+<ul>
+<li>Associativity (1, 2, or 4 ways)</li>
+<li>Block size (1, 2, 4, 8, 16, or 32 bytes)</li>
+<li>Total cache size (256B, or 512B)</li>
+<li>Replacement policy (LRU or FIFO)</li>
+</ul>
+<p>Assumptions: all memory accesses are one byte accesses. All addresses are byte addresses.</p>
+<table>
+<caption>Address traces</caption>
+<thead>
+<tr><th>Number</th><th>Address Sequence</th><th>Hit Ratio</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>0, 2, 4, 8, 16, 32</td><td>0.33</td></tr>
+<tr><td>2</td><td>0, 512, 1024, 1536, 2048, 1536, 1024, 512, 0</td><td>0.33</td></tr>
+<tr><td>3</td><td>0, 64, 128, 256, 512, 256, 128, 64, 0</td><td>0.33</td></tr>
+<tr><td>4</td><td>0, 512, 1024, 0, 1536, 0, 2048, 512</td><td>0.25</td></tr>
+</tbody>
+</table>
+</li><!-- End of Question -->
+<li><!-- Begin Question -->
+<p>Explain the differences between exceptions and interrupts. Be concise
+in your explanations.</p>
+<p>Explain the similarities of exceptions and interrupts. Clearly
+describe the steps required to handle an exception or an interrupt.</p>
+</li><!-- End Question-->
+<li><!-- Begin Question -->
+<p>Determine the decimal value of the following IEEE floating point numbers.
+</p>
+<ol>
+  <li><code>1 10000000 10100000000000000000000</code></li>
+  <li><code>0 00000000 01010000000000000000000</code></li>
+  <li><code>1 11111111 00000000000000000000000</code></li>
+</ol>
+</li><!-- End Question-->
+<li><!-- Begin Question -->
+
+<p>Consider the following piece of code:</p>
+
+<pre><code>for(i = 0; i &lt; 100; i++)
+  A[i] = ((B[i] * C[i]) + D[i]) / 2;</code></pre>
+
+<ol type="a">
+<li><p>Translate this code into assembly language using the following instructions in the ISA (note the number of cycles each instruction takes is shown with each instruction):</p>
+
+<table>
+<thead>
+<tr><th>Opcode</th><th>Operands</th><th>Number of Cycles</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>LEA</code></td><td><code>Ri, X</code></td><td>1</td><td>Ri &larr; address of X</td></tr>
+<tr><td><code>LD</code></td><td><code>Ri, Rj, Rk</code></td><td>11</td><td>Ri &larr; MEM[Rj + Rk]</td></tr>
+<tr><td><code>ST</code></td><td><code>Ri, Rj, Rk</code></td><td>11</td><td>MEM[Rj + Rk] &larr; Ri</td></tr>
+<tr><td><code>MOVI</code></td><td><code>Ri, Imm</code></td><td>1</td><td>Ri &larr; Imm</td></tr>
+<tr><td><code>MUL</code></td><td><code>Ri, Rj, Rk</code></td><td>6</td><td>Ri &larr; Rj &times; Rk</td></tr>
+<tr><td><code>ADD</code></td><td><code>Ri, Rj, Rk</code></td><td>4</td><td>Ri &larr; Rj + Rk</td></tr>
+<tr><td><code>ADD</code></td><td><code>Ri, Rj, Imm</code></td><td>4</td><td>Ri &larr; Rj + Imm</td></tr>
+<tr><td><code>RSHFA</code></td><td><code>Ri, Rj, amount</code></td><td>1</td><td>Ri &larr; RSHFA (Rj, amount)</td></tr>
+<tr><td><code>BRcc</code></td><td><code>X</code></td><td>1</td><td>Branch to X based on condition codes</td></tr>
+</tbody>
+</table>
+
+<p>Assume it takes one memory location to store each element of the array. Also assume that there are 8 registers (R0-R7).</p>
+
+<p>How many cycles does it take to execute the program?</p>
+</li>
+<li>
+<p>Now write Cray-like vector/assembly code to perform this operation in the shortest time possible. Assume that there are 8 vector registers and the length of each vector register is 64. Use the following instructions in the vector ISA:</p>
+
+<table>
+<thead>
+<tr><th>Opcode</th><th>Operands</th><th>Number of Cycles</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>LD</code></td><td><code>Vst, #n</code></td><td>1</td><td>Vst &larr; n</td></tr>
+<tr><td><code>LD</code></td><td><code>Vln, #n</code></td><td>1</td><td>Vln &larr; n</td></tr>
+<tr><td><code>VLD</code></td><td><code>Vi, X</code></td><td>11, pipelined</td><td></td></tr>   
+<tr><td><code>VST</code></td><td><code>Vi, X</code></td><td>11, pipelined</td><td></td></tr>
+<tr><td><code>Vmul</code></td><td><code>Vi, Vj, Vk</code></td><td>6, pipelined</td><td></td></tr>
+<tr><td><code>Vadd</code></td><td><code>Vi, Vj, Vk</code></td><td>4, pipelined</td><td></td></tr>
+<tr><td><code>Vrshfa</code></td><td><code>Vi, Vj, amount</code></td><td>1</td><td></td></tr> 
+<tr><td><code>Vbrcc</code></td><td><code>X</code></td><td>1</td><td></td></tr>
+</tbody>
+</table>
+
+<p>How many cycles does it take to execute the program on the following processors? Assume that memory is 16-way interleaved.</p>
+
+<ol type="i">
+<li>Vector processor without chaining, 1 port to memory (1 load or store 
+per cycle)</li>
+<li>Vector processor with chaining, 1 port to memory</li>
+<li>Vector processor with chaining, 2 read ports and 1 write port to memory</li>
+</ol>
+</li>
+</ol>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+
+<p>Little Computer Inc. is now planning to build a new computer that is more suited for scientific applications. LC-3b can be modified for such applications by replacing the data type Byte with Vector. The new computer will be called LmmVC-3 (Little 'mickey mouse' Vector Computer 3). Your job is to help us implement the datapath for LmmVC-3. LmmVC-3 ISA will support all the scalar operations that LC-3b currently supports except the LDB and STB will be replaced with VLD and VST respectively. Our datapath will need to support the following new instructions:</p>
+
+<img src="vectorISA.jpg" alt="LmmVC-3 ISA summary" >
+
+<p>Note: VDR means &ldquo;Vector Destination Register&rdquo; and VSR means &ldquo;Vector Source Register.&rdquo;</p>
+
+<dl>
+<dt>MOVI</dt>
+<dd>If IR[11:9] = 000, MOVI moves the unsigned quantity amount6 to Vector Stride Register (Vstride). If IR[11:9] = 001, MOVI moves the unsigned quantity amount6 to Vector Length Register (Vlength). This instruction has already been implemented for you.</dd>
+<dt>VLD</dt>
+<dd>VLD loads a vector of length Vlength from memory into VDR.  VLD uses the opcode previously used by LDB.  The starting address of the vector is computed by adding the LSHF1(SEXT(offset6)) to BaseR.  Subsequent addresses are obtained by adding LSHF1(ZEXT(Vstride)) to the address of the preceding vector element.</dd>
+<dt>VST</dt>
+<dd>VST writes the contents of VSR into memory.  VST uses the opcode previously used by STB. Address calculation is done in the same way as for VLD.</dd>
+<dt>VADD</dt>
+<dd>If IR[4] is a 1, VADD adds two vector registers (VSR1 and VSR2) and stores the result in VDR.
+If IR[4] is a 0, VADD adds a scalar register (SR2) to every element of VSR and stores the result in VDR.</dd>
+</dl>
+<p>VLD, VST, and VADD do not modify the content of Vstride and Vlength registers.</p>
+
+<p>The following five hardware structures have been added to LC-3b in order to implement LmmVC-3.</p>
+
+<ul>
+<li>Vector Register File with eight 63-element Vector registers</li>
+<li>Vector Length Register</li>
+<li>Vector Stride Register</li>
+<li>A third input to DRMUX containing IR[8:6]</li>
+<li>Grey box A</li>
+<li>Box labeled X</li>
+</ul>
+
+<p>These structures are shown in the LmmVC-3 datapath diagram:</p>
+<img src="vector_datapath.jpg" alt="LmmVC-3 datapath diagram">
+
+<ol type="a">
+<li><p>A 6-bit input to the Vector Register file has been labeled X on the datapath diagram. What is the purpose of this input? (Answer in less than 10 words )</p></li>
+<li><p>The logic structure X contains a 6-bit register and some additional logic. X has two control signals as its inputs. What are these signals used for?</p></li>
+<li><p>Grey box A contains several additional muxes on both input lines to the ALU. Complete the logic diagram of grey box A (shown below) by showing all muxes and interconnects. You will need to add new signals to the control store; be sure to clearly label them in the logic diagram.</p>
+<ul>
+<li>Keep in mind that we will still need to support all the existing scalar operations.</li>
+<li>The XOR operation in the ALU can be used to compare two values.</li>
+<li>Our solution required 3 additional control signals and 6 2-to-1 muxes.</li>
+</ul>
+
+<img src="greybox.jpg" alt="Empty grey box A" >
+</li>
+<li>
+<p>We show the beginning of the state diagram necessary to implement VLD. Using the notation of the LC-3b State Diagram, add the states you need to implement VLD. Inside each state describe what happens in that state. You can assume that you are allowed to make any changes to the microsequencer that you find necessary. You do not have to make/show these changes. You can modify BaseR and the condition codes. Make sure your design works when Vlength equals 0. Full credit will be awarded to solutions that require no more than 7 states.</p>
+
+<img src="states.jpg" alt="A fragment of the LmmVC-3 state diagram" >
+</li>
+</ol>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+ Using the Booth Multiplication Algorithm, multiply the two unsigned 6-bit numbers 010111 and 011110. Show the intermediate results after each step.
+<p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+A residue number system has been designed with three
+moduli, p1, p2, and p3. The number 17 is represented as 261. The number 25
+is represented as 039. What are the three moduli?
+</li><!-- End of Question -->
+</ol>
+
+<h2>Additional Question</h2>
+
+<p>The following problem is meant to help you understand cache structure. This 
+problem does not need to be turned in.</p>
+
+<ol start="1" class="questions">
+
+<li>
+<p>You will be given a cache simulator (just the executable) with a
+hard-coded configuration. Your job is to determine the configuration
+of the cache. The simulator takes a trace of memory addresses as input
+and provides a hit ratio as output. Find the following:</p>
+<ul>
+<li>Associativity (1, 2, 4, or 8 ways)</li>
+<li>Block size (1, 2, 4, 8, 16, or 32 bytes)</li>
+<li>Total cache size (256B, 512B, or 1024B)</li>
+<li>Replacement policy (LRU or Pseudo-LRU)</li>
+</ul>
+
+<p>Show the traces you used to determine each parameter of the cache.
+Assumptions: all memory accesses are one byte accesses. All addresses
+are byte addresses.</p>
+
+<h3>Simulator</h3>
+<p>The syntax for running the program is:</p>
+<pre><tt>./cachesim &nbsp;&nbsp;&lt;trace.txt&gt;</tt></pre>
+
+<p>The traces are just text files with one integer memory address per
+line. For example, the following trace would cause conflict misses in
+a direct-mapped, 256B cache:</p>
+<pre>0
+256
+512
+0
+256</pre>
+
+<p>Links to the simulator:</p>
+<ul>
+<li><a href="cachesim.linux">Simulator for Linux</a></li>
+<li><a href="cachesim.solaris">Simulator for Solaris</a></li>
+</ul>
+<p>After downloading the file, please do <tt>chmod 700 cachesim.linux</tt> or <tt>chmod 700 cachesim.solaris</tt>.</p>
+</li>
+
+</ol>

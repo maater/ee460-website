@@ -1,0 +1,69 @@
+<!-- commenting the email tags out .... 
+From patt@zh2.hps.utexas.edu  Mon Feb 28 22:46:09 2011
+Return-Path: <patt@zh2.hps.utexas.edu>
+Received: from zh2.hps.utexas.edu (zh2.hps.utexas.edu [128.83.178.32])
+	by ego.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p214k9Mi021198;
+	Mon, 28 Feb 2011 22:46:09 -0600
+Received: from zh2.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by zh2.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p214k7Z8020133;
+	Mon, 28 Feb 2011 22:46:07 -0600
+Received: (from patt@localhost)
+	by zh2.hps.utexas.edu (8.13.8/8.13.8/Submit) id p214k6cG020131;
+	Mon, 28 Feb 2011 22:46:06 -0600
+Date: Mon, 28 Feb 2011 22:46:06 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: miladhashemi@gmail.com, faruk@hps.utexas.edu, yuhao.zhu@mail.utexas.edu
+Subject: Re: EE460N: Memory speed vs. size tradeoff
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Mon, 28 Feb 2011, 22:46</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Mon, 28 Feb 2011, 22:46</font>
+<p><pre>
+<font color="blue">
+A student writes:
+<font color="black">
+&gt; Professor Patt,
+&gt; 
+&gt; In class you mentioned that modern day computer memory has many levels(L1, L2, 
+&gt; DRAM, ect).  You say this is because as the memory gets larger, it also becomes 
+&gt; slower. Why does this happen?  Is it not possible to use multiple small and fast 
+&gt; caches to build up a larger one?
+&gt; 
+&gt; Thank you,
+&gt; &lt;&lt;name withheld to protect the student who is looking at a piece of the problem&gt;&gt;
+</font>
+
+Interesting question, can't we build a larger memory out of smaller pieces.
+Answer: Sure.  Now we have an address: which smaller piece does it go to?  Does
+this take time.  Then we get the result of the access, is there extra routing to
+get it back to the requester.  That also takes time.  Add up these additional times
+and you have a bigger and slower piece of memory.
+
+Then there is the DRAM/SRAM issue.  SRAM is a pair of cross-coupled inverters with
+a few more transistors for additional benefit.  Number of transistors is big, but
+access time is fast.  DRAM cell stores the 1 or 0 as charge or no charge on a
+capacitor.  Only one transistor to sample the charge and then write the value back
+in.  Number of transistors is small (i.e., 1) but access time is slow.  Generally,
+we make on chip caches with SRAM, off chip memory with DRAM.  That contributes to
+the problem.
+
+Finally, it is important to note that it is not the case that DRAM memory chips are 
+getting slower, they are getting faster.  However, they are getting faster at a much
+slower rate than the processor chips.  Ergo, the disparity between processor speed
+and memory speed is increasing.  I remember 30 years ago, when you missed in the 
+cache, you wasted seven cycles to get the information from memory.  Today, when you
+miss in the on-chip caches, it take 100s of cycles to get the information from memory.
+
+Hope this helps.
+
+Yale Patt
+
+
+</font>
+</pre>
+</body>
+</html>

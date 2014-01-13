@@ -1,0 +1,172 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.79 [en] (X11; U; Linux 2.4.7-10smp i686) [Netscape]">
+   <title>EE 360N - Problem Set 5</title>
+</head>
+<body bgcolor="#FFFFFF">
+
+<center>
+<h2>
+Department of Electrical and Computer Engineering</h2></center>
+
+<center>
+<h3>
+The University of Texas at Austin</h3></center>
+EE 360N, Fall 2005
+<br>Problem Set 5
+<br>Due: 14 November 2005, before class
+<br>Yale N. Patt, Instructor
+<br>Aater Suleman, Linda Bigelow, Jose Joao, Veynu Narasiman, TAs
+<p>Instructions:
+<br>You are encouraged to work on the problem set in groups and turn in
+one problem set for the entire group. Remember to put all your names on
+the solution sheet. Also remember to put the name of the TA in whose discussion
+section you would like the problem set returned to you.
+<ol>
+
+
+
+
+<li>
+Consider the following piece of code:
+
+<pre>
+for(i = 0; i < 100; i++)
+  A[i] = ((B[i] * C[i]) + D[i]) / 2;
+</pre>
+
+<ol type="a">
+<li> Translate this code into assembly language using the following instructions in the ISA ( note the number of cycles each instruction takes is shown with each instruction):
+
+<pre>
+     LEA   Ri, X            (1 cycle)    ; Ri <- address of X
+     LD    Ri, Rj, Rk       (11 cycles)  ; Ri <- MEM[Rj + Rk]
+     ST    Ri, Rj, Rk       (11 cycles)  ; MEM[Rj + Rk] <- Ri
+     MOVI  Ri, Imm          (1 cycle)    ; Ri <- Imm
+     MUL   Ri, Rj, Rk       (6 cycles)   ; Ri <- Rj * Rk
+     ADD   Ri, Rj, Rk       (4 cycles)   ; Ri <- Rj + Rk
+     ADD   Ri, Rj, Imm      (4 cycles)   ; Ri <- Rj + Imm
+     RSHFA Ri, Rj, amount   (1 cycle)    ; Ri <- RSHFA (Rj, amount)
+     BRcc  X                (1 cycle)    ; Branch to X based on condition codes
+
+</pre>
+
+Assume it takes one memory location to store each element of the array. Also assume that there are 8 registers (R0-R7). <br>
+
+How many cycles does it take to execute the program?
+
+<p>
+
+<li>Now write Cray-like vector/assembly code to perform this operation in the shortest time possible. Assume that there are 8 vector registers and the length of each vector register is 64. Use the following instructions in the vector ISA:
+
+<pre>
+     LD     Vst, #n          (1 cycle)                ; Vst <- n
+     LD     Vln, #n          (1 cycle)                ; Vln <- n
+     VLD    Vi, X            (11 cycles, pipelined)   
+     VST    Vi, X            (11 cycles, pipelined)
+     Vmul   Vi, Vj, Vk       (6 cycles, pipelined)
+     Vadd   Vi, Vj, Vk       (4 cycles, pipelined)
+     Vrshfa Vi, Vj, amount   (1 cycles) 
+     Vbrcc  X                (1 cycle) 
+</pre>
+
+ How many cycles does it take to execute the program on the following processors? Assume that memory is 16-way interleaved. 
+
+<ol type="i">
+<li> Vector processor without chaining, 1 port to memory (1 load or store 
+/ cycle)
+<li> Vector processor with chaining, 1 port to memory
+<li> Vector processor with chaining, 2 read ports and 1 write port to memory
+</ol>
+</ol>
+
+</li>
+<p>
+<li> Little Computer Inc. is now planning to build a new computer that is more suited for scientific applications. LC-3b can be modified for such applications by replacing the data type Byte with Vector. The new computer will be called LmmVC-3 (Little 'mickey mouse' Vector Computer 3). Your job is to help us implement the datapath for LmmVC-3. LmmVC-3 ISA will support all the scalar operations that LC-3b currently supports except the LDB and STB will be replaced with VLD and VST respectively. Our datapath will need to support the following new instructions: 
+
+<p>
+<img src="vectorISA.jpg">
+<p>
+
+Note: VDR = Vector Destination Register, VSR = Vector Source Register <p>
+
+<b> MOVI </b> <br>
+If IR[11:9] = 000, MOVI moves the unsigned quantity amount6 to Vector Stride Register (Vstride). <br>
+If IR[11:9] = 001, MOVI moves the unsigned quantity amount6 to Vector Length Register (Vlength). <br>
+This instruction has already been implemented for you. <p>
+
+<b> VLD </b><br>
+
+VLD loads a vector of length Vlength from memory into VDR.  VLD uses the opcode previously used by LDB.  The starting address of the vector is computed by adding the LSHF1(SEXT(offset6)) to BaseR.  Subsequent addresses are obtained by adding LSHF1(ZEXT(Vstride)) to the address of the preceding vector element.<p>
+
+<b>VST</b><br>
+
+VST writes the contents of VSR into memory.  VST uses the opcode previously used by STB.  Address calculation is done in the same way as for VLD.<p>
+
+<b>VADD</b><br>
+If IR[4] is a 1, VADD adds two vector registers (VSR1 and VSR2) and stores the result in VDR. 
+If IR[4] is a 0, VADD adds a scalar register (SR2) to every element of VSR and stores the result in VDR. <p>
+
+VLD, VST, and VADD do not modify the content of Vstride and Vlength registers. <p>
+
+
+
+The following five hardware structures have been added to LC-3b in order to implement LmmVC-3. <p>
+
+Vector Register File with eight 63-element Vector registers<br>
+Vector Length Register<br>
+Vector Stride Register<br>
+A third input to DRMUX containing IR[8:6]<br>
+Grey box A<br>
+Box labeled X<br>
+
+These structures are shown in the LmmVC-3 datapath. <a href="vector_datapath.jpg">Click here for the LmmVC-3 datapath diagram</a>.
+
+<ol type="a">
+<li> A 6-bit input to the Vector Register file has been labeled X on the datapath diagram. What is the purpose of this input? (Answer in less than 10 words )
+<li> The logic structure X contains a 6-bit register and some additional logic. X has two control signals as its inputs. What are these signals used for? 
+<li> Grey box A contains several additional muxes on both input lines to the ALU. Complete the logic diagram of grey box A (shown below) by showing all muxes and interconnects. You will need to add new signals to the control store; be sure to clearly label them in the logic diagram. <br>
+Hint 1: Keep in mind that we will still need to support all the existing scalar operations. <br>
+Hint 2: The XOR operation in the ALU can be used to compare two values. <br>
+Hint 3: Our solution required 3 additional control signals and 6 2-to-1 muxes.<p>
+
+<img src=greybox.jpg>
+<p>
+
+<li> We show the beginning of the state diagram necessary to implement VLD. Using the notation of the LC-3b State Diagram, add the states you need to implement VLD. Inside each state describe what happens in that state. You can assume that you are allowed to make any changes to the microsequencer that you find necessary. You do not have to make/show these changes. You can modify BaseR and the condition codes. Make sure your design works when Vlength = 0. Full credit will be awarded to solutions that require no more than 7 states.<p>
+
+<img src="states.jpg">
+
+<p>
+</ol>
+
+<li><font color="red" >This problem has been moved to Problem Set 6 </font><br>
+ Using the Booth Multiplication Algorithm, multiply the two unsigned 6-bit numbers 010111 and 011110. Show the intermediate results after each step.
+<p>
+</li>
+
+<li><font color="red" >This problem has been moved to Problem Set 6 </font><br>
+ Inputs to the Look Ahead Carry Generator are of two types, Pi and Gi. What does the Pi and Gi signals signify?
+<p>
+
+<li><font color="red" >This problem has been moved to Problem Set 6 </font><br>
+ A residue number system has been designed with three
+moduli, p1, p2, and p3. The number 17 is represented as 261. The number 25
+is represented as 039. What are the three moduli?
+<p>
+
+</ol>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+

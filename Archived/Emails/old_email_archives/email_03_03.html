@@ -1,0 +1,88 @@
+<!-- commenting the email tags out .... 
+From patt@zh2.hps.utexas.edu  Thu Mar  3 00:42:53 2011
+Return-Path: <patt@zh2.hps.utexas.edu>
+Received: from zh2.hps.utexas.edu (zh2.hps.utexas.edu [128.83.178.32])
+	by ego.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p236gqjT025692;
+	Thu, 3 Mar 2011 00:42:52 -0600
+Received: from zh2.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by zh2.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p236gpD3003308;
+	Thu, 3 Mar 2011 00:42:51 -0600
+Received: (from patt@localhost)
+	by zh2.hps.utexas.edu (8.13.8/8.13.8/Submit) id p236gpor003306;
+	Thu, 3 Mar 2011 00:42:51 -0600
+Date: Thu, 3 Mar 2011 00:42:51 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: miladhashemi@gmail.com, faruk@hps.utexas.edu, yuhao.zhu@mail.utexas.edu
+Subject: Re: Have an Interview tomorrow, require a help
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Thu, 3 Mar 2011, 00:42</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Thu, 3 Mar 2011, 00:42</font>
+<p><pre>
+<font color="blue">
+A student has an interview tomorrow and wants to be ready for it.  So, he asks a
+question relating to something that I had hoped we would get to in class today if 
+we had not been sidetracked by the ARM address space.  Since the issue is relevant 
+to your understanding, I  decided to send my answer to all of you.  There is much
+in it that may not be clear to you.  If so, put it aside until after Monday's class
+when I hope it will be clear.
+
+Anyway, a student writes:
+<font color="black">
+&gt; Dear Prof Patt,
+&gt; I have an interview coming up tomorrow with AMD &amp; hence am asking a question 
+&gt; which has not yet been covered in class. If you can just give me some pointers 
+&gt; then that will be great. Please forgive my impertinence in asking questions not 
+&gt; yet covered.
+&gt; 
+&gt; My question is, why does IA-32 use two level page translation scheme?
+&gt; 
+&gt; Thanks in advance.
+&gt; 
+&gt; Regards,
+&gt; &lt;&lt;name withheld to protect a student worried about how he will do on his interview&gt;&gt;
+</font>
+
+Dear student, why do you think that question may come up?
+
+Actually it did come up today in class, but only subtlely since I was unable to 
+complete the thought in the class time we had available.
+
+Recall I told you that the P0PT (P0 Page Table) is in system virtual space.  It is 
+not in physical memory because it takes 8MB and we do not want to waste that much 
+physical memory on every process' page table.  There are too many of them.  And, we 
+need at least a little memory left over after this bookkeeping information for actual 
+data to be stored and processed.  So we put the page table in system space where it 
+is using up no physical frames at all.  Now then, the P0PT itself occupies multiple
+pages.  But only those pages whose PTEs we are accessing must be put in physcial 
+frames of memory.
+
+
+So, those 2^21 pages that makes up the P0 region (we call it P0 space or Program
+Space) requires 8 MB of virtual memory in System Space.  Those 8MB use (2^23)/(2^9) =
+2^14 pages to store the 2^21 PTEs.  Of those 2^14 pages, we only have to keep in
+frames of physical memory those pages containing PTEs we are accessing now.  So,
+instead of using 2^14 frames, we may only be using a half-dozen frames.  Saves a lot
+of physical memory.
+
+Essentially, the Same thing is true with x86.  If we put the entire page table into 
+physical memory, 2^32 bytes / 2^12 bytes/page = 2^20 pages * 4 bytes/PTE = 4 MB to 
+store the whole page table.  At 2^10 PTEs per page, we would need to use 2^10 frames
+to store the entire page table.  The two-level scheme allows us to put in physical
+frames only pages containing PTEs we are currently accessing.
+
+Hope this helps you on your interview.  For the rest of the class (who are not
+interviewing), we have Monday to go over this carefully.
+
+Good luck on your interview.
+
+Yale Patt
+
+</font>
+</pre>
+</body>
+</html>

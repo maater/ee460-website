@@ -1,0 +1,66 @@
+<!-- commenting the email tags out .... 
+From patt@login.hps.utexas.edu  Mon Feb  7 02:59:11 2011
+Return-Path: <patt@login.hps.utexas.edu>
+Received: from login.hps.utexas.edu (login.hps.utexas.edu [128.83.178.4])
+	by ego.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p178xBkp031695;
+	Mon, 7 Feb 2011 02:59:11 -0600
+Received: from login.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by login.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p178xAXS003442;
+	Mon, 7 Feb 2011 02:59:10 -0600
+Received: (from patt@localhost)
+	by login.hps.utexas.edu (8.13.8/8.13.8/Submit) id p178xAOL003440;
+	Mon, 7 Feb 2011 02:59:10 -0600
+Date: Mon, 7 Feb 2011 02:59:10 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: miladhashemi@gmail.com, faruk@hps.utexas.edu, yuhao.zhu@mail.utexas.edu
+Subject: Too many operands
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Mon, 7 Feb 2011, 02:59</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Mon, 7 Feb 2011, 02:59</font>
+<p><pre>
+<font color="blue">
+<font color="black">
+&gt; Professor Patt,
+&gt; 
+&gt; If a line has too many operands, can we safely ignore 
+&gt; them or should we check for extra operands and exit with error code 4?
+&gt;
+&gt; &lt;&lt;name withheld to protect the student puzzled by the number of operands&gt;&gt;
+</font>
+
+Sorry I am getting back to you too late to do any good re: lab 1.  However,
+since you may see this again on an exam, I thought I would answer your question.
+
+You know that each assembly language instruction occupies a line, so the 
+assembly language instruction ends with a line feed.  If there is a ";", 
+then everything after the semi-colon is a comment and is ignored, since it
+does not contribute to the machine language instruction being generated. 
+
+If there is a label, it is used to create a symbol table entry in the first 
+pass, and ignored in the second pass. 
+
+In the second pass, you are left with what should be an opcode and a number of
+operands.  If that number is not the correct number for that opcode, then you
+have an error.
+
+In the case you mention, for example:  ADD R0,R1,R2,R3 ; comment
+
+The assembler does not stop when it gets its third operand R2.  It continues
+to scan until it hits a ";" or a linefeed.  When it sees R3, it knows it has
+an incorrectly formed instruction so it exits with error code 4.
+
+Hope you got the assignment in on time.
+
+Good luck with the rest of the course.
+
+Yale Patt
+
+</font>
+</pre>
+</body>
+</html>

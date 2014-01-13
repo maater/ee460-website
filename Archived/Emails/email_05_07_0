@@ -1,0 +1,57 @@
+                                                                                                                                                                                                                                                               
+Delivered-To: b.sumedha212@gmail.com
+Received: by 10.49.24.210 with SMTP id w18csp73070qef;
+        Tue, 7 May 2013 00:09:58 -0700 (PDT)
+X-Received: by 10.236.80.37 with SMTP id j25mr580238yhe.190.1367910598299;
+        Tue, 07 May 2013 00:09:58 -0700 (PDT)
+Return-Path: <patt@zh2.hps.utexas.edu>
+Received: from zh2.hps.utexas.edu (zh2.hps.utexas.edu. [128.83.178.32])
+        by mx.google.com with ESMTPS id z69si17360654yhb.295.2013.05.07.00.09.57
+        for <b.sumedha212@gmail.com>
+        (version=TLSv1 cipher=RC4-SHA bits=128/128);
+        Tue, 07 May 2013 00:09:58 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of patt@zh2.hps.utexas.edu designates 128.83.178.32 as permitted sender) client-ip=128.83.178.32;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: best guess record for domain of patt@zh2.hps.utexas.edu designates 128.83.178.32 as permitted sender) smtp.mail=patt@zh2.hps.utexas.edu
+Received: from zh2.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by zh2.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id r4779voq015220;
+	Tue, 7 May 2013 02:09:57 -0500
+Received: (from patt@localhost)
+	by zh2.hps.utexas.edu (8.13.8/8.13.8/Submit) id r4779vvP015218;
+	Tue, 7 May 2013 02:09:57 -0500
+Date: Tue, 7 May 2013 02:09:57 -0500
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: faruk@hps.utexas.edu, b.sumedha212@gmail.com, stephen.pruett@utexas.edu
+Subject: Re: Final review session
+Message-ID: <20130507070957.GC14893@ece.utexas.edu>
+References: <CAG+Cvbswope+Hq9UFbtAf3KjB9zzdeFAxwVqBx2FFcjee3R9uQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG+Cvbswope+Hq9UFbtAf3KjB9zzdeFAxwVqBx2FFcjee3R9uQ@mail.gmail.com>
+User-Agent: Mutt/1.4.2.2i
+
+A student writes:
+
+> Dr. Patt,
+> I brought this up in Stephen's session on Friday, but hadn't heard anything
+> so I thought I'd go ahead and ask you. Are you going to host a review
+> session for the final exam sometime this week? I know many of us would
+> really like to have one. Tomorrow would probably be best since exams begin
+> on Wednesday.
+> 
+> Thanks,
+> <<name withheld to protect the student requesting a Tuesday review session>>
+
+The university does not allow us to hold formal review sessions during the
+final exam period.  And, even if they did, we do not have enough lead time 
+to do so Tuesday night.  In addition, I can not do it Wednesday.  However, 
+Faruk has agreed to hold office hours in a classroom on Wednesday around 5pm 
+so students can listen to other students' questions and Faruk's answers.  We
+will try to find an available room and post it on the class web site on
+Tuesday.
+
+If Wednesday at 5pm is not good for you, please let me know and I will see
+about providing extra office hours.
+
+Yale Patt

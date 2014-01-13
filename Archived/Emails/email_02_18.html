@@ -1,0 +1,80 @@
+<!-- commenting the email tags out .... 
+                                                                                                                                                                                                                                                               
+Delivered-To: b.sumedha212@gmail.com
+Received: by 10.49.3.100 with SMTP id b4csp124109qeb;
+        Mon, 18 Feb 2013 22:07:26 -0800 (PST)
+X-Received: by 10.236.127.7 with SMTP id c7mr25889888yhi.115.1361254045967;
+        Mon, 18 Feb 2013 22:07:25 -0800 (PST)
+Return-Path: <patt@login.hps.utexas.edu>
+Received: from login.hps.utexas.edu (login.hps.utexas.edu. [128.83.178.4])
+        by mx.google.com with ESMTPS id q15si10365921ank.44.2013.02.18.22.07.25
+        (version=TLSv1 cipher=RC4-SHA bits=128/128);
+        Mon, 18 Feb 2013 22:07:25 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of patt@login.hps.utexas.edu designates 128.83.178.4 as permitted sender) client-ip=128.83.178.4;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: best guess record for domain of patt@login.hps.utexas.edu designates 128.83.178.4 as permitted sender) smtp.mail=patt@login.hps.utexas.edu
+Received: from login.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by login.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id r1J67PrJ006179;
+	Tue, 19 Feb 2013 00:07:25 -0600
+Received: (from patt@localhost)
+	by login.hps.utexas.edu (8.13.8/8.13.8/Submit) id r1J67P2A006177;
+	Tue, 19 Feb 2013 00:07:25 -0600
+Date: Tue, 19 Feb 2013 00:07:25 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: faruk@hps.utexas.edu, b.sumedha212@gmail.com, stephen.pruett@utexas.edu
+Subject:  Doubt in Question 12 in Problem Set 2
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Tue, 19 Feb 2013, 00:07</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Tue, 19 Feb 2013, 00:07</font>
+<p><pre>
+<font color = "green">
+<!-- Message-ID: <20130219060725.GA6160@ece.utexas.edu>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.4.2.2i -->
+
+The student writes again:
+
+<font color = "blue">
+&gt; Dear Professor,
+&gt; 
+&gt; In last e-mail you said that "Since an ADD needs two sources, if one is in the
+&gt; reservation station, both operands can be forwarded to the functional unit at
+&gt; the end of the cycle in which the second operand is produced, rather than
+&gt; having the second source sent to the reservation station first, and the two
+&gt; sources sent to the functional unit in the next cycle."
+&gt; 
+&gt; Is that means the second operand will be sent directly to the functional unit
+&gt; without being sent to the data bus? Or there is there a data path between
+&gt; functional units and bus that controlled by some logic associated to tags so
+&gt; that the the data can go directly to the functional units?
+&gt; 
+&gt; Thanks,
+&gt; &lt;&lt;name withheld to protect the student who notices missing circuitry&gt;&gt;
+</font>
+The drawing we have shown is *without* data forwarding.  In that case, the
+result is sent to the reservation station first, and in the next cycle, since
+both results have ready bits = 1, the instruction is ready to send to the
+appropriate functional unit.
+
+If data forwarding were allowed, then indeed, we would need additional 
+circuitry.  It could be along the common data bus directly to the functional
+unit, as you point out.  ...and additional circuitry would be needed to 
+enable that to happen.  Or there could be a separate bus so the common data
+bus would not be used.  ...and additional circuitry would be needed there
+as well.
+
+I hope this helps.
+
+Yale Patt
+
+</font>
+</pre>
+</body>
+</html>

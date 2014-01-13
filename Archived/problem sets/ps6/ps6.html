@@ -1,0 +1,179 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>EE 460N - Study Questions</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../probs.css" />
+</head>
+<body>
+
+<center>
+<h2>
+Department of Electrical and Computer Engineering</h2></center>
+
+<center>
+<h3>
+The University of Texas at Austin</h3></center>
+EE 460N, Spring 2013
+<br>Study Questions
+<br>Due date: Not to be turned in
+<br>Yale N. Patt, Instructor
+<br>Faruk Guvenilir, Sumedha Bhangale, Stephen Pruett, TAs
+
+<p>These questions are to aid you in your studies. They are not to be turned in
+and they do not cover all the topics covered in class after Problem Set 5.</p>
+
+<ol>
+
+<li><!-- Begin Question -->
+<p>Using a residue number system with two moduli, represent all of the decimal
+values between 0 and 11 inclusive when the moduli are</p>
+<ol type="a">
+  <p>
+  <li>4 and 3</li>
+  <li>6 and 2</li>
+  </p>
+</ol>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>Consider the following example used to explain Tomasulo's Algorithm:</p>
+<pre><code>
+Format: Opcode Destination Source1 Source2
+MUL R3,  R1, R2
+ADD R5,  R3, R4
+ADD R7,  R2, R6
+ADD R10, R8, R9
+MUL R11, R7, R10
+ADD R5,  R5, R11
+MUL R10, R4, R10
+</pre></code>
+<p>Construct the Data Flow Graph for this program.</p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>Consider the following format for transmitting a byte of data using the ECC
+mechanism described in class (Hamming Code).</p>
+<pre><code>
+D7 D6 D5 D4 P8 D3 D2 D1 P4 D0 P2 P1
+</code></pre>
+<p>For the following bit pattern, indicate whether there is no error or a
+single error. If there is a single error, list the corrected bit pattern.</p>
+<ul>
+  <li><code>110010010111</code></li>
+</ul>
+<p>In general, what happens when there are two bit errors with this mechanism?</p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>Using the Booth Multiplication Algorithm, multiply the two unsigned 10-bit
+numbers 0011011110 and 0001110010. Show the intermediate results after each
+step.</p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>From Tanenbaum, 4th edition, Appendix B, 4.</p>
+
+<p>The following binary floating-point number consists of a sign bit, an excess
+63, radix 2 exponent, and a 16-bit fraction.  Express the value of this number
+as a decimal number.</p>
+
+<p><tt>0 0111111 0000001111111111</tt></p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>From Tanenbaum, 4th edition, Appendix B, 5.</p>
+
+<p>To add two floating point numbers, you must adjust the exponents (by
+shifting the fraction) to make them the same. Then you can add the fractions
+and normalize the result, if need be. Add the single precision IEEE
+floating-point numbers 3EE00000H and 3D800000H and express the normalized
+result in hexadecimal. ['H' is a notation indicating these numbers are in
+hexadecimal]</p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>From Tanenbaum, 4th edition, Appendix B, 6.</p>
+
+<p>The Tightwad Computer Company has decided to come out with a machine having
+16-bit floating-point numbers. The model 0.001 has a floating-point format with
+a sign bit, 7-bit, excess 63 exponent and 8-bit fraction. Model 0.002 has a
+sign bit, 5-bit, excess 15 exponent and a 10-bit fraction. Both use radix 2
+exponentiation. What are the smallest and largest positive normalized numbers
+on both models? About how many decimal digits of precision does each have?
+Would you buy either one?</p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>The following numbers are represented exactly 
+with a 9-bit floating point representation, in the format of the IEEE 
+Floating Point standard:</p>
+
+<p>-infinity, -1, 0, 5/16, 19.5, 48.</p>
+
+<ol type="a">
+<p>
+<li>How many bits are needed for the fraction?</li>
+<li>What is the bias?</li>
+<li>Write each number in in the 9-bit floating point representation,
+below:
+
+<table border=1>
+<tr> <td>Value      </td><td> Representation </td> </tr>
+<tr> <td>48         </td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td> </tr>
+<tr> <td>19.5       </td><td>&nbsp; </td> </tr>
+<tr> <td>5/16       </td><td>&nbsp; </td> </tr>
+<tr> <td>0          </td><td>&nbsp; </td> </tr>
+<tr> <td>-1         </td><td>&nbsp; </td> </tr>
+<tr> <td>-infinity </td><td>&nbsp; </td> </tr>
+
+</table>
+</li>
+</p>
+</ol>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>We must compute the following expression:</p>
+<pre>
+    a*x^6 + b*x^5 + c*x^4 + d*x^3 + e*x^2 + f*x + g 
+</pre>
+<ul>
+  <li>How many operations and time-steps will the computation take on a single
+  processor system (Use the smallest number of operations possible)?</li>
+  <li>How many operations and time-steps will the computation take on a
+  multiprocessor system with 4 processors? (Use the smallest number of
+  operations possible)</li>
+  <li>What is the speedup of the multiprocessor system over a single
+  processor?</li>
+</ul>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>In an Omega network as presented in class, assume that there are n inputs
+and n outputs. Let k be the size of each switch. For k taking the values 2, 4,
+8, and 64, answer the following questions. (Assume the cost of each switch is
+k^2)</p>
+<ol type="a">
+  <li>What is the cost of the network as a function of n?</li>
+  <li>What is the latency of the network?</li>
+  <li>Assume that n=64. What k value would you choose? Why? State your
+  assumptions and design point.</li>
+</ol>
+</li><!-- End of Question -->
+
+</ol>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

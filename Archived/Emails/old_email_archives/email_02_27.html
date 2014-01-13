@@ -1,0 +1,88 @@
+<!-- commenting the email tags out .... 
+From patt@login.hps.utexas.edu  Sun Feb 27 02:03:15 2011
+Return-Path: <patt@login.hps.utexas.edu>
+Received: from login.hps.utexas.edu (login.hps.utexas.edu [128.83.178.4])
+	by ego.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p1R83F11025408;
+	Sun, 27 Feb 2011 02:03:15 -0600
+Received: from login.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by login.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p1R83DvZ022552;
+	Sun, 27 Feb 2011 02:03:13 -0600
+Received: (from patt@localhost)
+	by login.hps.utexas.edu (8.13.8/8.13.8/Submit) id p1R83D9K022551;
+	Sun, 27 Feb 2011 02:03:13 -0600
+Date: Sun, 27 Feb 2011 02:03:13 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: miladhashemi@gmail.com, faruk@hps.utexas.edu, yuhao.zhu@mail.utexas.edu
+Subject: Re: Question about Gating the MDR
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Sun, 27 Feb 2011, 02:03</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Sun, 27 Feb 2011, 02:03</font>
+<p><pre>
+<font color="blue">
+A student with a fundamental problem writes:
+<font color="black">
+&gt; Dr Patt,
+&gt; 
+&gt; I had a small question regarding the MDR.
+&gt; 
+&gt; In your previous email, you mentioned that the Logic block after the MDR 
+&gt; figured out what to latch on to the Bus (using the DATA.SIZE and MAR[0] ), 
+&gt; and gated the MDR to the BUS in the next cycle.
+</font>
+
+We do not *latch* on to the Bus, we *gate* onto the bus.  I am not 
+nitpicking here with semantics.  I want to be sure you get it.  Latch 
+implies storage and happens at the end of the cycle, so the value is 
+available in the subsequent cycle.  Gate implies combinational logic 
+that may or may not result in latching.  
+
+In fact, in one single cycle (state 31 in the case of the LDB instruction), 
+the contents of MDR are processed through the logic block, gated onto the Bus
+and loaded into the gpr specified by the LDB instruction.
+
+For some reason, a few students always want to gate MDR in one cycle, move the
+data on the Bus to where it is needed in a second cycle, and then load that data
+into a gpr in a third cycle.  No!  From the MDR all the way to the gpr that is
+to be loaded is combinational logic and the cycle time better be long enough
+to have the result available to the gpr so the LD.REG/YES will cause the gpr
+to be loaded at the end of that one cycle.  That must have been made very clear
+in EE319K.
+<font color="black"> 
+&gt; Also, after our data in MDR is valid, do we gate MDR in that cycle 
+&gt; itself, or the cycle after it, i.e. how many cycles does it take to go 
+&gt; from MDR -&gt; BUS?
+</font>
+
+MDR is loaded with data coming from memory (or device register) at the END of
+the cycle, as is the case with ALL storage.  Processing goes on during the 
+cycle, results are latched into registers at the end of the cycle so as to be
+available for use in the next cycle.
+
+In the case you are talking about, at the end of cycle 29, the MDR is loaded.
+Since it takes the memory 5 clock cycles to produce legitimate data, cycle 29
+has to be executed 5 times.  At the *end* of the 5th time, MDR is loaded with
+valid data. In the following cycle (cycle 31, in this case) the data present
+in the MDR at the *beginning* of that cycle (1) goes through the logic block,
+(2) is gated onto the bus, (3) is routed to the register file, and (4) is 
+loaded into the gpr at the end of that same cycle.
+
+OK?
+<font color="black">
+&gt; Thank you for your time.
+&gt; &lt;&lt;name withheld to protect the student confused about what goes on in a cycle&gt;&gt;
+</font>
+
+Good luck getting this done by Sunday night.
+
+Yale Patt
+
+
+</font>
+</pre>
+</body>
+</html>

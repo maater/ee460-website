@@ -1,0 +1,505 @@
+<html>
+<head>
+<title> EE 360N - Problem Set 5 Solutions</title>
+</head>
+<body bgcolor=white text=black>
+
+<center>
+<h3>
+Department of Electrical and Computer Engineering
+</h3>
+<h4>
+The University of Texas at Austin
+</h4>
+</center>
+
+EE 360N, Fall 2004 <br>
+Problem Set 5 Solutions <br>
+
+Yale N. Patt, Instructor
+<br>
+Aater Suleman, Huzefa Sanjeliwala, Dam Sunwoo, TAs <br>
+
+<p>
+<ol>
+
+<li>
+Differences between exceptions and interrupts:
+<p>
+<table border=1>
+<tr>
+<td></td>
+<td><b>Exceptions</b></td>
+<td><b>Interrupts</b></td>
+</tr>
+<tr>
+<td>Cause</td>
+<td>Internal to the running process</td>
+<td>External to the running process</td>
+</tr>
+<tr>
+<td>When are they handled?</td>
+<td>When detected (mostly)</td>
+<td>When convenient (mostly)</td>
+</tr>
+<tr>
+<td>Are they maskable?</td>
+<td>Almost never</td>
+<td>Almost always</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td>Same as the process that caused the exception.</td>
+<td>Depends (on the priority of the interrupting device)</td>
+</tr>
+<tr>
+<td>Context</td>
+<td>Process</td>
+<td>Handling is done withing the system context.</td>
+</tr>
+</table>
+
+<p>
+Interrupts and exceptions are similar in how they are handled. To
+handle both, the machine has to be put into a consistent state and PC
+needs to be loaded with the address of the interrupt/exception
+handler.
+
+<p>
+Basic steps required to handle an exception/interrupt:
+<ol>
+<li>Exception/interrupt is detected.
+<li>The machine is put to a consistent state.
+<li>PC and PSR (Program Status Register) of the process are saved (on the stack).
+<li>PC is loaded with the address of the handler. (This address can be
+obtained by accessing the interrupt/exception vector table using the
+vector supplied by the event)
+<li>Interrupt/exception handler is executed.
+<li>Interrupt/exception handler returns back to the interrupted
+process. (PC and PSR of the interrupted process are restored) 
+</ol>
+<br><br>
+</li>
+
+
+<li>
+In a pending bus, communicating devices hold the bus busy until the
+transaction completes, even though the bus may not be used most of the
+time. Only one bus transaction can take place at a given time. 
+
+<p>
+In a split transaction bus, the bus is used only when information
+needs to be transferred on the bus. The communicating devices release
+the bus if there is no need to transfer data on the bus. Hence,
+multiple concurrent bus transactions can take place simultaneously,
+which likely improves system performance.
+
+<br><br>
+</li>
+
+<li> The state diagram for the FSM device controller is shown below. Note that in this figure, the transition from BGout to IDLE is based on the SACK signal. This is to illustrate the first race condition which is corrected by basing the transition on (NOT BGin).
+<p>
+<center>
+<img src="ps3q1x.gif">
+</center>
+<br>
+The input and output signals of the controller are:
+<br>
+<br>
+<table border>
+<tr>
+<td><b>Signal</b>
+<td><b>Type</b>
+<td><b>Function</b>
+<tr>
+<td>DEV
+<td>Input
+<td>Asserted when the device needs to initiate a bus transaction
+<tr>
+<td>BG<sub>in</sub>
+<td>Input
+<td>Incoming bus grant signal, asserted by the priority arbitration unit
+<tr>
+<td>BBSY<sub>in</sub>
+<td>Input
+<td>Asserted by the current bus master. Negative edge indicates the end of a bus cycle.
+<tr>
+<td>MSYN
+<td>Input
+<td>Master-side handshaking signal that controls the bus transaction between the bus master and the slave
+<tr>
+<td>SSYN
+<td>Input
+<td>Slave-side handshaking signal that controls the bus transaction between the bus master and the slave
+<tr>
+<td>BR<sub>out</sub>
+<td>Output
+<td>Asserted to request the bus. Goes to the priority arbitration unit.
+<tr>
+<td>SACK
+<td>Output
+<td>Asserted by the device that has won the arbitration
+<tr>
+<td>BBSY<sub>out</sub>
+<td>Output
+<td>Same as BBSY<sub>in</sub>
+<tr>
+<td>BG<sub>out</sub>
+<td>Output
+<td>Asserted when the controller needs to pass the bus grant signal down the daisy chain.
+</table>
+<br>
+
+<br><br>
+</li>
+Two race conditions are:
+<p>
+<i>1.</i> Let's say device controller D1 is in BG<sub>out</sub>
+state. This means that some device D2 that is down the same daisy
+chain as D1 had requested and is granted the bus. Let's say the device
+of D1 asserts the DEV signal while D1 is in BG<sub>out</sub> state. D3
+will eventually receive the BG<sub>in</sub> signal and transition to
+the SACK state. It will take some time for the SACK signal to travel
+to the priority arbitration unit. The SACK signal probably reaches D1
+before it reaches the priority arbitration unit. Hence, when the SACK
+signal reaches D1 the BG<sub>in</sub> input of D1 is still being
+asserted. Therefore, upon receiving the SACK signal D1 will
+immediately transition to IDLE to BR<sub>out</sub> to SACK
+states. Hence, both D1 and D3 will be asserting the SACK signal which
+is not desirable. A simple solution that fixes this race condition is
+not transitioning to IDLE state if the BG<sub>in</sub> signal is still
+high. This gives us the state diagram which Dr.Patt showed in class.
+
+<p>
+<i>2. </i> This race condition is a little bit more subtle. From the
+PAU side.  the PAU asserts BGj which works its way down the daisy chain to
+all devices at BRj.  Before SACK is asserted, a controller asserts
+BRk, where k is higher priority than j.  PAU now asserts BGk, and you
+have two BG signals propagating, which will result in two controllers
+thinking they are the next bus master.
+
+Solution: PAU latches BR signals when it sees NOT-SACK, indicating it is okay
+to grant the bus again.  NOT-SACK is also gated (after sufficient delay) with
+the BG signals, guaranteeing that a BG signal cannot be asserted until after
+PAU logic has taken effect.  Any subsequent BR signal does not get latched and
+so can not affect the PAU logic.
+
+<br>
+<br>
+
+<li>
+The interrupt handler takes 5 msec of processing time per disk transfer. Thus, at most, the CPU can handle 1 sec / (5 msec p
+er transfer) = 200 transfers per second. To figure out how many disks can be connected to the system and be fully utilized, 
+we need to know how many transfers per second 1 disk will produce if being fully utilized.  Let the number of transfers per 
+second of a fully utilized disk be indicated by X. Then  the number of disks that can be connected and be fully utilized is 
+floor(200/X).  (floor(x) indicates round x down.)  (You can not  have a non-integer number of disks, therefore, you must rou
+nd. If you round up, you will produce more transfers per second than  the  CPU can possibly handle. Therefore, always round 
+down.)
+
+<p>
+
+There are two ways of calculating X:
+<ol>
+<li> Disk transfer requests are queued up in the disk's controller. When a transfer completes, the disk interrupts the LC-2 
+and pulls another transfer request off its queue. Thus the disk is always operating at its full transfer rate.
+<pre>
+A disk running at full speed will cause
+(2^18  bytes per second) / (2 pages per transfer * 2^12 bytes per page) 
+= 32 transfers per second
+= X
+Number of disks will be floor(200/(2^5)) = 6.
+</pre>
+</li>
+<li>
+Disk transfer requests are not queued. When a transfer completes, the disk interrupts the LC-2. During the 5ms that the LC-2
+ is processing the  interrupt, the disk is idle.  At the end of the 5ms period, the disk is given another transfer request a
+nd the disk resumes operation.
+<pre>
+Total time to perform one transfer
+= Time to transfer the data + Time to service the interrupt
+= 1/32 sec + 5msec
+
+Maximum number of transfers per second
+= reciprocal of the above number
+= 27.59
+= X
+Number of disks will be floor(200/27.59)
+= 7
+</pre>
+</li>
+</ol>
+</li>
+
+<font color="red"> <u>Solution to Problem 5c was updated Nov 8, 11:40 pm </u></font>
+<li>
+
+<ol>
+<li>The solution is shown below.<br> 
+
+  <img src="prob5a.jpg">
+
+
+<p><p>
+<li> It is possible. Consider a case where device 3 and 4 just alternate the bus. 
+
+
+<li>The solution is shown below.<br>
+
+
+
+<img src="prob5c.jpg"> 
+
+</li>
+</ol>
+
+
+<br>
+<br>
+<p>
+
+
+
+<li>  Assume the destination register is indicated first, followed by the source(s).
+<p>
+(As stated in the question, cycle counts assume a 16-way interleaved memory so that a new access can
+be started each cycle.  Also, the adder and multiplier are pipelined.)
+<p>
+a) Scalar processor
+<br>
+<pre>
+        MOVI   R0, 100          (1 cycle)
+	MOVA   R5, A            (1 cycle)
+	MOVA   R6, B            (1 cycle)
+	MOVA   R7, C	        (1 cycle)
+	MOVA   R8, D	        (1 cycle)
+  LOOP  LD     R1, (R6)+        (11 cycles)
+        LD     R2, (R7)+        (11 cycles)
+        LD     R4, (R8)+        (11 cycles)
+        MUL    R3, R1,R2        (6 cycles)
+        ADD    R4, R3,R4        (4 cycles)
+        SHR    R4, R4           (1 cycle)
+        ST     R4,(R5)+         (11 cycles)
+        DECBNZ R0, LOOP         (2 cycles)
+
+        5*1 + 100*(11 + 11 + 11 + 6 + 4 + 1 + 11 + 2) = 5705 cycles
+</pre>
+<br>
+Vector Processor:
+<p>
+Solution A: The loop could be split into two parts as 64 & 36 
+Assume the vector code looks as follows:
+(This assumes that the addressing mode VLOAD B+64,V0 exists - if it doesnt,
+then you would need 4 + 3 cycles using a pipelined adder to add 64 to A,B,C,D)
+<pre>
+        MOVI  VLEN, 64           (1 cycle)
+        MOVI  VSTR, 1            (1 cycle)
+        VLOAD V0, B              (11 + 63 cycles)
+        VLOAD V1, C              (11 + 63 cycles)
+        VMULT V2,V0,V1           (6 + 63 cycles)
+        VLOAD V3, D              (11 + 63 cycles)
+        VADD  V4, V2,V3          (4 + 63 cycles)
+        VSHR  V5, V4             (1 + 63 cycles)
+        VST   V5, A              (11 + 63 cycles)
+        MOVI  VLEN, 36           (1 cycle)
+        VLOAD V0, B+64           (11 + 35 cycles)
+        VLOAD V1, C+64           (11 + 35 cycles)
+        VMULT V2, V0,V1          (6 + 35 cycles)
+        VLOAD V3, D+64           (11 + 35 cycles)
+        VADD  V4, V2,V3          (4 + 35 cycles)
+        VSHR  V5, V4             (1 + 35 cycles)
+        VST   V5,A+64            (11 + 35 cycles)
+</pre>
+<br>
+
+b) Vector processor without chaining (vector instructions done serially)
+<pre>
+        2 + (64*7 + 10+10+5+10+3+10) + 1 + (36*7 + 10+10+5+10+3+10) = 799 cycles
+</pre>
+<br>
+
+c) Vector processor with chaining, 1 port to memory
+<pre>
+   Chaining means the machine begins the next operation as soon as
+   the operands are ready.
+
+   First part:
+   |-1-|-1-|--11--|---63---|--11--|---63---|--11--|---63---|--11--|---63---|
+                                  |-6-|---63---|  |-4-|---63---|
+                                                      |-1-|---63---|
+   Second part:
+   |-1-|--11--|--35--|--11--|--35--|--11--|--35--|--11--|--35--|
+                            |-6-|--35--|  |-4-|--35--|
+                                              |-1-|--35--|
+
+   Chaining, in this instance, hides the VMULT, VADD, and VSHL operations.
+   Memory becomes the primary bottleneck.
+
+        483 cycles
+</pre>
+<br>
+d) Vector processor with chaining; 2 loads, 1 store per cycle
+<pre>
+
+   First part:
+   |-1-|-1-|--11--|---63---|
+            |--11--|---63---|
+                   |-6-|---63---|
+                           |--11--|---63---|
+                                  |-4-|---63---|
+                                      |-1-|---63---|
+                                          |--11--|---63---|
+
+   #cycles = 1 + 1 + 11 + 63 + 11 + 4 + 1 + 11 + 63 = 166
+
+
+   Second part:
+   |-1-|--11--|--35--|
+        |--11--|--35--|
+               |-6-|--35--|
+                     |--11--|--35--|
+                            |-4-|--35--|
+                                |-1-|--35--|
+                                    |--11--|--35--|
+
+   #cycles = 1 + 11 + 35 + 11 + 4 + 1 + 11 + 35 = 109
+
+   Total cycles = 166 + 109 = 275 cycles
+</pre>
+<br>
+Solution B: The loop could be split into two equal parts as 50 & 50
+<pre>
+        MOVI  VLEN, 50           (1 cycle)
+        MOVI  VSTR, 1            (1 cycle)
+        VLOAD V0, B              (11 + 49 cycles)
+        VLOAD V1, C              (11 + 49 cycles)
+        VMULT V2, V0, V1         (6 + 49 cycles)
+        VLOAD V3, D              (11 + 49 cycles)
+        VADD  V4, V2,V3          (4 + 49 cycles)
+        VSHR  V5, V4             (1 + 49 cycles)
+        VST   V5, A              (11 + 49 cycles)
+        VLOAD V0, B+50           (11 + 49 cycles)
+        VLOAD V1, C+50           (11 + 49 cycles)
+        VMULT V2, V0,V1          (6 + 49 cycles)
+        VLOAD V3, D+50           (11 + 49 cycles)
+        VADD  V4, V2,V3          (4 + 49 cycles)
+        VSHR  V5, V4             (1 + 49 cycles)
+        VST   V5, A+50           (11 + 49 cycles)
+</pre>
+<br>
+
+b) Vector processor without chaining (vector instructions done serially)
+<pre>
+        2 + (50*7 + 10+10+5+10+3+10) + (50*7 + 10+10+5+10+3+10) = 798 cycles
+</pre>
+<br>
+c) Vector processor with chaining, 1 port to memory
+   Again, this would save only 1 cycle over solution A, since the first load for the second part must wait till the store of the first part 
+finishes
+   Total = 482 cycles
+<br>   
+d) Vector processor with chaining; 2 loads, 1 store per cycle
+<pre>
+   |-1-|-1-|-11-|-----49-----|
+            |-11-|-----49-----|
+                 |-6-|-----49-----|
+                             |-11-|-----49-----|   ** LD D would need to wait for LD B to finish
+                                  |-4-|-----49-----|
+                                      |-1-|-----49-----|
+                                          |-11-|-----49-----|
+                                           |-11-|-----49-----|
+                                               |-11-|-----49-----|  ** LD C+50 would need to wait till the LD D from the first part finishes
+                                                    |-6-|-----49-----|
+                                                             |-11-|-----49-----|  ** LD D+50 would need to wait for LD B+50 to finish 
+                                                                  |-4-|-----49-----|
+                                                                      |-1-|-----49-----|
+
+                                                                          |-11-|-----49-----|
+</pre>
+<pre>
+   1 + 1 + (11 + 49) + 11 + 4 + 1 + 1 + (11 + 49) + 11 + 4 + 1 + (11 + 49) = 215 cycles
+
+</pre>
+
+</li>
+
+<li>
+<p>
+Assume an ADD operation is executed like this in the pipeline: |-F-|-D-|-A-|-A-|-A-|-A-|-S-|<br>
+    and a MUL operation is executed like this in the pipeline: |-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+<br>
+F: Fetch, D: Decode, A: Execute stage (for ADD), M: Execute stage for MUL, S: Store result (Write-back)
+
+<br><br>
+a) ADDs require 7 cycles (fetch, decode, 4 execute, store), and MULs require 9 cycles (fetch, decode, 6 execute, store). For
+ 3 ADD instructions and 3 MUL instructions, the execution time is 3*7 + 3*9 = 48 cycles.
+<br><br>
+b) Pipeline with scoreboarding:
+<pre>
+   Assumptions: - one instruction fetched per cycle
+                - the adder and multiplier are pipelined
+                - no forwarding: the destination register is marked valid in the S stage 
+                  (a dependent instruction starts executing after the S stage of 
+                   the instruction it depends on)
+
+|-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+    |-F-|-D-|-D-|-D-|-D-|-D-|-D-|-D-|-A-|-A-|-A-|-A-|-S-|
+        |-F-|-F-|-F-|-F-|-F-|-F-|-F-|-D-|-A-|-A-|-A-|-A-|-S-|
+                                    |-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+                                        |-F-|-D-|-D-|-D-|-D-|-D-|-D-|-D-|-A-|-A-|-A-|-A-|-S-|
+                                            |-F-|-F-|-F-|-F-|-F-|-F-|-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+
+   26 cycles
+
+
+
+   With forwarding:
+|-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+    |-F-|-D-|-D-|-D-|-D-|-D-|-D-|-A-|-A-|-A-|-A-|-S-|
+        |-F-|-F-|-F-|-F-|-F-|-F-|-D-|-A-|-A-|-A-|-A-|-S-|
+                                |-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+                                    |-F-|-D-|-D-|-D-|-D-|-D-|-D-|-A-|-A-|-A-|-A-|-S-|
+                                        |-F-|-F-|-F-|-F-|-F-|-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+
+
+   24 cycles
+				   
+</pre>
+<br>
+
+c) Tomasulo's algorithm <b>Just for your reference</b>
+<pre>
+   Assumptions: - one instruction fetched per cycle
+                - the adder and multiplier are pipelined
+                - multiple instructions can finish (store) in the same cycle
+		- no forwarding
+
+   |-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+       |-F-|-D-|- -|- -|- -|- -|- -|- -|-A-|-A-|-A-|-A-|-S-|
+           |-F-|-D-|-A-|-A-|-A-|-A-|-S-|
+               |-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+                   |-F-|-D-|- -|- -|- -|- -|- -|- -|-A-|-A-|-A-|-A-|-S-|
+                       |-F-|-D-|- -|- -|- -|- -|- -|- -|- -|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+
+
+   Note that |- -| means the instruction waits in a reservation station.
+
+   21 cycles
+
+
+
+   With forwarding:
+
+   |-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+       |-F-|-D-|- -|- -|- -|- -|- -|-A-|-A-|-A-|-A-|-S-|
+           |-F-|-D-|-A-|-A-|-A-|-A-|-S-|
+               |-F-|-D-|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+                   |-F-|-D-|- -|- -|- -|- -|- -|-A-|-A-|-S-|
+                       |-F-|-D-|- -|- -|- -|- -|- -|-M-|-M-|-M-|-M-|-M-|-M-|-S-|
+
+   19 cycles
+	
+</pre>
+
+<br>
+<br>
+</li>

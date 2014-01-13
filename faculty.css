@@ -1,0 +1,16 @@
+ul li {
+	list-style-image: url("redball.gif");
+}
+
+ul ul li {
+	list-style-image: url("blueball.gif");
+}
+
+ul ul ul li {
+	list-style-type: none;
+	list-style-image: none;
+}
+
+ul ul ul ul li {
+	list-style-type: square;
+}

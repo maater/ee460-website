@@ -1,0 +1,384 @@
+<html>
+<head>
+<title> EE 460N - Problem Study Questions Solutions</title>
+</head>
+<body bgcolor=white text=black>
+
+<center>
+<h3>
+Department of Electrical and Computer Engineering
+</h3>
+<h4>
+The University of Texas at Austin
+</h4>
+</center>
+
+EE 460N, Spring 2013 <br>
+Study Questions Solutions <br>
+
+Yale N. Patt, Instructor
+<br>
+Faruk Guvenilir, Sumedha Bhangale, Stephen Pruett, TAs
+<br>
+
+<p>
+
+<ol>
+
+
+<li><!-- Begin Question -->
+<p>
+<pre><code>
+   | 4  3 | 6  2
+-----------------
+ 0 | 0  0 | 0  0
+ 1 | 1  1 | 1  1
+ 2 | 2  2 | 2  0
+ 3 | 3  0 | 3  1
+ 4 | 0  1 | 4  0
+ 5 | 1  2 | 5  1
+ 6 | 2  0 | 0  0
+ 7 | 3  1 | 1  1
+ 8 | 0  2 | 2  0
+ 9 | 1  0 | 3  1
+10 | 2  1 | 4  0
+11 | 3  2 | 5  1
+</code></pre>
+</p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>
+The Solution:
+</p>
+<img src="dataflow.png" alt="Dataflow Graph" />
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<p>Single Error. The corrected bit pattern:</p>
+<code>111010010111</code>
+<p>When there are two errors, there will definitely be a parity error. However,
+consider the case where P0 and P1 are the two errors. If we examine the parity
+errors with the intention of attempting to correct a single error as in the
+previous example, then we would erroneously think that the 3rd bit (D0) was in
+error. Clearly, this is not the case. It is also possible that after computing
+the parity errors, we determine, for example, that bit 15 is in error (all four
+parity functions evaluated incorrectly). However, the transmitted data only has
+12 bits. Thus, if we see that an error points to bits 13 through 15, we know
+for sure that two errors occurred. However, as described earlier, it is
+definitely possible that two errors manifest themselves as a single error in
+one of the 12 bits transmitted.</p>
+<p>What happens if there are more than two errors?</p>
+<p>More than two errors will manifest itself as a single error, two errors, or
+possibly even no error at all. This scheme has no way to distinguish more than
+2 errors from 2 errors or less.</p>
+</li><!-- End of Question -->
+
+<li> <!-- Begin Question --> 
+Multiplicand is 0011011110.   
+
+<table border =1>
+
+<tr><td>Cycle </td><td>Multiplier</td>   <td>Temp register</td></tr>
+<tr><td>0</td><td><pre>0001110010</pre></td>   <td><pre> 0000000000----------</pre></td></tr>
+<tr><td>1</td><td><pre>--00011100</pre></td>   <td><pre> 000110111100--------</pre></td></tr>  
+<tr><td>2</td><td><pre>----000111</pre></td>   <td><pre> 00000110111100------</pre></td></tr>  
+<tr><td>3</td><td><pre>------0010</pre></td>   <td><pre> 1111001111011100----</pre></td></tr>
+<tr><td>4</td><td><pre>--------00</pre></td>   <td><pre> 000110001011011100--</pre></td></tr>
+<tr><td>5</td><td><pre>----------</pre></td>   <td><pre> 00000110001011011100</pre></td></tr>
+</table>
+
+The result is 00000110001011011100. 
+</li><!-- End of Question -->
+
+
+<!--<li> p1=5, p2=11, and p3=16.-->
+<p>
+
+<li> The exponenet field has a value 63. Therefore the exponent is 
+63-63=0. The value is 1.0000001111111111 * 2^0. This value is 1.0156.
+
+<p>
+<li>
+
+
+<pre>
+The bias for the 1-8-23 IEEE format is 127.
+
+  3EE00000h = 0 01111101 11000000000000000000000 = 1.11 * 2^-2
+  3D800000h = 0 01111011 00000000000000000000000 = 1.0 * 2^-4
+
+Adjusting exponents, we get
+
+        1.11 * 2^(-2)
+        0.01 * 2^(-2)
+
+
+Since the exponents are now the same, we can add the two
+fractions. The result has the same exponent as the operands. The
+result is: 10.00 * 2^(-2). When normalized to IEEE format, this
+becomes 1.00 * 2^(-1),
+
+IEEE format: 0 01111110 00000000000000000000000 which in hex is
+3F000000h.
+
+</pre>
+
+
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+<pre>
+Model 0.001: 1-7-8
+Smallest positive normalized number is 0 0000001 00000000 = 1.0 * 2^(1-63) = 2^-62
+Largest postive normalized number is 0 1111110 11111111 = 1.11111111 * 2^(126-63) = 1.11111111 * 2^63
+
+This model has (8+1) binary bits of precision. Since 1024 (2^10) is
+approximately 1000 (10^3); 10 binary bits of precision correspond to
+about 3 decimal digits of precision. Hence, this model has 9 * (3/10)
+= 2.7 decimal digits of precision
+
+Model 0.002: 1-5-10
+Smallest positive normalized number is 0 00001 0000000000 = 1.0 * 2^(1-15) = 2^-14
+Largest postive normalized number is 0 11110 1111111111 = 1.1111111111 * 2^(30-15) = 1.1111111111 * 2^15
+
+This model has (10+1) binary bits of precision. Hence, this model has
+11 * (3/10) = 3.3 decimal digits of precision
+
+The model chosen would depend on the application - if a higher range
+is desired, then model 0.001 is better; if precision is more
+important, then model 0.002 will be preferred.
+</pre>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+
+<ol type="a">
+ <li> 5 bits
+ <li> 1   
+ <li> <pre> 
+      48       0 110 10000
+      19.5     0 101 00111
+      5/16     0 000 <font color=red>01010</font>
+      0        0 000 00000
+     -1        1 001 00000
+   -infinity   1 111 00000
+      </pre>
+
+</ol>
+<li>
+
+<p>a) Single processor system - using Horner's rule
+<p>(((((ax + b)x + c)x + d)x + e)x + f)x + g
+<p>Number of operations = 12 (6 multiplies & 6 adds)
+<p>Number of time-steps = 12
+<p>
+<p>b) Using 4 processors: time steps = 5, operations = 15.
+<p>One way of doing this is:
+
+<center><table BORDER COLS=5 WIDTH="100%" NOSAVE >
+<tr ALIGN=CENTER NOSAVE>
+<td NOSAVE>Step 1</td>
+
+<td>x * x</td>
+
+<td>b * x</td>
+
+<td>d * x</td>
+
+<td>f * x</td>
+</tr>
+
+<tr ALIGN=CENTER NOSAVE>
+<td NOSAVE>Step 2</td>
+
+<td>x<sup>2</sup> * x<sup>2</sup></td>
+
+<td>a * x<sup>2</sup></td>
+
+<td>dx + e</td>
+
+<td>bx + c</td>
+</tr>
+
+<tr ALIGN=CENTER NOSAVE>
+<td NOSAVE>Step 3</td>
+
+<td>ax<sup>2</sup> * x<sup>4</sup></td>
+
+<td>(bx +c) * x<sup>4</sup></td>
+
+<td>(dx +&nbsp;e) * x<sup>2</sup></td>
+
+<td>fx + g</td>
+</tr>
+
+<tr ALIGN=CENTER NOSAVE>
+<td NOSAVE>Step 4</td>
+
+<td>ax<sup>6</sup> + bx<sup>5 </sup>+ cx<sup>4</sup></td>
+
+<td>dx<sup>3</sup> + ex<sup>2 </sup>+ fx + g</td>
+
+<td> </td>
+
+<td> </td>
+</tr>
+
+<tr ALIGN=CENTER NOSAVE>
+<td NOSAVE>Step 5</td>
+
+<td>ax<sup>6</sup> + bx<sup>5 </sup>+ cx<sup>4</sup> + dx<sup>3</sup> +
+ex<sup>2 </sup>+ fx + g</td>
+
+<td> </td>
+
+<td> </td>
+
+<td> </td>
+</tr>
+</table></center>
+
+<p>An intuitive proof for why it can't be done in less than 5 time
+steps: <p>Lets assume it takes x time steps. In the xth time step,
+only one operation can be performed (either an add or a multiply) to
+get the final result. In the (x-1)th time step, at the most two
+operations can be performed, one each to get each of the operands for
+the operation in step x. In the (x-2)nd time step & other below,
+possibly 4 units of work can be found. If x = 4, then theres no way to
+compute all the operands such that only 3 operations are left to be
+performed after 2 time steps.
+<p>
+c)&nbsp;&nbsp;Speedup = T<sub>1</sub>/ T<sub>p</sub> = 12/5 = 2.4
+<p>
+</li><!-- End of Question -->
+
+<li><!-- Begin Question -->
+
+The table is shown below:<br>
+<table BORDER COLS=6 WIDTH="100%" NOSAVE >
+<tr>
+<td></td>
+
+<td>&nbsp;</td>
+
+<td>
+<center>k = 2</center>
+</td>
+
+<td>
+<center>k = 4</center>
+</td>
+
+<td>
+<center>k = 8</center>
+</td>
+
+<td>
+<center>k = 64</center>
+</td>
+</tr>
+
+<tr>
+<td>Number of switches in each level</td>
+
+<td>
+<center>n/k</center>
+</td>
+
+<td>
+<center>n/2</center>
+</td>
+
+<td>
+<center>n/4</center>
+</td>
+
+<td>
+<center>n/8</center>
+</td>
+
+<td>
+<center>n/64</center>
+</td>
+</tr>
+
+<tr>
+<td>Number of levels (= latency)</td>
+
+<td>
+<center>log<sub>k</sub>n</center>
+</td>
+
+<td>
+<center>log<sub>2</sub>n</center>
+</td>
+
+<td>
+<center>log<sub>4</sub>n</center>
+</td>
+
+<td>
+<center>log<sub>8</sub>n</center>
+</td>
+
+<td>
+<center>log<sub>64</sub>n</center>
+</td>
+</tr>
+
+<tr>
+<td>Cost</td>
+
+<td>k<sup>2 </sup>* n/k * log<sub>k</sub>n
+<center>= nklog<sub>k</sub>n</center>
+</td>
+
+<td>
+<center>2nlog<sub>2</sub>n</center>
+</td>
+
+<td>
+<center>4nlog<sub>4</sub>n</center>
+</td>
+
+<td>
+<center>8nlog<sub>8</sub>n</center>
+</td>
+
+<td>
+<center>64nlog<sub>64</sub>n</center>
+</td>
+</tr>
+</table>
+<p>
+Reasonable choice depends on whether lower cost, latency, or
+contention is desired.  <p>For n=64, Using k=64 yields the lowest
+latency, and k=2 or k=4 yields the lowest cost. If we would like low
+latency we would choose k to be 64. If we would like lowest cost, we
+would choose k to be 2 or 4. If we would like to minimize contention,
+we would choose k to be 64. <p>Another approach could be to minimize
+the cost-latency product, in which case we would choose k=8 for n=64.
+<p>
+<br>
+
+</li>
+
+<!--
+<li> The Goodman state diagram assumes that the word size or
+specifically, the number of bytes a processor writes on a write
+instruction is always the same as the block size. It this were not the
+case, then a cache line can't be invalidated when a line is in the
+dirty state, and the processor sees a Bus Write. It would first need
+to write the modified cache line to memory & then invalidate it. Also,
+if a cache line is in the invalid state and the processor wants to do
+a write (PW), it first needs to read the line from memory and then
+write to it.  The new state diagram is: <p><center> <img
+src="goodman.gif"></img>
+</center>
+<p>
+<br>
+</li>
+<-->
+</ol>
+</html>

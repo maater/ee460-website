@@ -1,0 +1,122 @@
+<!-- commenting the email tags out .... 
+From patt@zh2.hps.utexas.edu  Sat Mar  5 19:41:57 2011
+Return-Path: <patt@zh2.hps.utexas.edu>
+Received: from zh2.hps.utexas.edu (zh2.hps.utexas.edu [128.83.178.32])
+	by ego.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p261fvme002998;
+	Sat, 5 Mar 2011 19:41:57 -0600
+Received: from zh2.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by zh2.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p261fsNe025554;
+	Sat, 5 Mar 2011 19:41:54 -0600
+Received: (from patt@localhost)
+	by zh2.hps.utexas.edu (8.13.8/8.13.8/Submit) id p261fr9b025552;
+	Sat, 5 Mar 2011 19:41:53 -0600
+Date: Sat, 5 Mar 2011 19:41:53 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: miladhashemi@gmail.com, faruk@hps.utexas.edu, yuhao.zhu@mail.utexas.edu
+Subject: Re: Memory Interleaving Question
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Sat, 5 Mar 2011, 19:41</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Sat, 5 Mar 2011, 19:41</font>
+<p><pre>
+<font color="blue">
+A student writes:
+<font color="black">
+&gt; Dear Professor Patt,
+&gt; 
+&gt; My question concerns memory interleaving:
+&gt; 
+&gt; When we wrote simulators for the lc3b, we always assumed memory reads  
+&gt; took 5 cycles regardless of whether the read was 8 bits or 16 bits.
+</font>
+
+That is correct.  Furthermore, when you read 8 bits, you actually get 16 bits
+(two bytes, each stored in a different address - A and A+1, where A is an
+even number).
+<font color="black">
+&gt; Recently we discussed the topic of interleaving which seems to yield a  
+&gt; more accurate delay model.
+&gt; 
+&gt; In first interleaving example you showed in class (sh1):
+&gt; 64 bytes of memory
+&gt; each chip: 2^3 * 8 bits
+&gt; byte-addressable
+&gt; 16 bit bus
+&gt; two-way interleaved
+&gt; 
+&gt; With a 5 cycle memory latency you drew the following diagram on the board:
+&gt; 1. x4000
+&gt; 2.       x4002
+&gt; 3.
+&gt; 4.
+&gt; 5. MDR
+&gt; 6.       MDR
+&gt; 
+&gt; This example would lead me to believe that on this specific memory  
+&gt; model, 16 bit accesses take longer than 8 bit accesses.
+</font>
+
+I am not understanding why you infer that.  At the end of cycle 5, you latch
+the contents of x4000 and x4001 into MDR.  If you only wanted one byte, you
+would achieve that in the next cycle by extracting from x4000,x4001 the byte
+you want and gate that byte onto the bus.  Recall from the data path that the
+logic that does that uses MAR[0] and DATA.SIZE as control signals.
+
+Bottom line: you get a word after 5 cycles or you get a byte after 5 cycles,
+whichever you wish.
+<font color="black"> 
+&gt; More generally, it seems as though in byte-addressable memory, a  
+&gt; memory latency of 10 cycles will only apply to a byte sized access.  
+</font>
+
+I do not understand why you think that.  See my explanation above.
+If not clear, please ask the question again. 
+<font color="black">
+&gt; A 32 bit access would take longer than 10 cycles since we would have to  
+&gt; change the "Byte on bus" field in the mar and re-access memory.
+</font>
+
+No, a 32 bit aligned access, if we have a 16 bit bus and aligned accesses and
+two way interleaved would take 6 cycles, as shown in your table above.
+
+The fact that we have two-way interleaved is the reason we can initiate the
+read of x4002 in the second cycle.  If the memory was not interleaved, we would
+have to wait for the read of x4000 to finish before we could start x4002.
+
+Let us say we want the 32 bits starting with x4000.  In cycle 1 we load MAR with
+x4000 and get that access started.  In cycle 2, we add 2 to x4000 and load MAR
+with x4002.  In cycle 5, we get x4000,x4001 and in cycle 6 we get x4002,x4003.
+
+Since you have been paying attention up to here, I will take this to the next level.
+How long would it take to read a word starting at x4001, if unalighed accesses are
+supported?
+
+Answer depends on whether or not interleaved.
+
+If interleaved: In cycle 5, we load MDR with x4000,x4001, after rotating the two
+bytes.  In cycle 6, we rotate x4002,x4003, throw away x4003 and overwrite the high
+byte of MDR with x4002.  Of course we need some logic between the memory and MDR to
+accomplish this.
+
+If not interleaved, it indeed takes ten cycles, since we can not start the access
+of x4002,x4003 until the access of x4000,x4001 finishes.
+<font color="black">
+&gt; Is this the correct way of thinking about it? Or am I missing something?
+&gt; 
+&gt; Thanks,
+&gt; &lt;&lt;name withheld to protect the student who is missing something&gt;&gt;
+</font>
+
+Is that clear?  If not, please ask again. 
+Good luck on the exam next Wednesday.
+
+Yale Patt
+
+</font>
+</pre>
+</body>
+</html>

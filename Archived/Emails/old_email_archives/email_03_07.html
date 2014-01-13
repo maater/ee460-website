@@ -1,0 +1,80 @@
+<!-- commenting the email tags out .... 
+From patt@zh2.hps.utexas.edu  Mon Mar  7 01:03:29 2011
+Return-Path: <patt@zh2.hps.utexas.edu>
+Received: from zh2.hps.utexas.edu (zh2.hps.utexas.edu [128.83.178.32])
+	by ego.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p2773SwL030584;
+	Mon, 7 Mar 2011 01:03:28 -0600
+Received: from zh2.hps.utexas.edu (localhost.localdomain [127.0.0.1])
+	by zh2.hps.utexas.edu (8.13.8/8.13.8) with ESMTP id p2773QnM031919;
+	Mon, 7 Mar 2011 01:03:26 -0600
+Received: (from patt@localhost)
+	by zh2.hps.utexas.edu (8.13.8/8.13.8/Submit) id p2773QWV031917;
+	Mon, 7 Mar 2011 01:03:26 -0600
+Date: Mon, 7 Mar 2011 01:03:25 -0600
+From: "Yale N. Patt" <patt@ece.utexas.edu>
+To: miladhashemi@gmail.com, faruk@hps.utexas.edu, yuhao.zhu@mail.utexas.edu
+Subject: Re: Question about 'consecutive location' on Q2 of problem set
+End comment here .... --> 
+<HTML>
+<HEAD>
+<TITLE>EE 460N: Email Mon, 7 Mar 2011, 01:03</TITLE>
+</HEAD>
+<BODY TEXT="black" BGCOLOR="white" LINK="green" VLINK="purple" ALINK="#0000EE">
+<H1></H1>
+<p><font size=+1>Mon, 7 Mar 2011, 01:03</font>
+<p><pre>
+<font color="blue">
+A student writes:
+<font color="black">
+&gt; Dr. Patt,
+&gt; 
+&gt; I was hoping that you could clarify my doubt about question number 2 
+&gt; in the problem set.
+&gt; 
+&gt; What confuses me is that the question mentions:
+&gt; 	"The elements of the 2-dimensional array, A, are 4-bytes in length 
+&gt;       and are stored in the memory in column-major order (i.e., columns of A 
+&gt;       are stored in consecutive memory locations)"
+&gt; 
+&gt; Although, in the diagram, A[0][0] is stored in location 0, and A[0][1] is 
+&gt; stored in location 32. It is A[1][0] that is stored in location 4, which from 
+&gt; what I understand is the next location (address) after location 0 (but which is 
+&gt; not physically the 'next' location). So then...
+&gt; 
+&gt; Please could you clarify for me what is meant by a "consecutive location". Is it:
+&gt; A) Physically close locations (from the perspective of same bank etc...) OR
+&gt; B) locations that come one after the other from an address point of view, 
+&gt; regardless of actual on-chip physical location, i.e. consecutive address.
+&gt; 
+&gt; Thanks,
+&gt; &lt;&lt;name withheld to protect the student who wants to know the meaning of "next"&gt;&gt;
+</font>
+
+The notions of row-major and column-major are from the standpoint of the person 
+writing the algorithm and/or program, and not designing the hardware.
+
+So, I ask you a question: What does the person writing the progam know about the
+organization of the memory chips?  Usually: nothing.  At the level of the algorithm
+and the program, the two-dimensional array is an abstract concept.  Elements need 
+to be stored in some particular sequential order, since memory is sequentally 
+addressed.  Column-major order dictates that the address of A[1,0] should be the 
+next sequential address after A[0,0].  Whether those two data elements are actually
+physically next to each other in memory depends on how the memory chips are actually 
+organized by the hardware designer/computer architect..
+
+Bottom line: to the algorithm designer, column-major order simply means the addresses
+of A[1,0] and A[0.0] are adjacent.  The hardware designer is free to select address 
+bits for each structure in memory according to what appears to him/her to be optimal
+from the standpoint of processing.
+
+OK?
+
+Good luck on the exam on Wednesday.
+
+Yale Patt
+ 
+
+</font>
+</pre>
+</body>
+</html>
