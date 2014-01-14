@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE460N: Compiling with ANSI in Visual Studio</title>
+<link rel="StyleSheet" type="text/css" href="../main.css" />
+</head>
+<body>
+<h1>Compiling with ANSI C in Visual Studio</h1>
+<p>By default, Microsoft's Visual Studio C Compiler doesn't follow the ANSI C standard. If you're using Visual Studio, you can make the transition process to Unix for the Lab Assignments easier by performing the following steps.</p>
+<p>ANSI Flag: <a href="http://msdn.microsoft.com/en-us/library/0k0w269d%28v=VS.100%29.aspx">Link</a>
+<ol>
+  <li><p>Open the project's <b>Property Pages</b> dialog box. For details,
+  see <a href="http://msdn.microsoft.com/en-us/library/e79xc5h1.aspx">
+    How to: Open Project Property Pages</a></p></li>
+  <li><p>In the option tree on the left side of the
+  dialog box, click the
+  <b>Configuration Properties&gt;C/C++ folder</b>.</p></li>
+  <li><p>Click the <b>Language</b> property page.</p></li>
+  <li><p>Modify the <b>Disable Language Extensions</b> property
+  (Change to <b>Yes (/Za)</b>).</p></li>
+</ol>
+</p>
+<p>C Flag: <a href="http://msdn.microsoft.com/en-us/library/032xwy55.aspx">Link</a>
+<ol>
+  <li><p>Open the project's <b>Property Pages</b> dialog box. For details,
+  see <a href="http://msdn.microsoft.com/en-us/library/e79xc5h1.aspx">
+    How to: Open Project Property Pages</a></p></li>
+  <li><p>In the option tree on the left side of the
+  dialog box, click the
+  <b>Configuration Properties&gt;C/C++ folder</b>.</p></li>
+  <li><p>Click the <b>Advanced</b> property page.</p></li>
+  <li><p>Modify the <b>Compile As</b> property
+  (Change to <b>Compile as C Code (/TC)</b>).</p></li>
+</ol>
+</p>
+<p><b>
+  Please note that even with these changes, you must still compile and test all
+  of your code on an ECE LRC Unix machine. These steps are not guaranteed to
+  eliminate all bugs that could arise due to differences in the development
+  environment.  
+</b></p>
+<br/>
+<br/>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Getting Started with gcc</title>
+<link rel="StyleSheet" type="text/css" href="../main.css" />
+</head>
+<body>
+<h1>Getting Started with gcc, the GNU C compiler</h1>
+
+<p>
+For the EE460N lab assignments, you need to make sure that all your code successfully
+compiles with the <tt>gcc</tt> compiler. <tt>gcc</tt> is an ANSI-C compiler (and linker) that
+is available free on the UNIX environment. Let's say, for lab assignment 1, you named the
+file that contains your assembler program <tt>assembler.c</tt>. To compile this file and 
+produce an executable you need to type the following in the UNIX shell:</p>
+<pre><tt>gcc -ansi assembler.c</tt></pre>
+<p>If your program does not have any errors, you will notice that the above command produces 
+an executable file named <tt>a.out</tt>. This is the standard name for the executable created by
+gcc unless you provide your own preferred name. Now, all you need to do to run your assembler is
+to type:</p>
+<pre><tt>a.out &lt;inputfile&gt; &lt;outputfilename&gt;</tt></pre>
+<p>where <tt>inputfile</tt> is the name of the file that contains a program written in LC-3b assembly language,
+and outputfilename is the name of the file that will contain the output of your assembler. If the above doesn't
+run your program try running it by typing:</p>
+<pre><tt>./a.out &lt;inputfile&gt; &lt;outputfilename&gt;</tt></pre>
+<p>If you would like
+to call your executable with a different name, you need to use the <tt>-o</tt>
+option of gcc. For example, if you want your executable named <tt>assemble</tt>, you need to compile the 
+source code for your assembler (<tt>assembler.c</tt>) with the following command:</p>
+<pre><tt>gcc -ansi -o assemble assembler.c  </tt></pre>
+<p>If you decide to use any of the math functions in math.h, you also have to link the math library by using
+the command:</p>
+<pre><tt>gcc -lm -ansi -o assemble assembler.c</tt></pre>
+<p>To run your assembler now, just use the following command:</p>
+<pre><tt>./assemble &lt;inputfile&gt; &lt;outputfilename&gt;</tt></pre>
+If you would like to learn more about gcc, try the following on the UNIX command prompt:
+<pre><tt>man gcc</tt></pre>
+</body>
+</html>
+

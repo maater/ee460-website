@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE460N: Porting code from Windows to Unix</title>
+<link rel="StyleSheet" type="text/css" href="../main.css" />
+</head>
+<body>
+<h1>Porting code from Windows to Unix</h1>
+<p>This step-by-step tutorial explains how you can get your code onto the ECE LRC machines from a Windows machine.</p>
+<ol>
+<li><p>Download SSH Secure Shell 3.2.9 from the <a href="https://www.utexas.edu/its/bevoware/">BevoWare</a> website.</p></li>
+<li><p>Install the downloaded program. This should create two programs namely, Secure Shell Client and Secure Shell File Transfer.</p></li>
+<li>
+<p>Open the Secure Shell File Transfer program and click on Quick Connect. Enter:</p>
+<ul>
+<li>Hostname: mario.ece.utexas.edu</li>
+<li>Username: your ece user name</li>
+<li>Profile: leave that alone</li>
+</ul>
+<p>and press Connect.</p>
+</li>
+<li><p>Enter your Unix password when asked.</p></li>
+<li><p>You should be able to drag the files you need to your home directory.</p></li>
+<li><p>Open the Secure Shell Client program and connect to mario using the above procedure.</p></li>
+<li>
+<p>In order to make the transfered files readable in Unix, you will have to run a program called dos2unix:</p>
+<pre><tt>dos2unix <var>&lt;input filename&gt;</var> </tt></pre>
+<p>Note: The two filenames can be the same.</p>
+</li>
+<li><p>Now you can compile your code with gcc using the posted <a href="gcc.html">instructions</a>.</p></li>
+<li><p>Please make sure that your program compiles and runs before submitting.</p></li>
+<p><b>Please note that files that compile and run correctly in Windows under Visual Studio may not do so in a Unix environment with gcc. You are responsible for verifying correct functionality of your programs in the Unix environment prior to submission.</b></p>
+</ol>
+</body>
+</html>

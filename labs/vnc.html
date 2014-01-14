@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE460N: Starting a VNC session on the LRC Unix machines</title>
+<link rel="StyleSheet" type="text/css" href="../main.css" />
+</head>
+<body>
+<h1>Using VNC</h1>
+<p>This step-by-step tutorial explains how you can remotely start a VNC session on an LRC Unix machine from your Windows machine. VNC allows you to view the desktop GUI of a remote Unix machine.</p>
+<ol>
+<li><p>Make sure you have a VNC client installed. One of the simplest and best options is the Real VNC Enterprise Edition Stand-alone Viewer, which you can download for free <a href="http://www.realvnc.com/cgi-bin/download.cgi?product=enterprise4">here</a>.</p></li>
+<li><p>Download the Putty executable from <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">here</a>.</p></li>
+<li><p>Start Putty</p></li>
+<li><p>The ECE department has 7 machines that can be used for remotely logging in. Pick one of the following:</p>
+<ul>
+  <li>yoshi</li>
+  <li>bowser</li>
+  <li>peach</li>
+  <li>mario</li>
+  <li>daisy</li>
+  <li>thwomp</li>
+  <li>luigi</li>
+</ul>
+<li><p>In Putty, enter <pre><tt><var>YOUR_ECE_LOGIN</var>@<var>MACHINE_NAME</var>.ece.utexas.edu</tt></pre> in
+the Host Name field, and choose SSH as the Connection Type.</p></li>
+<li><p>In Putty, on the category option tree on the left, choose Connection-&gt;SSH-&gt;Tunnels.</p></li>
+<li><p>Pick a two digit number, XX. Note, this number must be unique. You will find out later if someone else has already chosen your number.</p></li>
+<li><p>In the Source Port field, enter 59XX.</p></li>
+<li><p>Enter <pre><tt>localhost:59XX</tt></pre> into the Destination field.</p></li>
+<li><p>Click on the Add button.<p></li>
+<li><p>Go back to the main Putty page by selecting Session on the category option tree on the left.</p></li>
+<li><p>Under Saved Sessions, enter a name like "ece_vnc" for these settings, and click Save.</p></li>
+<li><p>Click on the Open button, enter your ECE Unix password when prompted, and you'll get a terminal on the remote Unix machine.</p></li>
+<li><p>ONLY do the following in your Putty terminal the FIRST TIME to configure your VNC server:</p>
+<ul>
+  <li><p>Make the VNC configuration directory by running the following:</p>
+    <ul>
+      <li><pre><tt>cd ~</tt></pre></li>
+      <li><pre><tt>mkdir .vnc</tt></pre></li>
+    </ul>
+  </li>
+  <li><p>Create and edit the file .vnc/xstartup to contain:</p>
+    <pre><code>
+    #!/bin/sh
+
+    vncconfig -iconic &amp;
+
+    unset SESSION_MANAGER
+    exec /etc/X11/xinit/xinitrc
+
+    [ -x /etc/vnc/xstartup ] &amp;&amp; exec /etc/vnc/xstartup
+    [ -r $HOME/.Xresources ] &amp;&amp; xrdb $HOME/.Xresources
+    xsetroot -solid grey
+    #vncconfig -iconic &amp;
+    xterm -geometry 80x50-50+150 -ls -title "$VNCDESKTOP Desktop" &amp;
+    twm &amp;
+    </code></pre>
+  </li>
+  <li><p>Make the xstartup file executable by running
+      <pre><tt>chmod 700 xstartup</tt></pre>
+  in the .vnc directory.</p>
+  </li>
+  <li><p>Choose a password you will use to connect to your VNC desktop by executing the following:</p>
+    <ul>
+      <li><pre><tt>cd ~</tt></pre></li>
+      <li><pre><tt>vncpasswd</tt></pre></li>
+    </ul>
+  </li>
+</ul>
+</li>
+<li><p>In your Putty terminal, start the VNC server session on the remote Unix machine with whatever
+resolution you desire with the following command:</p>
+<pre><tt>vncserver :XX -geometry 1024x768</tt></pre>
+</li>
+<ul>
+  <li><p>Here, you may find out that someone else has already chosen your number. You can try other
+  numbers here until you find one that works. Once you do, exit Putty. Start Putty again, load the
+  "ece_vnc" Putty session you saved, and update the numbers in the appropriate places as specified above.
+  You do not need to modify the VNC configurations you made on the remote Unix machine. Be sure to
+  reconnect your Putty terminal to the remote Unix machine before proceeding.</p></li>
+  <li><p>The VNC server session will remain active on the remote Unix machine even if you close Putty
+  and shutdown your Windows machine. It may deactivate if an administrator reboots the Unix machine or decides
+  to kill your VNC server session. You can kill the VNC server session manually with the following:</p>
+  <pre><tt>vncserver -kill :XX</tt></pre></li>
+</ul>
+<li><p>While your Putty terminal is still connected to the remote Unix machine, start the VNC client
+software you downloaded and installed on your Windows machine. In the VNC Server field, enter:
+<pre><tt>localhost:XX</tt></pre>
+Click connect. Leave username blank. In the password field, enter the password
+you chose above to connect to your VNC desktop. Don't forget your password.</p></li>
+<li><p>It is extremely advisable to save your files before ending your VNC session. You could lose data in the
+unlikely event that the remote machine goes offline.</p></li>
+<li><p>With VNC, you can now easily develop and test your Programming Lab Assignments in the Unix environment remotely.
+The default text editor, gedit, is easy to pick up and supports syntax highlighting for the C
+programming language (and many others). Get started with gcc <a href="gcc.html">here</a>,
+and take a look at the <a href="../labs.html">labs</a> page for other useful Unix links, such
+as getting started with the command line debugger for gcc, GDB.</p></li>
+</ol>
+<br/>
+<br/>
+</body>
+</html>

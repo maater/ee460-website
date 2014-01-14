@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Security of Your Files</title>
+<link rel="StyleSheet" type="text/css" href="../main.css" />
+</head>
+<body>
+<h1>Security of Your Files in Unix</h1>
+
+<h2>Motivation</h2>
+
+<p>For the labs in this class, you will be using the Unix environment. The Unix environment allows each user to control who has access to the information in the user's home directory. For the purpose of preventing cheating, it is your responsibility to prevent your work from being accessed by the general public. This note provides directions to keep your work for each lab assignment private by setting the permissions of your files in Unix.</p>
+
+<h2>Listing the Permissions</h2>
+
+<p>From a Unix shell, issue the command <tt>ls -l</tt> as follows:</p>
+
+<pre><tt>sunfire2.ece.utexas.edu% ls -l
+-rwxr--r--   1 abc      students       12 Sep  6 13:35 ExampleFile
+sunfire2.ece.utexas.edu%</tt></pre>
+
+<p>The <tt>ls</tt> command displays a listing of the files in the current working directory. The <tt>-l</tt> flag tells <tt>ls</tt> to provide a &ldquo;long listing,&rdquo; which includes the permissions associated with the file. The permissions show up on the left and in this case they are: <tt>rwxr--r--</tt>.</p>
+
+<p>An <tt>r</tt> indicates read permissions, a <tt>w</tt> write permissions, an <tt>x</tt> execute permissions and a <tt>-</tt> indicates a permission isn't granted. The permissions are broken into three sets of three: moving from left to right, the first set: <tt>rwx</tt> are the read, write and execute for the user; the second set: <tt>r--</tt>, are the read write and execute permissions for the group; and finally, the third set: <tt>r--</tt>, are the read, write and execute permissions for the public. For this set of permissions <tt>rwxr--r--</tt>, the user has read, write and execute permissions, but the group and the public have only read permission.</p>
+
+<h2>Changing a File's Permissions</h2>
+
+<p>You should set your permission such that only you, the user, has read, write and execute permission on your file. Use the following series of commands including the <tt>chmod</tt> command (change permissions mode) to change your files' permissions appropriately.</p>
+
+<pre><tt>sunfire2.ece.utexas.edu% ls -l
+-rw-r--r--   2 abc      students       12 Sep  6 13:35 assemble.c
+sunfire2.ece.utexas.edu% chmod 600 assemble.c
+sunfire2.ece.utexas.edu% ls -l
+-rw-------   2 abc      students       12 Sep  6 13:35 assemble.c
+sunfire2.ece.utexas.edu%</tt></pre>
+
+<p>The <tt>600</tt> is an octal representation for these permissions: <tt>rw-------</tt>. It's left as an exercise for the reader to explain this octal encoding.</p>
+
+<p>For further explanation see the man pages for <tt>ls</tt> and <tt>chmod</tt> or contact a TA.</p>
+</body>
+</html>
+
+
+ 

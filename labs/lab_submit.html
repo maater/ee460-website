@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignments Submission Instructions</title>
+<link rel="StyleSheet" type="text/css" href="../main.css" />
+</head>
+<body>
+
+<h2>EE460N: Instructions for Lab Assignment Submission</h2>
+
+<ol>
+<li>
+<p>SSH into grader1 with the following command and your ECE LRC user ID and
+password:</p>
+<pre><tt>ssh grader1.ece.utexas.edu</tt></pre>
+</li>
+<li>
+<p>After typing your username and password, submit your files with the
+following command:</p>
+<pre><tt>submit-ee360n <i>&lt;filename1&gt;</i> <i>&lt;filename2&gt;</i> <i>...</i></tt></pre>
+</li>
+<li>
+<p>You may check the files submitted with the following command:</p>
+<pre><tt>submit-ee360n -ls</tt></pre>
+</li>
+<ol>
+<li type="a">
+<p><b>This step is optional.</b> At this point, if you wish, you may get a
+free test of your program at no cost to you. You can do this step at most
+once. To do so, type the following command:</p>
+<pre><tt>submit-ee360n -test</tt></pre>
+<p>After you run this command <b>read the prompt carefully</b> to proceed
+with your test. Do NOT terminate your SSH session. After some time, you
+will receive a message displaying your score. If you are not happy with
+the test result score, you may update your program and restart at step 2
+to submit your changes, and proceed to step 4 to complete submission.
+However, you will not be able to perform this step (step 3a) again to test
+your program and receive a score. If you are happy with the score
+reported, you can immediately proceed to step 4.</p>
+<p><b>Groups (applicable to labs 1 and 2 only) are permitted a single Test for
+  both members. Attempts to abuse the system WILL be noticed. Violators of this
+  policy will NOT enjoy the consequences when caught.</b></p>
+</li>
+</ol>
+<li>
+<p>The final step in submitting your program for actual grading. <b>This
+  can only be done ONCE, and WILL determine your final grade on this
+  lab.</b> Generate your FINAL grade report with the following
+command:</p>
+<pre><tt>submit-ee360n -grade</tt></pre>
+<p>After you run this command <b>read the prompt carefully</b> to proceed with
+your grade report. You may terminate your SSH session if you wish. If you do
+not terminate your SSH session, after some time, you will receive a message
+displaying your full grade report, final score included.</p>
+</li>
+<li>
+<p>Please confirm your grade reported in step 4 with the following
+command:</p>
+<pre><tt>submit-ee360n -results <i>K</i></tt></pre>
+<p>Where <i>K</i> is the lab assignment number you are verifying results for.
+You can use this at any point in the semester to recheck your lab results
+whenever you wish.</p>
+</li>
+</ol>
+<p>Note 1: currently the submit script works only on grader1. </p>
+<p>Note 2: You may run:</p>
+<pre><tt>submit-ee360n</tt></pre>
+<p>(with no parameters, exactly as shown above) to display the various options
+submit-ee360n supports.</p>
+
+</body>
+</html>
