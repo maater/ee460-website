@@ -9,7 +9,7 @@
 <body>
 <h1>EE 460N Lab Assignments</h1>
 
-<h1>Enter semester</h1>
+<h1>Spring, 2014</h1>
 
 <hr />
 <h2>Useful Links</h2>
@@ -178,6 +178,24 @@ may just happen to behave correctly on our test cases. <strong>It is your
   <font color="red" size="-1">(last updated - 01/28/13)</font></li>
   --!>
 </ul>
+!-->
+<h2>Lab Assignment 0
+  <font color="red" size="-1">(last updated - 01/14/14)</font></h2>
+<p><em>Due: Jan 19,2014 11:59 pm</em></p>
+<ul>  
+  <li><a href="https://docs.google.com/a/utexas.edu/document/d/1Zs3BTt8EDvyHripQTq1bJuz5ZG38SaAqflIDEJwzHMs/edit?pli=1" title ="Lab1 instructions">Lab0 Instructions</a>
 
+<li><a href="labs/lab0/Lab0Regrade.new.html" title="Lab Assignment 0 regrade instructions">Regrade instructions</a>
+<font color="red" size="-1">(posted - 01/14/14)</font></li>
+
+
+<li><a href="labs/lab0/Lab0Submit.html" title="Lab Assignment 0 submission instructions">Submission instructions</a>
+  <font color="red" size="-1">(posted - 01/14/14)</font></li>
+<li><a href="labs/lab0/Lab0Functions.html" title="Lab Assignment 0 useful code">Useful code</a>
+<font color="red" size="-1">(posted - 01/14/14)</font></li>
+!-->
+
+<li><a href="labs/lab0/Lab0Clarifications.html" title="Lab Assignment 0 clarifications">Clarifications</a>
+  <font color="red" size="-1">(last updated - 01/14/14)</font></li>
 </body>
 </html>

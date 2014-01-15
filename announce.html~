@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N Announcements</title>
+<link rel="StyleSheet" type="text/css" href="main.css" />
+<link rel="StyleSheet" type="text/css" href="announce.css" />
+</head>
+<body>
+<h1>EE 460N Announcements</h1>
+<h1>Enter Semester</h1>
+<hr />
+<ul class="announcements">
+
+<li>
+<span class="date">XX/XX/XX</span>
+<h3>Annoucement</h3>
+<p>Details</p>
+</li>
+
+</ul>
+</body>
+</html>
+
+
+<!--
+<li>
+<span class="date">12/06/13</span>
+<h3>Problem Set 6 has been posted - Not Due</h3>
+<p>Please see the <a href="ps.html">PS</a>
+page.</p>
+</li>
+<li>
+<span class="date">11/27/13</span>
+<h3>Programming Lab 6 has been posted - Due Dec 6, 5:00 pm</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li>
+<li>
+<span class="date">11/21/13</span>
+<h3>Programming Lab 5 due date has been moved - Due Nov 26, 11:59 pm</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li>
+<li>
+<span class="date">11/04/13</span>
+<h3>Programming Lab 5 has been posted - Due Nov 24, 11:59 pm</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li>
+<li>
+<span class="date">09/20/13</span>
+<h3>Extra Office hours for Lab4 on Sunday Nov 4</h3>
+<p>Abhishek : 1-2.30pm</p>
+<p>Chirag   : 2.30-4pm</p>
+<p>Location : ENS Lounge 3rd floor</p>
+</li>
+<li>
+<span class="date">10/30/13</span>
+<h3>Problem Set 4 has been posted - Due Nov 11, before class 5 pm</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li>
+<li>
+<span class="date">10/21/13</span>
+<h3>Programming Lab 4 due date has been moved - Due Nov 3, 11:59 pm</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li>
+<li>
+<span class="date">10/07/13</span>
+<h3>Problem Set 3 has been posted - Due Oct 14, before class 5 pm</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li>
+<li>
+<span class="date">10/07/13</span>
+<h3>Programming Lab 4 has been posted - Due Oct 27, 11:59 pm</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li>
+<li>
+<span class="date">09/20/13</span>
+<h3>Extra Office hours for Lab3 on Sunday Oct 6</h3>
+<p>Chirag   : 12-1pm</p>
+<p>Abhishek : 1-2pm</p>
+<p>Stephen  : 2-3pm</p>
+<p>Location : ENS Lounge 3rd floor</p>
+</li>
+<li>
+<span class="date">09/23/13</span>
+<h3>Programming Lab 3 has been posted - Due Oct 6, 11:59 pm</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li>
+<li>
+<span class="date">09/20/13</span>
+<h3>Extra Office hours for Lab2 on Sunday Sept 22</h3>
+<p>Abhishek : 1-2pm</p>
+<p>Stephen  : 2-3pm</p>
+<p>Location : ENS Lounge 3rd floor</p>
+</li>
+<li>
+<span class="date">09/19/13</span>
+<h3>Problem Set 2 has been posted - Due Sept 30, before class 5 pm</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li>
+<li>
+<span class="date">09/18/13</span>
+<h3>Due to ECE IT service outage, if you are not able to login into your LRC account, you need to reset your LRC account pwd here <a href="https://utdirect.utexas.edu/apps/ece/db/acme">UT ECE LRC</a> </h3>
+<p>Also you can get your old data back from here "/mnt/archive_2013/[yourlogin]" </p>
+</li>
+<li>
+<span class="date">09/18/13</span>
+<h3>Problem Set1 Grades have been uploaded</h3>
+<p>Please check your grades and feeback on Blackboard</p>
+</li>
+<li>
+<span class="date">09/16/13</span>
+<h3>Programming Lab 2 has been posted - Due Sept 22, 11:59 pm</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li>
+
+<li>
+<span class="date">08/28/13</span>
+<h3>Discussion Sessions on Thursday 08/29/13 to cover basics of using Linux</h3>
+<p>Please visit the page <a href="https://utdirect.utexas.edu/apps/ece/db/acme">UT ECE LRC</a>
+to activate the ECE LRC account before the session.</p>
+!-->
+<!--
+<li>
+<span class="date">04/28/13</span>
+<h3>Programming Lab 6 has been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+
+<li>
+<span class="date">04/18/13</span>
+<h3>Programming Lab 5 has been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+
+<li>
+<span class="date">03/19/13</span>
+<h3>Programming Lab 4 has been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+
+<li>
+<span class="date">03/18/13</span>
+<h3>Lab testing instructions have been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+
+<li>
+<span class="date">02/03/13</span>
+<h3>Exam 1 Buzzwords have been posted.</h3>
+<p> 
+Please see the <a href="handouts.html">Handouts</a>
+page.</p>
+</li>
+
+<li>
+<span class="date">02/22/13</span>
+<h3>Weekend office hours have been posted</h3>
+<p> Note: office hours will be in ENS 313 (3rd floor lounge) instead of the usual room.
+Please see the <a href="faculty.html">Instructor and TA</a>
+page.</p>
+</li>
+
+<li>
+<span class="date">02/19/13</span>
+<h3>Problem Set 3 has been posted</h3>
+<p> Please see the <a href="ps.html">Problem Set</a>
+page.</p>
+</li>
+
+<li>
+<span class="date">02/19/13</span>
+<h3>Problem Set 2 solutions have been posted.</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a> page.</p>
+</li>
+
+<li>
+<span class="date">02/13/13</span>
+<h3>Programming Lab 3 has been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+  
+<li>
+<span class="date">02/11/13</span>
+<h3>Lab 1 Resubmission instructions have been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+
+<li>
+<span class="date">02/08/13</span>
+<h3>Extra Office Hours for Lab 2 have been posted.</h3>
+<p>Please see the <a href="faculty.html">Office Hours</a> page.</p>
+</li>
+
+  
+ 
+<li>
+<span class="date">02/01/13</span>
+<h3>Problem Set 1 solutions have been posted.</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a> page.</p>
+</li>
+
+<li>
+<span class="date">02/01/13</span>
+<h3>Problem Set 2 has been posted</h3>
+<p> Please see the <a href="ps.html">Problem Set</a>
+page.</p>
+</li>
+
+<li>
+<span class="date">01/17/13</span>
+<h3>TA office hours and sessions have been posted</h3>
+<p> Note: TA office hours do not start until the week of Jan 21, 2013. TA sessions start the first week of class.
+Please go to the TA session you are assigned to the first week of class. After the first week you are welcome
+ to change TA session. Please see the <a href="faculty.html">Instructor and TA</a>
+page.</p>
+</li>
+
+
+<li>
+<span class="date">09/04/13</span>
+<h3>Programming Lab 1 has been posted - Due Sep 15, 11:59 pm</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+<p>Submission and Testing instructions will be posted soon</p>
+</li>
+
+<li>
+<span class="date">09/04/13</span>
+<h3>Problem Set 1 has been posted - Due Sep 9, before class 5 pm</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li>
+<li>
+<span class="date">09/04/13</span>
+<h3>LC3b handouts</h3>
+<p>LC3b handouts have been posted <a href="handouts.html">Handouts</a>.</p>
+</li>
+<li>
+<span class="date">09/06/13</span>
+<h3>Lab Groups</h3>
+<p>Please fill your lab group information in the google doc <a href="https://docs.google.com/spreadsheet/ccc?key=0AlQqdQD-qkngdHAxN1ZLTEtVbTU3QjIzbEpfZFR5WEE&usp=sharing">Lab Groups</a>.</p>
+<p>People who are still looking for lab partners can also fill in their details and search for partners. </p>
+</li>
+<li>
+<span class="date">09/10/13</span>
+<h3>Lab1 submission instructions have now been posted</h3>
+<p>Please note that you have exactly 1 test run to check your score before final submission. Please refer to the submission instructions for details.</p>
+</li> 
+  
+<li>
+<span class="date">09/11/13</span>
+<h3>Lecture slides have been posted</h3>
+<p>Please see the <a href="handouts.html">Handouts</a> page.</p>
+</li> 
+<li>
+<span class="date">09/11/13</span>
+<h3>Problem Set 1 solutions have been posted</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li>
+<li>
+<span class="date">09/14/13</span>
+<h3>Abhishek will be holding Extra Office Hours for Lab 1 on Sunday 15th September from 1-2pm</h3>
+<p>Location : ENS Lounge 3rd floor</p>
+</li>
+<li>
+<span class="date">09/14/13</span>
+<h3>Some of the common queries for Lab1 have been included in the Email Archives Section</h3>
+<p>Please see the <a href="index.html">Home</a> page</p>
+</li>
+<li>
+<span class="date">09/14/13</span>
+<h3>Stephen will be holding Extra Office Hours for Lab 1 on Sunday 15th September from 2-3pm</h3>
+<p>Location : ENS Lounge 3rd floor</p>
+</li>
+<li>
+<span class="date">09/14/13</span>
+<h3>Chirag will be holding Extra Office Hours for Lab 1 on Sunday 15th September from 3-4pm</h3>
+<p>Location : ENS Lounge 3rd floor</p>
+</li>
+!-->
+<!--
+  
+<li>
+<span class="date">05/09/11</span>
+<h3>Spring 2009 Final Exam has been posted.</h3>
+<p>Please see the <a href="handouts.html">Handouts</a>
+page.</p>
+</li> 
+  
+<li>
+<span class="date">05/09/11</span>
+<h3>Problem Set 6 has been posted</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page. Solution to be posted Wednesday.</p>
+</li> 
+  
+<li>
+<span class="date">04/18/11</span>
+<h3>Problem Set 5 solutions have been posted.</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a> page.</p>
+</li> 
+  
+<li>
+<span class="date">04/15/11</span>
+<h3>Programming Lab 5 has been updated</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page. New submission deadline &amp; test script for Lab 4 available.</p>
+</li> 
+  
+<li>
+<span class="date">04/14/11</span>
+<h3>Problem Set 5 updated</h3>
+<p>Questions 7, 8 postponed.</p>
+</li> 
+  
+<li>
+<span class="date">04/11/11</span>
+<h3>Problem Set 5 has been posted</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li> 
+  
+<li>
+<span class="date">04/06/11</span>
+<h3>Programming Lab 5 has been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+  
+<li>
+<span class="date">03/29/11</span>
+<h3>Problem Set 4 solutions have been posted.</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a> page.</p>
+</li>
+
+<li>
+<span class="date">03/25/11</span>
+<h3>Problem Set 4 updated</h3>
+<p>Problem Set modified, please re-download the latest version.</p>
+</li> 
+  
+<li>
+<span class="date">03/22/11</span>
+<h3>Programming Lab 4 has been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+  
+<li>
+<span class="date">03/22/11</span>
+<h3>Problem Set 4 has been posted</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li> 
+  
+<li>
+<span class="date">03/07/11</span>
+<h3>Problem Set 3 solutions have been posted.</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a> page.</p>
+</li>
+
+<li>
+<span class="date">03/03/11</span>
+<h3>Problem Set 3 updated</h3>
+<p>Questions 5, 7, 8, and 9 postponed.</p>
+</li> 
+
+<li>
+<span class="date">02/28/11</span>
+<h3>Problem Set 3 has been posted</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li> 
+
+<li>
+<span class="date">02/28/11</span>
+<h3>Problem Set 2 solutions have been posted.</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a> page.</p>
+</li>
+ 
+<li>
+<span class="date">02/17/11</span>
+<h3>Problem Set 2 updated</h3>
+<p>Question 10 postponed.</p>
+</li> 
+    
+<li>
+<span class="date">02/17/11</span>
+<h3>Lab 1 Resubmission instructions have been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+  
+<li>
+<span class="date">02/16/11</span>
+<h3>Programming Lab 3 has been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+  
+<li>
+<span class="date">02/14/11</span>
+<h3>Problem Set 2 has been posted</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li>
+
+<li>
+<span class="date">02/10/11</span>
+<h3>VNC tutorial has been posted. Learn how to remotely access the ECE LRC Unix Machines.</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li>
+
+<li>
+<span class="date">02/07/11</span>
+<h3>Programming Lab 2 has been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li> 
+  
+<li>
+<span class="date">02/04/11</span>
+<h3>Extra Office Hours for Lab 1 have been posted.</h3>
+<p>Please see the <a href="faculty.html">Office Hours</a> page.</p>
+</li>
+ 
+<li>
+<span class="date">01/31/11</span>
+<h3>Problem Set 1 solutions have been posted.</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a> page.</p>
+</li>
+ 
+<li>
+<span class="date">01/27/11</span>
+<h3>Password Survery has been posted on Blackboard.</h3>
+<p>Please complete the password survey. This must be completed before your labs can be graded. See <a href="https://courses.utexas.edu">Blackboard</a> for details.</p>
+</li>
+
+<li>
+<span class="date">01/27/11</span>
+<h3>Problem Set 1 updated</h3>
+<p>Question 14 postponed.</p>
+</li>
+
+<li>
+<span class="date">01/24/11</span>
+<h3>Programming Lab 1 has been posted</h3>
+<p>Please see the <a href="labs.html">Labs</a>
+page.</p>
+</li>
+
+<li>
+<span class="date">01/19/11</span>
+<h3>Problem Set 1 has been posted</h3>
+<p>Please see the <a href="ps.html">Problem Sets</a>
+page.</p>
+</li>
+
+<li>
+<span class="date">01/19/11</span>
+<h3>TAs have been assigned discussion sections/office hours</h3>
+<p>Please see the <a href="faculty.html">Instructor and TA information</a>
+page.</p>
+</li>
+
+--!>
