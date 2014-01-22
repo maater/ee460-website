@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 1 Useful Functions</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<h1>Lab Assignment 1 Useful Functions</h1>
+
+<p>The following functions are provided for your benefit. Feel free
+to use them if you want. You are not required to use any of this code. It
+is provided to help you brush up on your C skills and to prevent you from spending a lot of effort writing a
+parser for your assembler.</p>
+
+<h2>Important</h2>
+<p>To use the code provided below you need to include the following files
+in your code:</p>
+
+<pre><code>#include &lt;stdio.h&gt; /* standard input/output library */
+#include &lt;stdlib.h&gt; /* Standard C Library */
+#include &lt;string.h&gt; /* String operations library */
+#include &lt;ctype.h&gt; /* Library for useful character operations */
+#include &lt;limits.h&gt; /* Library for definitions of common variable type characteristics */</code></pre>
+
+<h2>Parsing Command Line Arguments</h2>
+
+<pre><code>#include &lt;stdlib.h&gt;
+ 
+ int
+ main(int argc, char* argv[]) {
+
+     char *prgName   = NULL;
+     char *iFileName = NULL;
+     char *oFileName = NULL;
+
+     prgName   = argv[0];
+     iFileName = argv[1];
+     oFileName = argv[2];
+
+     printf("program name = '%s'\n", prgName);
+     printf("input file name = '%s'\n", iFileName);
+     printf("output file name = '%s'\n", oFileName);
+}</code></pre>
+
+<p>Here's a sample run:</p>
+	 
+<pre><tt>tick% assemble ThisGoesIn.asm ThisComesOut.obj
+program name = 'assemble'
+input file name = 'ThisGoesIn.asm'
+output file name = 'ThisComesOut.obj'</tt></pre>
+		 
+<p>Question for the reader, what happens when you run this program without any 
+command line arguments? How do you recommend fixing/preventing this problem?</p>
+
+<h2>Opening And Closing Files</h2>
+
+<pre><code>FILE* infile = NULL;
+FILE* outfile = NULL;
+
+int
+main(int argc, char* argv[]) {
+	
+     /* open the source file */
+     infile = fopen(argv[1], "r");
+     outfile = fopen(argv[2], "w");
+		 
+     if (!infile) {
+       printf("Error: Cannot open file %s\n", argv[1]);
+       exit(4);
+		 }
+     if (!outfile) {
+       printf("Error: Cannot open file %s\n", argv[2]);
+       exit(4);
+     }
+
+     /* Do stuff with files */
+
+     fclose(infile);
+     fclose(outfile);
+}</code></pre>
+
+<h2>Convert a String To a Number</h2>
+<p>Hex numbers must be in the form &ldquo;<code>x3000</code>&rdquo;, and decimal numbers must be
+in the form &ldquo;#30&rdquo;.</p>
+
+<!--
+<font color="red"><p>Updated 02/07/2009: A student pointed out a possible buffer overflow on lBuf if the argument pStr is too long. Thus, we provide changes to this function, highlighted in red. As
+	stated in the email from Prof. Patt, the use of this modified toNum function is optional.</p></font>
+<font color="red"><p>Updated 02/08/2009: Another student pointed out that our
+	fix would not always work with a 64-bit Linux compiler. Thus, we provide
+	another change to this function.</p></font>
+-->
+
+<pre><code>int
+toNum( char * pStr )
+{
+   char * t_ptr;
+   char * orig_pStr;
+   int t_length,k;
+   int lNum, lNeg = 0;
+   long int lNumLong;
+
+   orig_pStr = pStr;
+   if( *pStr == '#' )				/* decimal */
+   { 
+     pStr++;
+     if( *pStr == '-' )				/* dec is negative */
+     {
+       lNeg = 1;
+       pStr++;
+     }
+     t_ptr = pStr;
+     t_length = strlen(t_ptr);
+     for(k=0;k &lt; t_length;k++)
+     {
+       if (!isdigit(*t_ptr))
+       {
+	 printf("Error: invalid decimal operand, %s\n",orig_pStr);
+	 exit(4);
+       }
+       t_ptr++;
+     }
+     lNum = atoi(pStr);
+     if (lNeg)
+       lNum = -lNum;
+ 
+     return lNum;
+   }
+   else if( *pStr == 'x' )	/* hex     */
+   {
+     pStr++;
+     if( *pStr == '-' )				/* hex is negative */
+     {
+       lNeg = 1;
+       pStr++;
+     }
+     t_ptr = pStr;
+     t_length = strlen(t_ptr);
+     for(k=0;k &lt; t_length;k++)
+     {
+       if (!isxdigit(*t_ptr))
+       {
+	 printf("Error: invalid hex operand, %s\n",orig_pStr);
+	 exit(4);
+       }
+       t_ptr++;
+     }
+     lNumLong = strtol(pStr, NULL, 16);    /* convert hex string into integer */
+     lNum = (lNumLong &gt; INT_MAX)? INT_MAX : lNumLong;
+     if( lNeg )
+       lNum = -lNum;
+     return lNum;
+   }
+   else
+   {
+	printf( "Error: invalid operand, %s\n", orig_pStr);
+	exit(4);  /* This has been changed from error code 3 to error code 4, see clarification 12 */
+   }
+}</code></pre>
+
+<h2>Parsing Assembly Language</h2>
+
+<p>Take a line of the input file and parse it into corresponding
+fields. Note that you need to write the <code>isOpcode(char*)</code> function which 
+determines whether a string of characters is a valid opcode.</p>
+<pre><code>	#define MAX_LINE_LENGTH 255
+	enum
+	{
+	   DONE, OK, EMPTY_LINE
+	};
+
+	int
+	readAndParse( FILE * pInfile, char * pLine, char ** pLabel, char
+	** pOpcode, char ** pArg1, char ** pArg2, char ** pArg3, char ** pArg4
+	)
+	{
+	   char * lRet, * lPtr;
+	   int i;
+	   if( !fgets( pLine, MAX_LINE_LENGTH, pInfile ) )
+		return( DONE );
+	   for( i = 0; i &lt; strlen( pLine ); i++ )
+		pLine[i] = tolower( pLine[i] );
+	   
+           /* convert entire line to lowercase */
+	   *pLabel = *pOpcode = *pArg1 = *pArg2 = *pArg3 = *pArg4 = pLine + strlen(pLine);
+
+	   /* ignore the comments */
+	   lPtr = pLine;
+
+	   while( *lPtr != ';' &amp;&amp; *lPtr != '\0' &amp;&amp;
+	   *lPtr != '\n' ) 
+		lPtr++;
+
+	   *lPtr = '\0';
+	   if( !(lPtr = strtok( pLine, "\t\n ," ) ) ) 
+		return( EMPTY_LINE );
+
+	   if( isOpcode( lPtr ) == -1 &amp;&amp; lPtr[0] != '.' ) /* found a label */
+	   {
+		*pLabel = lPtr;
+		if( !( lPtr = strtok( NULL, "\t\n ," ) ) ) return( OK );
+	   }
+	   
+           *pOpcode = lPtr;
+
+	   if( !( lPtr = strtok( NULL, "\t\n ," ) ) ) return( OK );
+	   
+           *pArg1 = lPtr;
+	   
+           if( !( lPtr = strtok( NULL, "\t\n ," ) ) ) return( OK );
+
+	   *pArg2 = lPtr;
+	   if( !( lPtr = strtok( NULL, "\t\n ," ) ) ) return( OK );
+
+	   *pArg3 = lPtr;
+
+	   if( !( lPtr = strtok( NULL, "\t\n ," ) ) ) return( OK );
+
+	   *pArg4 = lPtr;
+
+	   return( OK );
+	}
+
+	/* Note: MAX_LINE_LENGTH, OK, EMPTY_LINE, and DONE are defined values */</code></pre>
+<p>To call <code>readAndParse</code>, you would use the following:</p>
+<pre><code>	func() 
+	{
+	   char lLine[MAX_LINE_LENGTH + 1], *lLabel, *lOpcode, *lArg1,
+	        *lArg2, *lArg3, *lArg4;
+
+	   int lRet;
+
+	   FILE * lInfile;
+
+	   lInfile = fopen( "data.in", "r" );	/* open the input file */
+
+	   do
+	   {
+		lRet = readAndParse( lInfile, lLine, &amp;lLabel,
+			&amp;lOpcode, &amp;lArg1, &amp;lArg2, &amp;lArg3, &amp;lArg4 );
+		if( lRet != DONE &amp;&amp; lRet != EMPTY_LINE )
+		{
+			...
+		}
+	   } while( lRet != DONE );
+	}</code></pre>
+ 
+<h2>File Output</h2>
+
+<p>To write to your output file, you can use the following:</p>
+<pre><code>	FILE * pOutfile;
+	pOutfile = fopen( "data.out", "w" );
+	
+	...
+
+	fprintf( pOutfile, "0x%0.4X\n", lInstr );	/* where lInstr is declared as an int */</code></pre>
+</body>
+</html>
