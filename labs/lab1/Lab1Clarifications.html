@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 1 Clarifications</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<h1>Lab Assignment 1 Clarifications</h1>
+
+<ol>
+<li><p>Constants can be expressed in hex or in decimal.  Hex constants consist
+of an &lsquo;x&rsquo; or &lsquo;X&rsquo; followed by one or more hex digits.  Decimal constants
+consist of a &lsquo;#&rsquo; followed by one or more decimal digits.  Negative constants
+are identified by a minus sign immediately after the &lsquo;x&rsquo; or &lsquo;#&rsquo;. For example, <code>#-10</code>
+is the negative of decimal 10 (i.e., -10), and <code>x-10</code> is the negative of <code>x10</code> (i.e. -16).</p>
+
+<p>Since the sign is explicitly specified, the rest of the constant is treated as
+an unsigned number.  For example, <code>x-FF</code> is equivalent to -255.  The &lsquo;x&rsquo; tells us
+the number is in hex, the &lsquo;-&rsquo; tells us it is a negative number, and &ldquo;FF&rdquo; is treated
+as an unsigned hex number (i.e., 255).  Putting it all together gives us -255.</p>
+</li>
+<li><p>Your assembler does not have to check for multiple <code>.ORIG</code> pseudo-ops.</p>
+</li>
+<li><p>Since the <code>.END</code> pseudo-op is used to designate the end of the assembly
+language file, your assembler does not need to process anything that comes
+after the <code>.END</code>.</p>
+</li>
+<li><p>The trap vector for a <code>TRAP</code> instruction and the shift amount for <code>SHF</code>
+instructions must be non-negative values. If they are not, you should return
+error code 3.</p>
+</li>
+<li><p>The same label should not appear in the symbol table more than once. During
+pass 1 of the assembly process, you should check to make sure a label is not 
+already in the symbol table before adding it to the symbol table.  If the label
+is already in the symbol table, you should return error code 4.</p>
+</li>
+<li><p>An invalid label (i.e., one that contains non-alphanumeric characters, or 
+one that starts with the letter &lsquo;x&rsquo; or a number) is another example of error
+code 4.</p>
+</li>
+<li><p>The standard C function <a href="http://www.cppreference.com/stdstring/isalnum.html">
+<code>isalnum()</code></a> can be used to check if a character is alphanumeric.</p>
+</li>
+<li><p>After you have gone through the input file for pass 1 of the assembler and
+your file pointer is at the end of the file, there are two ways you can get the
+file pointer back to the beginning.  You can either close and reopen the file or
+you can use the standard C I/O function <a href="http://www.cppreference.com/stdio/rewind.html">
+<code>rewind()</code></a>.</p>
+</li>
+<li><p>The following definitions can be used to create your symbol table:</p>
+<pre><code>#define MAX_LABEL_LEN 20
+#define MAX_SYMBOLS 255
+
+typedef struct{
+  int address;
+  char label[MAX_LABEL_LEN + 1];   /*Question for the reader: Why do we need to add 1? */
+} TableEntry;
+
+TableEntry symbolTable[MAX_SYMBOLS];</code></pre>
+</li>
+<li><p>To check if two strings are the same, you can use the standard C string function
+<a href="http://www.cppreference.com/stdstring/strcmp.html"><code>strcmp()</code></a>. To copy one
+string to another, you can use the standard C string function
+<a href="http://www.cppreference.com/stdstring/strcpy.html"><code>strcpy()</code></a>.</p>
+</li>
+<li><p>If you decide to use any of the math functions in math.h, you also have to link the math library by using the command <code>gcc -lm -ansi -o assemble assembler.c</code>.</p>
+</li>
+<li><p>When your assembler finds an error in the input assembly language program,
+it is not required that you print out an error message to the screen. If you
+choose to do this to make debugging easier, that is fine.  What is required
+is that you exit with the appropriate error code. This is what we will be
+checking for when we grade your program; we will ignore anything that is 
+printed to the screen.</p></li>
+<li><p>An assembly program which starts with comments before <code>.ORIG</code> is valid and your assembler should ignore them. You can assume that there will be no label in front of <code>.ORIG</code> and <code>.END</code> in the same line.</p> 
+</li>
+
+<li><p>Your assembler needs to be able to assemble programs which begin at any point in the LC-3b's 16-bit address space.
+While user programs start from x3000 and continue until xFDFF, the assembler could be used to assemble system code as well. 
+The assembler doesn't have enough information when it is assembling the program to determine how the program will be used. In future labs, we will develop what happens if a user tries to access a protected region of memory.</p></li>
+
+<li><p>.FILL can take an address, signed number, or unsigned number.</p></li>
+
+<li><p>The trap vector for a TRAP instruction should be a hex number.</p></li>
+
+<font color=red>Updated: 1/28/13</font>
+<li><p>If <font color=red><strike>a single line</strike> the program</font>
+contains multiple errors, feel free to exit with the appropriate error code for
+any of the errors <font color=red><strike>that line</strike> the program</font>
+contains.</p></li>
+</ol>
+
+</body>
+</html>
