@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 6 - Pipelining</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<center>
+<h2>Department of Electrical and Computer Engineering</h2>
+<h3>The University of Texas at Austin</h3>
+</center>
+
+EE 460N, Spring 2013<br />
+Lab Assignment 6<br />
+Due: Friday, May 3, 2013, 5:00 pm<br />
+Yale N. Patt, Instructor<br />
+Faruk Guvenilir, Sumedha Bhangale, Stephen Pruett, TAs<br />
+
+<h2>Introduction</h2>
+
+<p>For this assignment, you will write a simulator for the pipelined
+LC-3b. The simulator will take two input files:</p>
+
+<ol>
+<li>A file entitled <tt>ucode</tt> which holds the control store that is
+      located in the DE stage of the pipeline.</li>
+<li>A file entitled <tt>isaprogram</tt> holding an assembled LC-3b program.</li>
+</ol>
+
+<p>The simulator will execute the input LC-3b program using the control
+store and the code you write inside the simulator functions to direct
+the simulation of the datapath and memory components of the LC-3b.</p>
+
+<p>Note: The file <tt>isaprogram</tt> is the output you generated in Lab
+Assignment 1. This file should consist of 4 hex characters per
+line. Each line of 4 hex characters should be prefixed with &lsquo;0x&rsquo;. For
+example, the instruction <code>NOT R1, R6</code> would have been assembled to
+<code>1001001110111111</code>. This instruction would be represented in the
+isaprogram file as <code>0x93BF</code>. The file ucode is an ASCII file that
+consists of 64 rows and 23 columns of zeros and ones.</p>
+
+<p>Similar to the simulator you used in Lab 3, the simulator for this lab
+is partitioned into two main sections, the shell, which allows a user
+to control the simulator, and the simulation routines, which carry out
+the simulation.</p>
+
+<h2>The Shell</h2>
+
+<p>The purpose of the shell is to provide the user with commands to
+control the execution of the simulator. In order to extract
+information from the simulator, a file named <tt>dumpsim</tt> will be created
+to hold information requested from the simulator. The shell supports
+the following commands:</p>
+
+<ol>
+<li>go &ndash; simulate the program until a HALT instruction is executed.</li>
+<li>run &lt;n&gt; &ndash; simulate the execution of the machine for n cycles</li>
+<li>mdump &lt;low&gt; &lt;high&gt; &ndash; dump the contents of memory, from location low to location high, to the screen and the dump file.</li>
+<li>rdump &ndash; dump the current cycle count, the contents of R0&ndash;R7, PC, condition codes to the screen and the dump file.</li>
+<li>idump &ndash; dump the current cycle count, the contents of R0&ndash;R7, PC,
+      condition codes, and the state of the pipeline latches to the screen and the
+      dump file. This function also dumps the values of stall signals.</li>
+<li>? &ndash; print out a list of all shell commands.</li>
+<li>quit &ndash; quit the shell</li>
+</ol>
+
+<p>Do not change any of the code related to the shell. We will be using
+these functions to grade your program and our grading script expects
+the output format provided by these functions.</p>
+
+<h2>The Simulation Routines</h2>
+
+<p>The simulator simulates one processor cycle via the <code>cycle()</code>
+function. This function calls the following functions, each of which
+corresponds to one of the stages in the pipeline:</p>
+
+<ol>
+<li><code>FETCH_stage();</code></li>
+<li><code>DE_stage();</code></li>
+<li><code>AGEX_stage();</code></li>
+<li><code>MEM_stage();</code></li>
+<li><code>SR_stage();</code></li>
+</ol>
+
+<p>The <code>SR_stage()</code> function has been written for you to get you started. Your
+job is to write the remaining four functions. Note: For each stage,
+your code must fully implement the structures in that stage of the
+pipeline. Refer to the description of the pipeline, the figures of the
+pipeline stages, and the list of control signals to figure out what to
+implement in each pipeline stage.</p>
+
+<p>The simulator code provided contains two structures that hold the
+state of the pipeline latches: <code>PS</code> and <code>NEW_PS</code>. <code>PS</code> contains the state of
+the pipeline latches during the current clock cycle. <code>NEW_PS</code> contains the new
+values of the pipeline latches that will be latched at the end of the
+current clock cycle. At the end of each cycle, <code>NEW_PS</code> is assigned to
+<code>PS</code> (<code>PS = NEW_PS</code>) to simulate the latching of data values into the pipeline
+registers. You need to make use of these structures while writing the
+simulation routines. When you need to read a value from a pipeline
+latch, you need to read it from the <code>PS</code> structure. When you need to
+update the value in a pipeline latch, you should update it in the
+<code>NEW_PS</code> structure. In other words, the <code>PS</code> structure should always be used
+in the right-hand side of an assignment statement, and the <code>NEW_PS</code> structure
+should always be used on the left-hand side of an assignment
+statement. Please carefully examine the code related to these two
+structures as you have to use them in the code you write.</p>
+
+<p>We have also provided you with interfaces to the instruction and data
+caches: <code>icache_access</code> and <code>dcache_access</code> functions. You must use these
+functions to perform accesses to the I-Cache and the D-Cache.</p>
+
+<h2>What To Do</h2>
+
+<p>First, read and understand the documentation
+for the pipelined version of LC-3b you are going to implement. You may download
+it from the link below:</p>
+
+<blockquote>
+<a href="lab6_documentation.pdf" title="Lab Assignment 6 Documentation"><tt>lab6_documentation.pdf</tt></a>
+</blockquote>
+
+<p>Your job is to implement the pipelined LC-3b microarchitecture exactly
+as it is described in the above documentation. Some of the logic
+blocks in the pipeline are left for you to implement. It is advisable
+that you design these logic blocks on paper before you start writing
+the simulator code.</p>
+
+<p>The shell has been written for you. From your ECE LRC account, copy
+the following file to your work directory:</p>
+
+<blockquote>
+<a href="lc3bsim6.c"><tt>lc3bsim6.c</tt></a>
+</blockquote>
+
+<p>At present, the shell reads in the control store and input program and
+initializes the machine. It is your responsibility to write the
+correct control store file and to augment the shell with the
+simulation routines that simulate the activity of the pipelined
+LC-3b. In particular, you are to write the code to perform the
+activities of the first four pipeline stages as described above.</p>
+
+<p>Add your code to the end of the shell code. Do not modify the shell code.</p>
+
+<p>The accuracy of your simulator is your main priority. It is suggested
+that you start out by writing a one instruction program and simulating
+the execution of this program cycle by cycle using the idump command
+to verify that the instruction propagates correctly through the
+pipeline. We suggest that you start out by making sure a simple
+instruction, like an ADD, flows correctly through the pipeline. Then
+you can move on to more complicated instructions like loads and
+branches. Try instructions one by one to make sure each works as it is
+supposed to. After you get the memory and control instructions working
+correctly, you can try more complicated programs that contain
+dependencies and test whether or not your pipeline stalls correctly.</p>
+
+<p>You are not responsible for implementing the RTI instruction. You are
+also not required to support exception/interrupt handling, although
+you are encouraged to think about the issues related to the handling
+of exceptions and interrupts on a pipelined microarchitecture.</p>
+
+<p>Because we will be evaluating your code in Unix, you must be sure your
+code compiles on one of the ECE Linux machines 
+using gcc with the <tt>-ansi</tt> flag and runs
+correctly. This means that you need to write your code in C such that
+it conforms to the ANSI C standard. If the value of a control signal
+is a don't care, you should set that signal to 0. We will be checking
+the state of the internal pipeline latches and architectural state
+when testing your simulator. <strong>To receive full
+credit, the values stored in these latches by your simulator should
+exactly match the values stored in these latches by a correct
+simulator.</strong></p>
+
+<h2>What To Turn In</h2>
+
+<p>Please submit your lab assignment electronically on grader1.
+You will submit the following:</p>
+
+<ol>
+<li><tt>lc3bsim6.c</tt> &ndash; adequately documented source code of your simulator.</li>
+<li><tt>ucode6</tt> &ndash; microcode file.</li>
+</ol>
+
+<h2>Optional: Support for Exceptions</h2>
+
+<p>For this lab, you may optionally implement support for exceptions and the
+RTI instruction. <b>Note that implementing these optional additions will
+  receive no extra credit; this is merely for those students who wish to
+  challenge themselves as an additional learning experience.</b> Before
+implementing exception support into the pipeline, please first complete the
+basic pipeline functionality.</p>
+
+<p>As a starting point for exception support in the LC-3b pipeline, we
+recommend making many simplifying assumptions. First, begin with support for
+only two kinds of exceptions: unknown opcode and unaligned access (LDW/STW only
+initially). The unknown opcode exception should use exception vector x01, and
+the unaligned access exception should use exception vector x02.</p>
+
+<p>Assume that all programs will only execute in Supervisor Mode with
+PSR[15]=0. Thus, no support for two levels of privilege will be required. As a
+consequence, assume that R6 will always contain the Supervisor Stack Pointer;
+thus, no switching of stack pointers will be necessary.</p> 
+
+<p>Note that both RTI and the steps to initiate the exception handler are
+complex processes: they each require multiple memory accesses, stack pointer
+modification, and change in PC. The current LC-3b pipeline resolves control
+instructions in the MEM stage of the pipeline. Because all exceptions can be
+detected by this stage, modifying the pipeline to support exceptions will
+require an additional exception state machine in the MEM stage. We can add
+additional bits to the MEM stage Pipeline Registers to keep track of whether an
+exception has been detected, and which state of exception processing the MEM
+stage is currently carrying out in the case of a detected exception. RTI can be
+implemented with a similar state machine in the decode stage of the pipeline.
+These state machines will stall the pipeline until they complete.</p>
+
+<p>To support the stack operations required by the RTI instruction and the
+exception handler setup steps, it is easiest to assume the MEM stage has access
+to direct R6 read and write ports from the Register File. Appropriate
+dependency stall logic will need to be included to wait on previous
+instructions' potential writes to R6. Similar design principles can be applied
+to the CC (which need to be saved/restored onto the System Stack as part of the
+PSR).</p>
+
+<p>Both the RTI instruction and the exception handler setup steps will
+require additional logic to ensure earlier stages of the pipeline are properly
+invalidated; this can be implemented similarly to the BR.STALL mechanism used
+by all control instructions currently in the pipeline. One challenge to
+consider is that while an RTI can be detected at the same time as other control
+instructions, memory exceptions cannot be detected until AGEX.</p>
+
+<p>Please contact the TA Faruk for additional details if you wish to implement
+support for exceptions.</p>
+
+</body>
+</html>

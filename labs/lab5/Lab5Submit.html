@@ -1,0 +1,78 @@
+<html>
+
+<head>
+<title>EE 360N - Lab Submission Instructions</title>
+</head>
+
+<body bgcolor="white">
+
+<center>
+<h2>Department of Electrical and Computer Engineering</h2>
+<h3>The University of Texas at Austin</h3>
+</center>
+
+
+EE 360N, Fall 2005<br>
+Submission Instructions for Lab Assignment 5<br>
+Due: November 29 2005, 11:59 pm<br>
+<p>
+
+You must use the following naming convention for the files in Lab 5.
+<ul>
+<li>
+lc3bsim5.c - The C source code for your LC-3b simulator.
+</li>
+<li>
+ucode5      - The microcode file for your simulator
+</li>
+<li>
+dumpsim     -  The dumpsim file created as specified in the Lab 3 Assignment page.
+</li>
+<li>
+int.asm, vector_table.asm, except_prot.asm, add.asm, data.asm, pagetable.asm, except_pf.asm  - The assembly language files for the interrupt service routine, the interrupt/exception vector table, the protection exception handler, the user program, the data for locations xC000-xC013, page table, and page fault exception handler.
+</li>
+<li>
+int.hex, vector_table.hex, except_prot.hex, add.hex, data.hex, pagetable.hex, except_pf.hex  - The machine code for the interrupt service routine, the interrupt/exception vector table, the protection exception handler, the user program, the data for locations xC000-xC013, page table, and page fault exception handler.
+</li>
+<li>
+readme.txt or readme.ps or readme.pdf or readme.tar - A printable file showing the changes you have implemented in the datapath. This file can be in the following formats - text, postscript, PDF or HTML with images. <font color="red"> Please submit a hardcopy of your documentation in class on Wednesday November 30.</font>
+</li>
+</ul>
+You may not submit more than 18 files for Lab 5.
+<p>
+NOTE: 
+<li>Please confirm that your file compiles by running gcc -ansi lc3bsim5.c on any ECE linux machine (linux01-linux24.ece.utexas.edu) before submitting your program.
+</ul>
+
+<br>
+Before the deadline, you may resubmit any of the files without penalty. Every time you resubmit a file, the
+original file is overwritten.
+<br>
+
+Instructions for submission:<br>
+
+<OL>
+<li>
+SSH into sunfire1 with the following command:
+<br>
+ssh sunfire1.ece.utexas.edu<br>
+<br>
+<li>
+After typing your username and password, submit your files with the<br>
+following
+command:<br>
+<br>
+submit-ee360n lc3bsim5.c ucode5 dumpsim <br>
+( This command is to submit the first 3 files. The remaining can be submitted by changing the names of the files. )
+
+<br>
+<br>
+<li>
+You may check the files submitted with the following command:<br>
+<br>
+submit-ee360n -ls<br>
+<br>
+</ol>
+
+</body>
+</html>

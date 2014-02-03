@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 3 Example</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<h1>EE460N: Lab Assignment 3 Example</h1>
+<h2>Assembly file</h2>
+<pre><code>   .ORIG x3000
+   AND R0, R0, #0
+   HALT
+   .END</code></pre>
+<h2>Object file</h2>
+<pre><code>0x3000
+0x5020
+0xF025</code></pre>
+
+<h2>Dumpsim output after running each cycle for the AND instruction</h2>
+
+<p>This dumpsim output was obtained by repeating the commands <tt>run 1</tt> and <tt>rdump</tt> 9 times.</p>
+
+<pre>Current register/bus values :
+-------------------------------------
+Cycle Count  : 1
+PC           : 0x3002
+IR           : 0x0000
+STATE_NUMBER : 0x0021
+
+BUS          : 0x3000
+MDR          : 0x0000
+MAR          : 0x3000
+CCs: N = 0  Z = 1  P = 0
+Registers:
+0: 0x0000
+1: 0x0000
+2: 0x0000
+3: 0x0000
+4: 0x0000
+5: 0x0000
+6: 0x0000
+7: 0x0000
+
+
+Current register/bus values :
+-------------------------------------
+Cycle Count  : 2
+PC           : 0x3002
+IR           : 0x0000
+STATE_NUMBER : 0x0021
+
+BUS          : 0x0000
+MDR          : 0x0000
+MAR          : 0x3000
+CCs: N = 0  Z = 1  P = 0
+Registers:
+0: 0x0000
+1: 0x0000
+2: 0x0000
+3: 0x0000
+4: 0x0000
+5: 0x0000
+6: 0x0000
+7: 0x0000
+
+
+Current register/bus values :
+-------------------------------------
+Cycle Count  : 3
+PC           : 0x3002
+IR           : 0x0000
+STATE_NUMBER : 0x0021
+
+BUS          : 0x0000
+MDR          : 0x0000
+MAR          : 0x3000
+CCs: N = 0  Z = 1  P = 0
+Registers:
+0: 0x0000
+1: 0x0000
+2: 0x0000
+3: 0x0000
+4: 0x0000
+5: 0x0000
+6: 0x0000
+7: 0x0000
+
+
+Current register/bus values :
+-------------------------------------
+Cycle Count  : 4
+PC           : 0x3002
+IR           : 0x0000
+STATE_NUMBER : 0x0021
+
+BUS          : 0x0000
+MDR          : 0x0000
+MAR          : 0x3000
+CCs: N = 0  Z = 1  P = 0
+Registers:
+0: 0x0000
+1: 0x0000
+2: 0x0000
+3: 0x0000
+4: 0x0000
+5: 0x0000
+6: 0x0000
+7: 0x0000
+
+
+Current register/bus values :
+-------------------------------------
+Cycle Count  : 5
+PC           : 0x3002
+IR           : 0x0000
+STATE_NUMBER : 0x0021
+
+BUS          : 0x0000
+MDR          : 0x0000
+MAR          : 0x3000
+CCs: N = 0  Z = 1  P = 0
+Registers:
+0: 0x0000
+1: 0x0000
+2: 0x0000
+3: 0x0000
+4: 0x0000
+5: 0x0000
+6: 0x0000
+7: 0x0000
+
+
+Current register/bus values :
+-------------------------------------
+Cycle Count  : 6
+PC           : 0x3002
+IR           : 0x0000
+STATE_NUMBER : 0x0023
+
+BUS          : 0x0000
+MDR          : 0x5020
+MAR          : 0x3000
+CCs: N = 0  Z = 1  P = 0
+Registers:
+0: 0x0000
+1: 0x0000
+2: 0x0000
+3: 0x0000
+4: 0x0000
+5: 0x0000
+6: 0x0000
+7: 0x0000
+
+
+Current register/bus values :
+-------------------------------------
+Cycle Count  : 7
+PC           : 0x3002
+IR           : 0x5020
+STATE_NUMBER : 0x0020
+
+BUS          : 0x5020
+MDR          : 0x5020
+MAR          : 0x3000
+CCs: N = 0  Z = 1  P = 0
+Registers:
+0: 0x0000
+1: 0x0000
+2: 0x0000
+3: 0x0000
+4: 0x0000
+5: 0x0000
+6: 0x0000
+7: 0x0000
+
+
+Current register/bus values :
+-------------------------------------
+Cycle Count  : 8
+PC           : 0x3002
+IR           : 0x5020
+STATE_NUMBER : 0x0005
+
+BUS          : 0x0000
+MDR          : 0x5020
+MAR          : 0x3000
+CCs: N = 0  Z = 1  P = 0
+Registers:
+0: 0x0000
+1: 0x0000
+2: 0x0000
+3: 0x0000
+4: 0x0000
+5: 0x0000
+6: 0x0000
+7: 0x0000
+
+
+Current register/bus values :
+-------------------------------------
+Cycle Count  : 9
+PC           : 0x3002
+IR           : 0x5020
+STATE_NUMBER : 0x0012
+
+BUS          : 0x0000
+MDR          : 0x5020
+MAR          : 0x3000
+CCs: N = 0  Z = 1  P = 0
+Registers:
+0: 0x0000
+1: 0x0000
+2: 0x0000
+3: 0x0000
+4: 0x0000
+5: 0x0000
+6: 0x0000
+7: 0x0000</pre>
+
+</body>
+</html>

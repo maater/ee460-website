@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 2</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<center>
+<h2>Department of Electrical and Computer Engineering</h2>
+<h3>The University of Texas at Austin</h3>
+</center>
+
+EE 460N, Spring 2013<br />
+Lab Assignment 2<br />
+Due: Sunday, February 10, 11:59 pm<br />
+Yale N. Patt, Instructor<br />
+Faruk Guvenilir, Sumedha Bhangale, Stephen Pruett, TAs<br />
+
+<h2>Introduction</h2>
+
+<p>For this assignment, you will write an instruction-level simulator for the LC-3b. The
+simulator will take one input file entitled <tt>isaprogram</tt>, which is an assembled LC-3b program.</p>
+
+<p>The simulator will execute the input LC-3b program, one instruction at a time,
+modifying the architectural state of the LC-3b after each instruction.</p>
+
+<p>Note: The file <tt>isaprogram</tt> is the output file from Lab
+Assignment 1. This file should consist of 4 hex characters per
+line. Each line of 4 hex characters should be prefixed with '0x'. For
+example, the instruction <code>NOT R1, R6</code> is assembled to
+<code>1001001110111111</code>. This instruction would be represented in the
+<tt>isaprogram</tt> file as <code>0x93BF</code>.</p>
+
+<p>The simulator is partitioned into two main sections: the shell and the simulation
+routines. We are providing you with the shell. Your job is to write the simulation routines.</p>
+
+<h2>The Shell</h2>
+
+<p>The purpose of the shell is to provide the user with commands to
+control the execution of the simulator. The shell accepts one or more
+ISA programs as arguments and loads them into the memory image.  
+In order to extract information from the simulator, a file named <tt>dumpsim</tt> will be created
+to hold information requested from the simulator. The shell supports
+the following commands:</p>
+
+<ol>
+<li><tt>go</tt> &ndash; simulate the program until a HALT instruction is executed. </li>
+<li><tt>run &lt;n&gt;</tt> &ndash; simulate the execution of the machine for n instructions </li>
+<li><tt>mdump &lt;low&gt; &lt;high&gt;</tt> &ndash; dump the contents of memory, from location <b>low</b> to location <b>high</b> to the screen and the dump file </li>
+<li><tt>rdump</tt> &ndash; dump the current instruction count, the contents of R0&ndash;R7, PC, and condition codes to the screen and the dump file. </li>
+<li><tt>?</tt> &ndash; print out a list of all shell commands. </li>
+<li><tt>quit</tt> &ndash; quit the shell </li>
+</ol>
+
+<h2>The Simulation Routines</h2>
+
+<p>The simulation routines carry out the instruction-level simulation of the 
+input LC-3b program. During the execution of an instruction, the 
+simulator should take the current architectural state 
+and modify it according to the ISA description 
+of the instruction in <a href="../../handouts/new_byte.pdf">Appendix A</a>. The
+architectural state includes the PC, the general purpose registers, the condition
+codes and the memory image. The state is modeled by the following C code:</p>
+
+<pre><code>#define WORDS_IN_MEM    0x08000 
+#define LC_3b_REGS 8
+
+typedef struct System_Latches_Struct{
+
+  int PC,                /* program counter */
+    N,                   /* n condition bit */
+    Z,                   /* z condition bit */
+    P;                   /* p condition bit */
+  int REGS[LC_3b_REGS];  /* register file. */
+} System_Latches;
+
+int MEMORY[WORDS_IN_MEM][2];</code></pre>
+
+<p>The shell code we provide includes the skeleton of a function named <code>process_instruction</code>,
+which is called by the shell to simulate the next instruction. You have to write the code for <code>process_instruction</code> 
+to simulate the execution of instructions. You can also write additional functions to make the simulation modular.</p>
+
+<h2>What To Do</h2>
+
+<p>The shell has been written for you. From your ECE LRC account, copy
+the following file to your work directory:</p>
+
+<blockquote>
+<tt><a href="lc3bsim2.c">lc3bsim2.c</a></tt>
+</blockquote>
+
+<p>At present, the shell reads in the input program and initializes the 
+machine state. It is your responsibility to complete the 
+simulation routines that simulate the instruction execution of the LC-3b.</p>
+
+<p>Add your code to the end of the shell code. Do not modify the shell
+code.</p>
+
+<p>The accuracy of your simulator is your main priority. Specifically, make 
+sure the architectural state is correctly updated after the execution of 
+each instruction.</p>
+
+<p>It is your responsibility to verify that your 
+simulator is working correctly. You should write one or more programs 
+using all of the LC-3b instructions and execute them one instruction at a 
+time (run 1). You can use the rdump command to verify that the state of the 
+machine is updated correctly after the execution of each instruction.</p>
+
+<p>Since we will be evaluating your code on linux, you must be sure that your 
+code compiles on one of the ECE linux machines 
+using gcc with the <tt>-ansi</tt> flag. This means that you need to write 
+your code in C such that it conforms to the ANSI C standard. You should 
+also make sure that your code runs correctly on one of the ECE linux 
+machines.</p>
+
+<p>If you need to copy any text files from Windows to Linux (for example, your C program
+or your test cases), use the <tt>dos2unix</tt>program to convert them (please
+see <a href="../../labs/port.html">instructions</a>). This program will strip
+away the extra &lsquo;\r&rsquo; end-of-line characters which are not used in Linux.</p>
+
+<h2>What To Turn In</h2>
+
+<p>Please submit your code electronically following the posted <a href="Lab2Submit.html" title="Lab Assignment 2 Submission Instructions">instructions</a>. You will submit only 
+the <tt>lc3bsim2.c</tt> file with adequately documented source code of your simulation routines.</p>
+
+<h2>Important</h2>
+<ol>
+<li><p>In Appendix A, please correct the operation of the <code>JSR</code>/<code>JSRR</code> instruction to read:  
+</p>
+<pre><code>TEMP = PC&#8224;
+if (bit(11)==0)
+    PC = BaseR;
+else
+    PC = PC&#8224; + LSHF(SEXT(PCoffset11), 1);
+R7 = TEMP;
+
+* PC&#8224;: incremented PC</code></pre>
+</li>
+
+<li><p>Please note that LEA <b>does NOT</b> set condition codes.</p>
+</li>
+
+<li><p>LC-3b registers are 16 bits wide. However, when you perform
+arithmetic or bitwise operations in C on <code>int</code> data types on
+the Linux x86 machines you are using 32 bits. Therefore, you must be
+careful about not keeping the higher 16 bits of the results in the
+architectural state. The shell code includes a macro called
+<code>Low16bits</code> that you can use to avoid this problem.</p>
+</li>
+</ol>
+
+</body>
+</html>
+
+

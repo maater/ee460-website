@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 3 Clarifications</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+<h1>EE 460N: Lab Assignment 3 Clarifications</h1>
+
+<ol class="clarifications">
+
+<li><p class="question">What could be the cause of &ldquo;Warning: Extra bit(s) in control store file ucode3.&rdquo;?</p>
+<div class="answer">
+<p>This means that the ucode3 file has more than 35 columns. One reason
+why this can happen is if you've transferred the ucode3 file from
+Windows to Unix. Run <tt>dos2unix</tt> program on UNIX machines to remove the
+extra control characters inserted by Windows. You can do this by typing:</p>
+<pre>dos2unix ucode3</pre>
+<p>on any LRC Linux machine. If this doesn't work, check to make
+sure that your ucode3 file has at most 35 columns.</p>
+</div>
+</li>
+
+
+<li><p class="question">What is <code>CYCLE_COUNT</code>? Is this the counter for memory access?</p>
+<p class="answer">
+<code>CYCLE_COUNT</code> is a global variable used by the simulator to
+count the number of machine cycles elapsed since the program started
+execution. Do not change this variable. You will need to use another
+variable for simulating memory latency.</p>
+</li>
+
+<li><p class="question">How do we handle Memory Mapped I/O for this lab?</p>
+
+<p class="answer">You do not need to implement Memory Mapped I/O for this lab.</p>
+</li>
+
+<li><p>You do not have to implement the RTI instruction for this lab.  You can assume that the input file to your simulator will not contain any RTI instructions.</p></li>
+<li><p>For this assignment, you can assume that the programmer will always give aligned addresses, and your simulator does not need to worry about unaligned cases.</p></li>
+<li>
+<p>You may assume that the code running on your simulator has been
+ assembled correctly and that the instructions your simulator sees
+ comply with the ISA specifications, i.e. all instructions are valid
+ and there are no unaligned accesses.</p>
+</li>
+
+<li>
+<p>In your code that you write for lab 3, do not assign the current latches
+to the next latches. This is already done in the shell code.</p>
+</li>
+
+<li>
+<p class="question">I am getting values like <code>xFFFFFFFF</code> in my registers when they should be <code>xFFFF</code> instead, why is this?</p>
+<p class="answer">
+The variables in your c program are 32 bit values, so the nubmer -1 is <code>xFFFFFFFF</code>.
+You need to make sure that when you store values in a variable you mask them properly.
+For instance you would need to assign <code>var1</code> to <code>var2</code> using the statement <code>var1&nbsp;=&nbsp;var2&nbsp;&amp;&nbsp;0xFFFF</code>, or
+its equivalent <code>var1&nbsp;=&nbsp;Low16bits(var2)</code>. This zeroes out the top 16 bits before writing <code>var2</code> into <code>var1</code>.</p>
+</li>
+
+<li><p class="question">Do we need to implement the TRAP <em>routines</em>?</p>
+
+<p class="answer">
+No. Whenever a TRAP instruction is processed, after the last state, PC
+will be set to 0, if you implement the TRAP instruction correctly. The
+simulator halts whenever PC becomes 0. <strong>You are still implementing states 15, 28, and 30 associated with the TRAP instruction.</strong></p>
+</li>
+
+<li><p class="question">Why am I not getting the result I expect from a C expression?</p>
+
+<p class="answer">Please read and make sure you understand the <a href="http://www.cppreference.com/operator_precedence.html">precedence of C operators</a>. Examples:</p>
+<ol>
+<li><code>a &amp; b == 0</code> means <code>a &amp; (b == 0)</code>, therefore you might want to write <code>(a &amp; b) == 0</code></li>
+<li><code>a &gt;&gt; 1 + b</code> means <code>a &gt;&gt; (1 + b)</code>, therefore you might want to write <code>(a &gt;&gt; 1) + b</code></li>
+<li><code>a = b + c? d : e</code> means <code>a = (b + c)? d : e</code>, therefore you might want to write <code>a = b + (c? d : e)</code></li>
+<li>there are other examples from some lab 2 implementations...  If you do not want
+to remember or to think too much about this, just use parentheses!</li>
+</ol>
+</li>
+<li><p class="question">How do I convert my control store spreadsheet into the <tt>ucode3</tt> file to use in my simulator?</p>
+<div class="answer">
+<ul>
+	<li><p>Windows machine: Once you have filled in the control store spreadsheet, 
+	select only the cells that contain the 0s and 1s that form the 
+	microinstructions (rows 2-65, columns B-AJ). Choose &ldquo;copy&rdquo; from the Edit 
+	menu. Open up a new Word document and choose &ldquo;paste special&rdquo; from the Edit 
+	menu. Then, choose &ldquo;unformatted text&rdquo; and click on OK. Finally, select 
+	&ldquo;replace&rdquo; from the Edit menu. In the &ldquo;Find what&rdquo; box, type &ldquo;^t&rdquo; (without the 
+	quotes); leave the &ldquo;Replace with&rdquo; box empty. Click on the &ldquo;Replace All&rdquo; 
+	button. Save your file as a plain text file with filename &ldquo;ucode3.&rdquo; To use 
+	this file on a linux machine with the simulator, you will need to change the 
+	filename from &ldquo;ucode3.txt&rdquo; to &ldquo;ucode3&rdquo;. You will also need to run dos2unix on 
+	this file (see #7 on <a href="../port.html">How to port code from Windows to 
+	sunfire</a>).</p></li>
+	<li><p>Linux machine: Use the OpenOffice spreadsheet program (oocalc) to open 
+	and fill in the spreadsheet. Select the cells that contain the 0s and 1s 
+	that form the microinstructions (rows 2-65, columns B-AJ). Choose &ldquo;copy&rdquo; 
+	from the Edit menu. Open up a text editor (eg. gedit, gvim, oowriter) and 
+	choose &ldquo;paste&rdquo; from the Edit menu (with OpenOffice oowriter, select &ldquo;paste 
+	special&rdquo; and choose &ldquo;unformatted text&rdquo;). Do a search and replace, searching 
+	for &ldquo;\t&rdquo; (without the quotes), and leaving the replace field empty. Save 
+	your file as &ldquo;ucode3&rdquo;.</p></li>
+</ul>
+</div>
+</li>
+
+<li>
+<p>If none of the tri-state buffers (GatePC, GateALU, etc.) are driving the bus in a given cycle, please put zero onto the bus in that cycle.</p>
+</li>
+</ol>
+
+</body>
+</html>
+

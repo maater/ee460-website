@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 4 Clarifications</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+<h1>EE 460N: Lab Assignment 4 Clarifications</h1>
+
+<ol class="clarifications">
+
+<li>
+<p class="question">Are we changing the datapath/state diagram to <em>detect</em> or <em>generate</em> the interrupt
+or exception?</p>
+<p class="answer">As part of this lab, you are changing the datapath and state diagram to detect both the protection exception and the timer interrupt. However, you are only simulating the generation of the timer interrupt.</p>
+</li>
+<li><p class="question">Should INTV/EXCV be left-shifted by 1 before adding to the interrupt/exception vector base register?</p>
+<p class="answer">
+Yes. INTV/EXCV is an index into the interrupt/exception vector table and as each entry stores an
+address, INTV/EXCV has to be left-shifted by one to get the correct offset
+in this table.</p>
+</li>
+
+<li>
+<p>You should generate the timer interrupt only once &ndash; at cycle 300.  You must also take care of setting 
+the global variable INTV to the correct interrupt vector at this time.</p>
+</li>
+
+<li>
+<p class="question">What kind of file format should we write for the readme file?</p>
+<div class="answer">
+<p>Please upload a copy of your report on blackboard.</p>
+</div>
+</li>
+
+<li>
+<p>You need to change in the shell code which we provided to you the 
+enum <code>CS_BITS</code> and the struct <code>System_Latches</code>.</p>
+</li>
+
+<li>
+<p>
+Your simulator should generate the timer interrupt once at cycle 300. You
+can implement this by using the <code>CYCLE_COUNT</code> variable we provided.</p>
+</li>
+
+<li>
+<p class="question">What should PSR[15] be initialized to?</p>
+<p class="answer">
+You should initialize the privilege mode of the processor (PSR[15]) to 1 (user mode) in your simulator.
+</p>
+</li>
+
+<li>
+<p class="question">Can a user program execute the RTI instruction?</p>
+<p class="answer">You can assume that RTI will never be used by a user program. You are not responsible for generating an exception
+if an RTI instruction is encountered in user mode.</p>
+</li>
+
+<li>
+<p class="question">Who initializes the user stack pointer?</p>
+<p class="answer">The user stack pointer is initialized in the user program (if the user program makes use of the stack). The supervisor stack pointer is initialized by the shell code we already provided.</p>
+</li>
+
+<li>
+<p class="question">Can we assume that we do not get interrupts/exceptions when the processor is in system (supervisor) mode?</p>
+<p class="answer">For the purposes of this assignment, you can assume this.</p>
+</li>
+
+<li>
+<p class="question">What is the size of the data elements our user program is supposed to add?</p>
+<p class="answer">The elements your user program is supposed to add are <em>bytes</em>. You should store the sum of
+the 20 8-bit two's complement integers as a <em>16-bit word</em> at location <code>xC014</code>.</p>
+</li>
+
+<li>
+<p class="question">Can I execute one cycle of the memory access (for example in state 33) before handling the exception?</p>
+<p class="answer">No. You should not access memory if the access causes an exception.</p>
+</li>
+
+<li>
+<p>You may declare registers you need as part of the System_Latches struct.</p>
+</li>
+
+<li>
+<p>TRAP should be able to execute in user mode, i.e. it must be able to access the trap vector table at <code>x0000</code> to <code>x01FF</code> without causing a protection exception.</p>
+</li>
+
+<li>
+<p>You may add a line to the <code>initialize()</code> function in the shell code to set the initial value of the PSR.</p>
+</li>
+
+<li>
+<p>Please note that LEA no longer sets condition codes.</p>
+</li>
+
+</ol>
+</body>
+</html>

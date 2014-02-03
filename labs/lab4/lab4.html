@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 4 - Interrupts and Exceptions</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<center>
+<h2>Department of Electrical and Computer Engineering</h2>
+<h3>The University of Texas at Austin</h3>
+</center>
+
+EE 460N, Spring 2013<br />
+Lab Assignment 4 <br />
+Due: Sunday, April 7th, 11:59 pm <br />
+Yale Patt, Instructor<br />
+Faruk Guvenilir, Sumedha Bhangale, Stephen Pruett, TAs<br />
+
+<h2>Introduction</h2>
+<p>The goal of this lab assignment is to extend the LC-3b simulator
+you wrote in Lab 3 to handle interrupts and exceptions. You will
+augment the existing LC-3b microarchitecture to support
+detection and handling of one type of interrupts (timer) and three
+types of exceptions (protection, unaligned access, and unknown opcode).</p>
+
+<p>The inputs to this new simulator will be:</p>
+<ol>
+<li>
+A file entitled <tt>ucode4</tt> which will hold the expanded microcontrol store.</li>
+<li>A file holding an LC-3b user program that will be loaded into memory starting at 
+memory location <code>x3000</code>.</li>
+<li>A file holding data for the user program. This 
+data will be loaded into memory starting at memory location <code>xC000</code>.</li>
+<li>
+A file holding the interrupt/exception vector table that will be loaded
+into memory starting at memory location <code>x0200</code>. You should form the 
+contents of this table based on the vector of each interrupt/exception 
+and starting address of the service routine for each interrupt/exception.</li>
+<li>
+A file holding an LC-3b system program that will be loaded into memory starting at 
+memory location <code>x1200</code>. This will be the timer interrupt service routine.</li>
+<li>
+A file holding an LC-3b system program that will be loaded into memory starting at 
+memory location <code>x1600</code>. This will be the protection exception handler.</li>
+<li>
+A file holding an LC-3b system program that will be loaded into memory starting at
+memory location <code>x1A00</code>. This will be the unaligned access exception handler.</li>
+<li>
+A file holding an LC-3b system program that will be loaded into memory starting at
+memory location <code>x1C00</code>. This will be the unknown opcode exception handler.</li>
+</ol>
+
+
+<p>The simulator will start executing the LC-3b program loaded at
+<code>x3000</code>. The timer interrupt will occur at cycle 300. You are
+supposed to provide microarchitectural support for interrupt handling. The
+interrupt handler you write should increment location (word-sized access)
+<code>x4000</code> by 1. You will also need to implement the RTI instruction so
+that the interrupt handler can transfer control back to the user program.</p>
+
+<p>You will have to provide microarchitectural support for handling exceptions.
+Most of this support is similar to the support you will add for interrupts. If the user program accesses a memory location that can only
+be accessed in supervisor mode, a protection exception will occur. The exception service routine you will write
+should simply halt the machine. If the user program makes an unaligned memory access in either supervisor mode or user mode,
+an unaligned access exception will occur. The exception service routine again should simply halt the machine.
+If the user program tries to use an unknown opcode (1010 or 1011), an unknown opcode exception will occur.
+The exception service routine again should simply halt the machine. (Important note: we should be able to
+swap out your exception routines with a routine that returns from an
+exception. Therefore, make sure you implement the exceptions correctly.)</p>
+
+
+<h2>New shell code</h2>
+<p>A new shell code has been written for
+you:</p>
+<blockquote><tt><a href="lc3bsim4.c">lc3bsim4.c</a></tt></blockquote>
+<p> You will need to copy and paste the code you wrote for Lab 3
+into this new shell code.</p>
+
+<p>To run the simulator, type:</p>
+<pre><tt>lc3bsim4 &lt;micro_code_file&gt; &lt;program_file_1&gt; &lt;program_file_2&gt; ...</tt></pre>
+<p>The first parameter is the microcode file as before. The second
+parameter is the user program you will write and will be executed by 
+the simulator.  The rest of the parameters are program or data files 
+that will be loaded into memory.</p>
+
+<h2>Specifications</h2>
+<p>This Lab consists of 2 parts, which we will describe in detail:</p>
+<ol>
+<li>Adding support for timer interrupts</li>
+<li>Adding support for protection, unaligned access, and unknown opcode exceptions</li>
+</ol>
+
+
+<h3>Adding support for timer interrupts</h3>
+<h4>Timer Interrupt</h4>
+<p>In this lab, 1 timer interrupt will occur at
+cycle 300. When the timer generates an interrupt, the
+microarchitecture may be in the middle of executing an
+instruction. You need to decide exactly when the interrupt is detected
+and add the necessary microarchitectural support to handle
+interrupts. This will involve augmenting the state diagram of the LC-3b with
+additional states, augmenting the microsequencer with additional logic to
+sequence these new states, and extending the existing microinstructions with
+additional bits for both the microsequencer and the datapath.</p>
+
+<p>When the interrupt is detected the following actions will
+be taken by the processor:</p>
+<ol>
+<li><p>The privilege mode (most significant bit of the PSR, program
+status register) is set to 0, which indicates supervisor-level
+privilege. The interrupt service routine will be executed with
+supervisor-level privilege.</p></li>
+
+<li><p>R6 is set to the supervisor stack pointer if that is not already
+the case.</p></li>
+
+<li><p>The old PSR (PSR before PSR[15] is set to 0) and PC are pushed
+onto the supervisor stack. On a push operation, the supervisor stack 
+pointer is <strong>decremented</strong>, and then the data is written (stored) 
+on the stack. Note that the supervisor stack is different from the user
+stack. Interrupt service routines can access the supervisor stack
+using R6. The shell code initializes the supervisor stack pointer to
+address <code>x3000</code>. Note that R6 will refer to the user stack while a user
+program is running. It will refer to the supervisor stack while the
+interrupt service routine is being executed. If the system is in user
+mode when an interrupt is detected, the microarchitecture should
+transparently switch R6 so that it points to the supervisor stack. You
+need to implement this &ldquo;stack switching&rdquo; in microcode. You will need
+to modify the datapath, add new states to the state machine, and
+possibly add new control signals to support this operation. You may
+add registers to the datapath to save and restore user and supervisor
+stack pointers.</p></li>
+
+<li><p>The interrupting event supplies its 8-bit interrupt vector
+(INTV). The interrupt vector for the timer interrupt is <code>x01</code>.</p></li>
+
+<li><p>The processor left-shifts the interrupt vector one bit, yielding
+<code>x02</code>, and adds it to the base address of the interrupt/exception vector
+table (<code>x0200</code>), yielding the address of the memory location (<code>x0202</code>)
+that contains the starting address of the interrupt service routine.</p></li>
+
+<li><p>The contents of memory location <code>x0202</code>, which should be <code>x1200</code> for
+this assignment, are read and loaded into the PC.</p></li>
+
+<li><p>The processor begins execution of the interrupt service routine.</p></li>
+</ol>
+<p>
+The first step in adding support for interrupts is to determine how to
+modify the state diagram of the LC-3b to handle interrupts. You will
+have to augment the microsequencer with additional logic to sequence
+these new states, and extend the existing microinstructions with
+additional bits for both the microsequencer and the datapath. You may
+augment current microinstruction fields and add new fields. You may
+also add new logic to the datapath. You are free to implement this as
+you wish, but you must document your method.</p>
+
+<h4>RTI Instruction</h4>
+<p>Next, you have to implement an instruction for returning from an
+interrupt.  This will be used in the interrupt service routine to transfer
+control back to the interrupted program. This instruction, called RTI
+(return from interrupt), has the opcode 1000, and pops the old PC and
+PSR off the supervisor stack. If the RTI transfers control back to a
+user-level program, then the microcode should switch the stack pointer
+back so that R6 points to the user stack (see <a href="../../handouts/new_byte.pdf">
+Appendix A</a> for details on the RTI instruction).</p>
+
+<h3>Adding support for exceptions</h3>
+
+<p>Exception handling is very similar to interrupt handling as described above with an important difference, in almost all cases and certainly in the three you will implement, the exception-causing instruction should not be allowed to complete before the exception
+is handled. Hence, the memory access that causes the protection exception or unaligned exception also should not be allowed to complete. You will need to change the mode of the machine
+to supervisor, switch to the supervisor stack, push the old PSR (PSR before PSR[15] is set to 0) and the decremented PC on the supervisor stack and load the PC with the address of
+the exception service routine. The exception causing event supplies its own 8-bit exception vector (EXCV). You can store the appropriate exception vector in a separate register and add this register left-shifted by
+one to the interrupt/exception vector table base register to get
+the address of the location that contains the starting address of the
+exception service routine. You are free to implement this as you wish,
+but keep in mind the possibility of combining the states used for
+initiating the interrupt service routine and those used for initiating
+the exception service routine.</p>
+
+<h4>Protection Exception</h4>
+<p>Protection exceptions occur only when the machine is in user mode, and
+a memory location in system space (locations <code>x0000</code> &ndash; <code>x2FFF</code>) is accessed by the user program. The exception vector for a protection
+exception is <code>x02</code>.</p>
+<p>You will also write the exception service routine for the
+protection exception. This routine should start at memory location
+<code>x1600</code>. For the purposes of this assignment, the exception service
+routine will simply halt the machine. However, don't rely on this. We
+can test your simulator by replacing your exception routine with our
+routine which returns from the exception handler using the RTI
+instruction instead of halting the machine. Upon return from the
+exception handler, the instruction that caused the exception should be
+re-executed.</p>
+
+<h4><a name="Unaligned_Access_Exception">Unaligned Access Exception</a></h4>
+<p>An unaligned access exception occurs whenever a word-size memory access to an unaligned memory address is attempted. The exception vector for an unaligned access exception is <code>x03</code>.</p>
+<p>You will write the exception service routine for the unaligned access exception. This routine
+should start at memory location <code>x1A00</code>. For purposes of this assignment, the exception service routine will simply halt the machine. Again, do not rely on this as we can test your simulator by replacing your exception routine with our own routine.</p>
+		
+<p>In the event of an unaligned access to a memory location in system space (locations <code>x0000</code> &ndash; <code>x2FFF</code>), you should give priority to the protection exception. For example, if a STW instruction accesses <code>x0001</code>, the protection exception handler should be called rather than the unaligned access exception handler.</p>
+
+<h4>Unknown Opcode Exception</h4>
+Unknown opcode exceptions occur when the program attempts to execute an instruction
+with opcode 1010 or 1011.
+The exception vector for an unknown opcode exception is <code>x04</code>.</p>
+
+<p>You will also write the exception service routine for the
+unknown opcode exception. This routine should start at memory location
+<code>x1C00</code>. For the purposes of this assignment, the exception service
+routine will simply halt the machine. However, don't rely on this. We
+can test your simulator by replacing your exception routine with our
+routine which returns from the exception handler using the RTI
+instruction instead of halting the machine. Upon return from the
+exception handler, the instruction that caused the exception should be
+re-executed.</p>
+
+<h2>Tips on getting started</h2>
+<p>When designing the mechanisms to support interrupts and exceptions
+keep in mind that they are handled very similarly. In your microcode,
+states for pushing the PSR and PC on stack and loading the address of
+handler routines could be shared for both exception and interrupt
+handling.</p>
+
+<h2>Writing Code</h2>
+<p>The user program loaded into <code>x3000</code>. should do the following: initialize
+memory location <code>x4000</code> to 1 and calculate the sum of the first 20 bytes
+stored in the memory locations beginning with <code>xC000</code>. This sum should
+first be stored at <code>xC014</code>. The next step would depend upon whether you are testing for protection exception or unaligned access exception. If you want to cause a protection exception,the user program should next store the sum at <code>x0000</code>. If you want to cause an unaligned access exception, the user program should store the sum at <code>xC017</code>. Finally, if you wish to test for an unknown opcode exception, you can simply
+use a .FILL psuedo op to create an instruction with an unimplemented opcode (1010 or 1011).</p>
+
+<p>Note: While submitting the user program, only submit the version which tests for protection exception.</p>
+ 
+<p>The following numbers should be
+stored at locations xC000:</p>
+<code>x12, x11, x39, x23, x02, xF6, x12, x23, x56, x89, xBC, xEF, x00, x01, x02, x03, x04, x05, x06, x07.</code>
+<p>The interrupt service routine
+must increment memory location <code>x4000</code>.</p>
+<p>The protection exception handler, the unaligned access exception handler, and the unknown opcode exception handler
+that you will submit should simply halt the machine using the <code>TRAP x25</code> instruction.</p>
+
+<h2>What To Submit Electronically</h2>
+<ol>
+<li><p>Adequately documented source code of your simulator called <tt>lc3bsim4.c</tt>.</p></li>
+
+<li><p>The assembly code for the interrupt service routine, the
+interrupt/exception vector table, the protection exception handler, the  unaligned access exception handler,
+the unknown opcode exception handler, 
+the user program, and the data for locations <code>xC000</code> &ndash; <code>xC013</code>, called <tt>int.asm</tt>,
+<tt>vector_table.asm</tt>, <tt>except_prot.asm</tt>, <tt>except_unaligned.asm</tt>, <tt>except_unknown.asm</tt>,
+<tt>add.asm</tt>, and <tt>data.asm</tt>, respectively.</p></li>
+
+<!--
+Turning in these Hex Files is pointless..
+<li><p>The machine code for the interrupt service routine, the
+interrupt/exception vector table, the protection exception handler, the unaligned access exception handler, 
+the unknown opcode exception handler,
+the user program, and the data for locations <code>xC000</code> &ndash; <code>xC013</code>, called
+<tt>int.hex</tt>, <tt>vector_table.hex</tt>,
+<tt>except_prot.hex</tt>, <tt>except_unaligned.hex</tt>, <tt>except_unknown.hex</tt>,
+<tt>add.hex</tt> and <tt>data.hex</tt>, respectively.</p></li>
+-->
+
+<li><p>The new microcode called <tt>ucode4</tt>.</p></li>
+
+<li><p>A file called <tt>dumpsim</tt>. To generate this file, simulate the
+LC-3b assembly programs by following the instructions at the end of
+this section.</p></li>
+</ol>
+
+<h2>What to Submit in Class</h2>
+<ol>
+<li><p>A <tt>readme</tt> file that explains how you implemented
+this lab assignment. This readme file should describe the following:</p>
+
+<ol>
+<li><p>Changes you made to the state diagram. Include a picture similar
+to the state machine that shows the new states you added (only show
+your changes or mark your changes in a new state diagram). This
+picture should include the encodings of new states you added. Clearly
+show where each state fits in the current state diagram. Describe what
+happens in each new state.</p></li>
+
+<li><p>Changes you made to the datapath. Clearly show the new structures
+added, along with the control signals controlling those
+structures. Describe the purpose of each structure.</p></li>
+
+<li><p>New control signals you added to each microinstruction. Briefly
+explain what each control signal is used for.</p></li>
+
+<li>Changes you made to the microsequencer. Draw a logic diagram of
+your new microsequencer and describe why you made the changes.</li>
+
+<li><p><em>Please submit a hardcopy of your documentation 
+before class on Monday April 8, 2013.</em></p></li>
+</ol>
+</li>
+</ol>
+
+<h3><a id="How_to_generate_the_dumpsim_file">How to generate the dumpsim file</a></h3>
+<ol>
+<li>
+<p>Run the simulator with the protection exception causing version of user
+program. Dump location <code>x4000</code> and the registers once right before the 300th
+cycle (299th cycle), once after the ISR is done, once after the protection
+exception halts the execution of the program.</p>
+</li>
+<li>
+<p>Rename the <tt>dumpsim</tt> file to another name (say <tt>dumpsim_temp</tt>)</p>
+</li>
+<li>
+<p>Rerun the simulator with the unaligned access exception causing version of
+user program.  Dump location <code>x4000</code> and the registers after the unaligned
+access exception halts the execution of the program.</p>
+</li>
+<li>
+<p>Open the <tt>dumpsim</tt> file and the <tt>dumpsim_temp</tt> file with a text editor.
+Copy and paste the contents of <tt>dumpsim</tt> to the end of <tt>dumpsim_temp</tt>.</p>
+</li>
+<li>
+<p>Rename <tt>dumpsim_temp</tt> into <tt>dumpsim</tt>.</p>
+</li>
+</ol>
+
+<h2>Things To Consider</h2>
+<ol>
+<li>
+<p>The user stack should start at address <code>xFDFF</code> (i.e. the initial user stack pointer value should be <code>xFE00</code>) and the supervisor stack should start at address <code>x2FFF</code> (i.e. the initial supervisor stack pointer value should be <code>x3000</code>).</p>
+</li>
+<li>
+<p>The microcode used for starting the exception service routine is very
+similar to the microcode that is used for starting the interrupt
+service routine.  Are there any differences?  With these differences
+in mind perhaps you can combine the states used for interrupt and
+exception handling.</p>
+</li>
+<li>
+<p>The interrupt service routine should not change any register values
+which are being used by the main program. We should be able to test
+the service routine you wrote with a main program (and a simulator)
+written by us and both programs should work correctly. Therefore, if
+your interrupt service routine destroys any registers, it should save
+the original values of those registers before destroying them and
+restore those values before returning control to the main
+program. Note that this saving/restoring of general purpose registers
+could also be supported by microcode. Is this a good idea? A related
+issue is the saving and restoring of condition codes. This has to be
+done in microcode, it cannot be done by the interrupt service
+routine. Why?</p>
+</li>
+<li>
+<p>Make sure you check Appendix A for the description of PSR, the RTI
+instruction, privilege mode, user stack, supervisor stack, and more
+information on interrupt processing.</p>
+</li>
+<li>
+<p>The functionality of your modifications to support interrupts and
+exceptions should not depend on the interrupt and exception handlers
+you write for this assignment. We should be able to replace your
+interrupt and exception handlers with handlers written by us, and your
+code should still work correctly. Conversely, the functionality of
+your interrupt and exception handlers should not depend on the user
+program you wrote for this assignment. We should be able to use your
+exception and interrupt handlers in our simulator running a user
+program different from what you wrote.</p>
+</li>
+<li>
+<p>Basic LC-3b microarchitecture described in Appendix C makes use of 31
+of the available 64 states. This leaves you with 33 states to
+accommodate your changes to support interrupts and exceptions. This is more than enough. Try to
+avoid expanding the size of the control store. You can avoid this by
+careful thinking and design before starting coding.</p>
+</li>
+<li>
+<p>You do not need to worry about nested interrupts and exceptions for this assignment.</p>
+</li>
+</ol>
+</body>
+</html>

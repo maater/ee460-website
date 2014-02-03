@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 3</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<center>
+<h2>Department of Electrical and Computer Engineering</h2>
+<h3>The University of Texas at Austin</h3>
+</center>
+
+EE 460N, Spring 2013<br />
+Lab Assignment 3 <br />
+Due: Sunday, February 24th, 11:59 pm <br />
+Yale Patt, Instructor<br />
+Faruk Guvenilir, Sumedha Bhangale, Stephen Pruett, TAs<br />
+
+<h2>Introduction</h2>
+
+<p>For this assignment, you will write a cycle-level simulator for the LC-3b. The
+simulator will take two input files:</p>
+
+<ol>
+<li>A file entitled <tt>ucode3</tt> which holds the control store.</li>
+<li>A file entitled <tt>isaprogram</tt> which is an assembled LC-3b program.</li>
+</ol>
+
+<p>The simulator will execute the input LC-3b program, using the microcode
+to direct the simulation of the microsequencer, datapath, and memory
+components of the LC-3b.</p>
+
+<p>Note: The file <tt>isaprogram</tt> is the output file from Lab
+Assignment 1. This file should consist of 4 hex characters per
+line. Each line of 4 hex characters should be prefixed with '0x'. For
+example, the instruction <code>NOT R1, R6</code> would have been assembled to
+<code>1001001110111111</code>. This instruction would be represented in the
+<tt>isaprogram</tt> file as <code>0x93BF</code>. The file <tt>ucode3</tt> is an ASCII
+file that consists of 64 rows and 35 columns of zeros and ones.</p>
+
+<p>The simulator is partitioned into two main sections: the shell and the
+simulation routines. We are providing you with the shell. Your job is to write the simulation routines.</p>
+
+<h2>The Shell</h2>
+
+<p>The purpose of the shell is to provide the user with commands to
+control the execution of the simulator. In order to extract
+information from the simulator, a file named <tt>dumpsim</tt> will be created
+to hold information requested from the simulator. The shell supports
+the following commands:</p>
+
+<ol>
+<li><tt>go</tt> &ndash; simulate the program until a HALT instruction is executed. </li>
+<li><tt>run &lt;n&gt;</tt>&ndash; simulate the execution of the machine for n cycles </li>
+<li><tt>mdump &lt;low&gt; &lt;high&gt;</tt> &ndash; dump the contents of memory, from location low to location high to the screen and the dump file. For hex addresses, put &ldquo;<tt>0x</tt>&rdquo; in front of the address, eg. <tt>mdump 0x3000 0x3001</tt></li>
+<li><tt>rdump</tt> &ndash; dump the current cycle count, the contents of R0-R7, IR, PC, MAR, MDR, and other status information to the screen and the dump file. </li>
+<li><tt>?</tt> &ndash; print out a list of all shell commands. </li>
+<li><tt>quit</tt> &ndash; quit the shell </li>
+</ol>
+
+<h2>The Simulation Routines</h2>
+
+<p>The simulation routines carry out the cycle-by-cycle simulation of the
+input LC-3b program. The simulation of any cycle is based on the
+contents of the current latches in the system. The simulation consists of
+two concurrently executing phases:</p>
+
+<p>The microsequencer phase uses 9 bits from the microinstruction
+register and appropriate literals from the datapath to determine the
+next microinstruction. Function <code>eval_micro_sequencer</code> evaluates this
+phase.</p>
+
+<p>The datapath phase uses 26 bits of the microinstruction to manipulate
+the data in the datapath. Each microinstruction must be literally
+interpreted. For example, if the <code>GateMDR</code> bit is asserted, then data
+must go from the MDR onto the bus. You must also establish an order
+for events to occur during a machine cycle. For example, data should
+be gated onto the bus first, and loaded into a register at the end of
+the cycle. Simulate these events by writing the code for functions
+<code>eval_bus_drivers</code>, <code>drive_bus</code> and <code>latch_datapath_values</code>.</p>
+
+<p>We will assume a memory operation takes five cycles to complete. That
+is, the ready bit is asserted at the end of the fourth
+cycle. Function <code>cycle_memory</code> emulates memory.</p>
+
+<h2>What To Do</h2>
+
+<p>The shell has been written for you. From your ECE LRC account, copy
+the following file to your work directory:</p>
+
+<blockquote>
+<tt><a href="lc3bsim3.c">lc3bsim3.c</a></tt>
+</blockquote>
+
+<p>At present, the shell reads in the microcode and input program and
+initializes the machine. It is your responsibility to write the
+correct microcode file and to complete the simulation
+routines that simulate the activity of the LC-3b microarchitecture.
+In particular, you will be writing the five functions described above
+(<code>eval_micro_sequencer</code>, <code>cycle_memory</code>, <code>eval_bus_drivers</code>,
+<code>drive_bus</code>, and <code>latch_datapath_values</code>).</p>
+
+<p>Add your code to the end of the shell code. Do not modify the shell
+code.</p>
+
+<p>The accuracy of your simulator is your main priority. Specifically,
+make sure the correct microarchitectural structures sample the correct
+signals.</p>
+
+
+<p>It is your responsibility to verify that your 
+simulator is working correctly. You should write programs 
+using all of the LC-3b instructions and execute them one cycle at a 
+time (run 1). You can use the <tt>rdump</tt> and <tt>mdump</tt> commands to verify that the state of the 
+machine is updated correctly after the execution of each cycle.</p>
+
+<p>Because we will be evaluating your code on linux, you must be sure your
+code compiles on an ECE linux machine
+using gcc with the <tt>-ansi</tt> flag. This means that you need to write 
+your code in C such that it conforms to the ANSI C standard. You should 
+also make sure that your code runs correctly on one of the ECE linux
+machines.</p>
+
+<h2>What To Turn In</h2>
+
+<p>Please <a href="Lab3Submit.html">submit</a> your lab assignment electronically. You will submit the following files:</p>
+<!--<p>Submission is currently closed, but you will submit your lab assignment electronically. You will submit the following files:</p>-->
+
+<ol>
+<li><tt>lc3bsim3.c</tt> &ndash; adequately documented source code of your simulator</li>
+<li><tt>ucode3</tt> &ndash; your microcode file</li>
+</ol>
+
+<h2>Important</h2>
+
+<ol>
+<li><p>Please make sure that you have made the following correction to the ISA handout.</p>
+<p>In Appendix A, please correct the operation of the JSR/JSRR instruction to read:</p>
+
+<pre><code>TEMP = PC&#8224;
+if (bit(11)==0)
+    PC = BaseR;
+else
+    PC = PC&#8224; + LSHF(SEXT(PCoffset11), 1);
+R7 = TEMP;
+
+* PC&#8224;: incremented PC</code></pre>     
+</li>
+
+<li><p>Please note that LEA <b>does NOT</b> set condition codes.</p>
+</li>
+
+<li><p>LC-3b registers are 16 bits wide. However, when you perform arithmetic
+or bitwise operations in C on <code>int</code> data types on the Linux x86
+machines you are using 32 bits. Therefore, you must be careful about not
+keeping the higher 16 bits of the results in the architectural state. The shell
+code includes a macro called <code>Low16bits</code> that you can use to avoid
+this problem.</p></li>
+
+<li><p>The control signals in your ucode3 file <strong>must</strong> be encoded
+according to Tables C.1 and C.2 in Appendix C. For each signal, the first
+(leftmost or the topmost) signal value must be encoded as 0, the next value as
+1, the value after that as 2 (binary 10) and so on. For example, Table C.1
+lists the signal values for the two bit signal ALUK as follows: ADD, AND, XOR,
+PASSA. This means that ADD must be encoded as binary 00, AND as 01, XOR as 10,
+and PASSA as 11. Please use a 0 whenever a particular signal is a don't
+care.</p></li>
+</ol>
+</body>
+</html>

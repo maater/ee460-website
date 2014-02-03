@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 4 Submission Instructions</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<center>
+<h2>Department of Electrical and Computer Engineering</h2>
+<h3>The University of Texas at Austin</h3>
+</center>
+
+EE 460N, Fall 2013<br />
+Submission Instructions for Lab Assignment 4<br />
+Due: Sunday, November 3, 2013, 11:59 pm<br />
+<h2>Important Notes</h2>
+You must use the following naming convention for the files in Lab 4.
+<ul>
+<li>
+<tt>lc3bsim4.c</tt> &ndash; the C source code for your LC-3b simulator.
+</li>
+<li>
+<tt>ucode4</tt>      &ndash; the microcode file for your simulator
+</li>
+<li>
+<tt>dumpsim</tt>     &ndash;  the dumpsim file created as specified in Lab
+Assignment 4.
+</li>
+<li>
+<tt>int.asm</tt>, <tt>vector_table.asm</tt>, <tt>except_prot.asm</tt>,
+<tt>except_unaligned.asm</tt>, <tt>except_unknown.asm</tt>, <tt>add.asm</tt>,
+and <tt>data.asm</tt>  &ndash; the assembly language files for the interrupt
+service routine, the interrupt/exception vector table, the unaligned exception handler, the protection exception
+handler, the unknown opcode exception handler, the user program, and the data for .for locations
+<code>xC000</code>&ndash;<code>xC013</code>.  </li>
+<!--
+<li>
+<tt>int.hex</tt>, <tt>vector_table.hex</tt>, <tt>except_prot.hex</tt>,
+<tt>except_unaligned.hex</tt>, <tt>except_unknown.hex</tt>, <tt>add.hex</tt>
+and <tt>data.hex</tt>  &ndash; the machine code for the interrupt service
+routine, the interrupt/exception vector table, the unaligned exception handler, the protection exception
+handler, the unknown opcode exception handler, the user program, and the data for locations
+<code>xC000</code>&ndash;<code>xC013</code>.  </li>
+<li>
+-->
+<!--<tt>readme.txt</tt> or <tt>readme.ps</tt> or <tt>readme.pdf</tt> or <tt>readme.tar</tt> &ndash; a printable file 
+showing the changes you have implemented in the datapath, state diagram, microsequencer and any additional logic. This file can 
+be in the following formats: text, postscript, PDF or HTML with images.-->
+<li>
+<strong>Please upload a copy of your documentation on blackboard before
+class on Monday, November 4, 2013.</strong>
+</li>
+</ul>
+<p>You may not submit more than 10 files for Lab 4.</p>
+
+<p>Please confirm that your file compiles (by using <tt>gcc -ansi
+  lc3bsim4.c</tt>) and runs on any <b>ECE LRC linux machine before submitting
+  your program</b>.  Please issue command <tt>uname</tt> and make sure the
+output is Linux. Note that sunfire machines are not Linux machines.</p>
+
+<p>In order to help us assign you the grades, we need your names and UTEIDs at
+the top of the <tt>lc3bsim4.c</tt> file in the <b>EXACT</b> following format,
+as a C comment:</p>
+
+<ul>
+<li>
+<pre><code>/*
+        Name: Fullname of the student 
+        UTEID: UTEID of the student
+*/</code></pre>
+<p>Example:</p>
+<pre><code>/*
+        Name: Milad Hashemi
+        UTEID: mhashemi
+*/</code></pre>
+</li>
+</ul>
+
+<h2>Instructions For Submission</h2>
+
+<p>Turn in the following files:</p>
+<pre><tt>
+lc3bsim4.c
+ucode4
+dumpsim
+int.asm
+vector_table.asm
+except_prot.asm
+except_unaligned.asm
+except_unknown.asm
+add.asm
+data.asm
+</tt></pre>
+<p>by following these <a href="../lab_submit.html">instructions.</a></p>
+
+</body>
+</body>
+</html>

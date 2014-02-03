@@ -1,0 +1,118 @@
+<html>
+<head>
+<title> EE 360N - Programming Assignment 2 Clarifications </title>
+</head>
+
+<body bgcolor="white">
+
+<h1> EE 360N - Programming Assignment 2 Clarifications </h1>
+
+<p>
+
+<ol>
+
+<hr>
+<li>
+Do we need to implement the TRAP routines?
+
+<p>
+
+<font color="blue">
+No. Whenever a TRAP instruction is processed, after the last state, PC
+will be set to 0, if you implement the TRAP instruction correctly. The
+simulator halts whenever PC becomes 0.
+</font>
+</li>
+
+<hr>
+
+<li>
+
+What could be the cause of "Warning: Extra bit(s) in control store file ucode."?
+
+<p>
+
+<font color="blue">
+This means that the ucode file has more than 35 columns. One reason
+why this can happen is if you've transferred the ucode file from
+Windows to Unix. Run <tt>dos2unix</tt> program on UNIX machines to remove the
+extra control characters inserted by Windows. You can do this by typing:
+<pre>dos2unix ucode</pre>
+on any LRC SunOS or Linux machine. If this doesn't work, check to make
+sure that your ucode file has at most 35 columns. 
+</font>
+</li>
+
+<hr>
+
+<li>
+What is <tt>CYCLE_COUNT</tt>? Is this the counter for memory access?
+<p>
+
+<font color="blue">
+<tt>CYCLE_COUNT</tt> is a global variable used by the simulator to
+count the number of machine cycles elapsed since the program started
+execution. Do not change this variable. You will need to use another
+variable for simulating memory latency.
+</font>
+</li>
+
+<hr>
+<li>
+How do we handle Memory Mapped I/O for this lab?
+
+<p>
+
+<font color="blue">
+ You do not need to implement Memory Mapped I/O for this lab.
+</font>
+</li>
+
+<hr>
+<li>
+<font color="blue">
+
+ You may assume that the code running on your simulator has been
+ assembled correctly and that the instructions your simulator sees
+ comply with the ISA specifications
+</font>
+</li>
+<hr>
+
+<li>
+<font color="blue">
+In your code that you write for lab 2, do not assign the current latches
+to the next latches. This is already done in the shell code
+</font>
+</li>
+<hr>
+
+<li>
+I am getting values like xFFFFFFFF in my registers when they should be xFFFF instead, why is this?
+<br>
+<font color="blue">
+The variables in your c program are 32 bit values, so the nubmer -1 is xFFFFFFFF.
+You need to make sure that when you store values in a variable you mask them properly.
+For instance you would need to assign the var1 from var2 the statment var1 = var2 & 0xFFFF.
+This zeros out the top 16 bits before writing it into var1.
+</font>
+</li>
+
+</ol>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

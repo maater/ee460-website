@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 5 - Virtual Memory</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<center>
+<h2>Department of Electrical and Computer Engineering</h2>
+<h3>The University of Texas at Austin</h3>
+</center>
+
+EE 460N, Spring 2013<br />
+Lab Assignment 5 <br />
+Due: Sunday, April 28, 2013, 11:59 pm <br />
+Yale N. Patt, Instructor<br />
+Faruk Guvenilir, Sumedha Bhangale, Stephen Pruett, TAs<br />
+
+<h2>Introduction</h2>
+
+<p>The goal of this lab assignment is to extend the LC-3b simulator you
+wrote in Lab 4 to handle virtual memory. You will augment the existing
+LC-3b microarchitecture in order to support virtual to physical
+address translation. You will also provide microarchitectural support
+for page fault exceptions and change the protection exception from Lab
+4 to be based on access mode in the <abbr title="Page Table Entry">PTE</abbr>.</p>
+
+<h2>Specification</h2>
+
+<h3>Virtual memory</h3>
+
+<p>The virtual address space of the LC-3b is divided into pages of
+size 512 bytes. The LC-3b virtual address space has 128 pages, while
+physical memory has 32 frames. The LC-3b translates virtual addresses to
+physical addresses using a one-level translation scheme. Virtual pages 0&ndash;23
+comprise the system space. They are mapped directly to frames 0&ndash;23 and are
+always resident in physical memory. The system space may be accessed with any
+instruction in supervisor mode, but
+only with a TRAP instruction in user mode. The remaining virtual pages (24&ndash;127)
+comprise the user space and are mapped to frames 24&ndash;31 via a page table
+stored in system space.</p>
+
+<p>The page table contains PTEs for <em>both</em> the system
+and user space pages. It resides at the beginning of frame 8 of
+physical memory. A page table entry (PTE) contains only 9 bits of
+information but, for convenience, is represented by a full 16 bit
+word. Thus one PTE occupies two memory locations. The
+format of each PTE is as follows:</p>
+
+<table>
+<tr>
+<th>15</th><th>14</th><th>13</th><th>12</th><th>11</th><th>10</th><th>9</th><th>8</th>
+<th>7</th><th>6</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th><th>0</th>
+</tr>
+<tr>
+<td>0</td><td>0</td><td colspan="5"><abbr title="Page Frame Number">PFN</abbr></td><td>0</td>
+<td>0</td><td>0</td><td>0</td><td>0</td><td><abbr title="Protection bit">P</abbr></td>
+<td><abbr title="Valid bit">V</abbr></td><td><abbr title="Modified bit">M</abbr></td>
+<td><abbr title="Reference bit">R</abbr></td>
+</tr>
+</table>
+<p>If the protection (P) bit is cleared, the page is <dfn>protected</dfn>: it can only be accessed in supervisor mode
+or by a TRAP instruction. Otherwise, the page can be accessed in either user or supervisor mode.
+The valid (V) bit indicates whether the page is mapped to a frame in physical memory (V&nbsp;=&nbsp;1) or not (V&nbsp;=&nbsp;0).
+The modified (M) bit indicates whether the page has been written to since it was brought in (M&nbsp;=&nbsp;1) or not (M&nbsp;=&nbsp;0).
+The reference (R) bit is set on every access to the page and cleared every timer interrupt.</p>
+<p>Note that the PFN, the modified, and the reference bits are meaningless
+if the page is not resident in memory (the valid bit is zero).</p>
+
+<h3><a id="Exceptions">Exceptions</a></h3>
+<p>Lab 5 supports four exceptions, listed below in order of priority (highest to lowest):</p>
+<table>
+<thead>
+<tr><th>Exception</th><th>Vector</th><th>Occurs when &hellip;</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>Unaligned access</td><td><code>x03</code></td>
+<td>a word-sized memory access to an
+odd virtual address is attempted</td>
+</tr>
+<tr>
+<td>Protection</td><td><code>x04</code></td>
+<td>the machine is in user mode and
+a protected page is accessed by any instruction
+other than the TRAP instruction</td>
+</tr>
+<tr>
+<td>Page fault</td><td><code>x02</code></td>
+<td>the page accessed by a user program is not valid (not in physical
+memory)</td>
+</tr>
+<tr>
+<td>Unknown Opcode</td><td><code>x05</code></td>
+<td>the program tries to use an unknown opcode (1010 or 1011)</td>
+</tr>
+</tbody>
+</table>
+
+<p>Note that unlike Lab 4, in Lab 5 the unaligned access exception has a higher
+priority than a protection exception.</p>
+
+<p>All three memory exceptions are detected immediately prior to the exception generating
+memory access. Therefore, when a control instruction loads the <abbr title="Program Counter">PC</abbr> with an invalid address, the
+machine does not initiate the exception until it attempts to fetch from that invalid address.</p>
+
+<h2>Implementation</h2>
+
+<h3>Additions to Datapath</h3>
+<p>During the execution of instructions, your microcode will
+convert virtual addresses to physical addresses and modify
+PTEs when necessary.  To make address translation possible, we have
+added two registers to the datapath:
+Page Table Base Register (PTBR) and Virtual Address Register (VA). The
+PTBR points to the first entry of the page table in physical
+memory and will be initialized by the shell code to the starting 
+address of the page table file you provide as a command line 
+parameter to the simulator. To put the PTBR register onto the bus, you should 
+assert the GatePTBR signal. The VA register is a temporary register to 
+hold the current address being translated. To put the VA register onto the
+bus and to write to the VA register from the bus, you should assert
+the GateVA and LD.VA control signals, respectively.</p>
+
+<h3>Address Translation</h3>
+
+<p>We will use a simple one-level translation scheme to translate 
+virtual addresses to physical addresses. The high 7 bits of the 
+virtual address (bits[15:9]) specify the page number, and the low 
+9 bits of the virtual address (bits[8:0]) specify the offset within 
+the page. All 7 bits of the page number will be used during translation.
+Assume that at the beginning of each address translation phase the
+virtual address is located in the <abbr title="Memory Address Register">MAR</abbr>,
+and if the operation is a write, a source register holds the data to be written.
+Address translation consists of the following steps:</p>
+
+<ol>
+<li>Save the MAR into the temporary register VA</li>
+<li>Load the MAR with the address of the PTE of the page containing the
+VA:
+<ul>
+<li>MAR[15:8] &larr; PTBR[15:8]</li>
+<li>MAR[7:0] &larr; LSHF(VA[15:9], 1)</li>
+</ul>
+i.e., <span class="equation">MAR &larr; PTBR + (2 &times; page_number)</span>. 
+</li>
+<li>Read the PTE of the page containing the VA into the MDR</li>
+<li>Check for a protection exception</li>
+<li>Check for a page fault</li>
+<li>Set the reference bit of the PTE</li>
+<li>If the pending access is a write, set the modified bit of the PTE</li>
+<li>Write the PTE back to memory</li>
+<li>Load the physical address into the MAR:
+<ul>
+<li>MAR[13:9] &larr; PFN</li>
+<li>MAR[8:0] &larr; VA[8:0]</li>
+</ul>
+</li>
+<li>If the operation is a write, load the MDR with the source
+register</li>
+</ol>
+
+<p>To add support for virtual memory, you first need to determine when
+you need to perform address translation. Then, you will need to
+determine how to add an address traslation state sequence to the state
+diagram. You will also need to determine how to return back to the
+correct state once address translation is complete. For this, you will
+need to augment the microsequencer. You are free to add new control
+signals, gates, muxes, temporary registers as you wish as long as you
+fully document your changes.</p>
+
+<h2>Shell Code</h2>
+
+<p>A modified shell code has been written for
+you: <tt><a href="lc3bsim5.c" title="Lab Assignment 5 shell code">lc3bsim5.c</a></tt></p>
+
+<p>You will need to copy and paste the code you wrote for Lab 4
+into this new shell code. The shell code takes a new command line parameter that specifies the
+file containg the page table to be loaded into physical memory. To run the simulator, type:</p>
+
+<kbd>lc3bsim5 &lt;micro_code_file&gt; &lt;page table
+file&gt; &lt;program_file_1&gt; &lt;program_file_2&gt; ...</kbd>
+
+<p>The first parameter is the microcode file as before. The second
+parameter is the page table in LC-3b machine language. Note that since
+the page table is in physical memory, the first line of this file
+should be a physical address. For all the program files (including
+the interrupt and exception handlers), which are in virtual memory, the
+first line should be a virtual address.</p>
+
+<h2>Writing Code</h2>
+
+<p>You will modify your source code and control store from Lab 4 to implement the specification above. Do not remove Lab 4 functionality, even if it's not mentioned in the specification (for example, the timer interrupt). You will also create the following files to construct a particular execution scenario:</p>
+<ul>
+<li><p>Page table (starting at physical address <code>x1000</code>). The page table will be initialized upon simulator start-up based on the 
+contents of the page table file you provided as a command line parameter to 
+the simulator. Map pages 0&ndash;23 (system space) to frames 0&ndash;23
+and mark them as valid and protected. Map pages 24, 96, and 126 (the user stack) to frames 25, 28, and 29, respectively, and mark them as valid
+and unprotected. Mark all other pages as invalid. All invalid PTEs for pages in user space must be marked as
+unprotected. Why?</p>
+<!--
+<table>
+<thead>
+<tr><th>Page(s)</th><th>Frame(s)</th><th>Valid</th><th>Protection</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>0&ndash;23</td><td>0&ndash;23</td><td>1</td><td>1</td><td></td></tr>
+<tr><td>24</td><td>25</td><td>1</td><td>0</td><td></td></tr>
+<tr><td>96</td><td>28</td><td>1</td><td>0</td><td></td></tr>
+<tr><td>126</td><td>29</td><td>1</td><td>0</td><td>Contains the user stack</td></tr>
+<tr><td>All other</td><td>0</td><td>0</td><td>1</td><td>The invalid PTEs
+in user space must be initialized with the protection bit set. Why?</td></tr>
+</tbody>
+</table>
+-->
+</li>
+<li>
+<p>Other files are loaded into virtual memory and are described in the table below:</p>
+<table>
+<thead>
+<tr><th>File</th><th>Starting <abbr title="Virtual Address">VA</abbr></th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>User program</td><td><code>x3000</code></td>
+<td>
+This program should calculate the
+sum of the first 20 bytes stored in memory starting at address
+<code>xC000</code>. This sum should then be stored
+as a 16-bit word at <code>xC014</code>. Then the program should jump to the address pointed to by
+this sum.
+</td>
+</tr>
+<tr><td>User program data</td><td><code>xC000</code></td>
+<td>Use the following data: 
+<code>x12</code>, <code>x11</code>, <code>x39</code>, <code>x23</code>, <code>x02</code>,
+<code>xF6</code>, <code>x12</code>, <code>x23</code>, <code>x56</code>, <code>x89</code>, <code>xBC</code>, <code>xEF</code>, <code>x00</code>, <code>x01</code>, <code>x02</code>,
+<code>x03</code>, <code>x04</code>, <code>x05</code>, <code>x06</code>, <code>x07</code>
+</td>
+</tr>
+<tr><td>Interrupt/Exception vector table</td><td><code>x0200</code></td>
+<td>
+Form the contents of this
+table based on the vectors of each interrupt/exception and starting
+addresses of the service routines for each interrupt/exception.
+</td>
+</tr>
+<tr><td>Timer interrupt service routine</td><td><code>x1200</code></td>
+<td>
+The interrupt service routine must traverse the entire page table,
+clearing the reference bits of each PTE. You may assume when writing this code
+that the start address of the page table is fixed.
+</td>
+</tr>
+<tr><td>Page fault exception handler</td><td><code>x1400</code></td>
+<td rowspan="4">All four should simply halt the machine
+</td>
+</tr>
+<tr><td>Protection exception handler</td><td><code>x1600</code></td></tr>
+<tr><td>Unaligned access exception handler</td><td><code>x1A00</code></td></tr>
+<tr><td>Unknown opcode exception handler</td><td><code>x1C00</code></td></tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p><strong>Note: you should also test your design with other execution scenarios.</strong></p>
+<h2><a id="What_to_Submit">What to Submit</a></h2>
+<p>The following table lists the files you need to submit:</p>
+<table>
+<thead>
+<tr><th>File Name</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><tt>readme</tt></td>
+<td>
+A detailed explanation of your design. It should include:
+<ul>
+<li>
+<p>Changes you made to the state diagram. Include a picture similar
+to the state machine that shows the new states you added (only show
+your changes or mark your changes in a new state diagram). This
+picture should include the encodings of new states you added. Clearly
+show where each state fits in the current state diagram. Describe what
+happens in each new state.</p>
+</li>
+<li>
+<p>Changes you made to the datapath. Clearly show the new structures
+added, along with the control signals controlling those
+structures. Describe the purpose of each structure.
+</p>
+</li>
+<li><p>New control signals you added to each microinstruction. Briefly
+explain what each control signal is used for.</p>
+</li>
+<li>
+<p>Changes you made to the microsequencer. Draw a logic diagram of
+your new microsequencer and describe why you made the changes.</p>
+</li>
+<li>
+<p><i>Please submit a hardcopy of your documentation before class on Monday, April
+29, 2013.</i></p>
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><tt>lc3bsim5.c</tt></td>
+<td>Adequately documented source code of your simulator</td>
+</tr>
+<tr>
+<td><tt>ucode5</tt></td><td>Control store file used by your simulator</td>
+</tr>
+<tr>
+<td><tt>dumpsim</tt></td>
+<td>To generate this file, set up the execution scenario described above. Run the user program and dump the memory locations
+containing the page table once before the 300th cycle, once after the
+ISR is done, and finally after the protection exception
+halts the execution of the program (you should get a protection exception after the
+jump). Also, dump memory location <code>x3814</code> (corresponding to which virtual
+address?) and the current registers after the protection exception.
+</td>
+</tr>
+<tr>
+<td><tt>pagetable.asm</tt></td>
+<td>Page table</td>
+</tr>
+<tr>
+<td><tt>vector_table.asm</tt></td>
+<td>Interrupt and exception vector table</td>
+</tr>
+<tr>
+<td><tt>add.asm</tt></td>
+<td>User program</td>
+</tr>
+<tr>
+<td><tt>data.asm</tt></td>
+<td>Data for the user program</td>
+</tr>
+<tr>
+<td><tt>int.asm</tt></td>
+<td>Timer interrupt service routine</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Note: all asm files must be LC3b assembly source code files, NOT hex or obj
+files.
+</p>
+
+<h2>Things To Consider</h2>
+
+<ol>
+<li>
+<p>The supervisor stack should start at address <code>x2FFF</code>
+(SSP is initialized in the shell code to <code>x3000</code>). If the user program uses the
+user stack, the user stack should start at address <code>xFDFF</code> (i.e. the
+user program should initialize R6 to <code>xFE00</code>).</p>
+</li>
+<li>
+<p>When do you need to do address translation? How will you return
+from the address translation to the correct state?  An obvious
+solution would be to have a register which holds the 6-bit return
+address. Although this is acceptable, think about the possibility of
+other solutions, e.g. a mechanism that is similar to COND bits in the
+microsequencer?</p>
+</li>
+<li>
+<p>Since the page table is in physical memory, and the PTBR contains a
+physical address, the interrupt service routine needs to access the
+PTEs using physical addresses. An easy way to do this is to turn off
+virtual to physical address translation when operating in system mode.
+This will have the added benefit of reducing the number of cycles
+taken to execute the ISR. What restriction does turning off virtual to
+physical address translation place on the interrupt service routine
+code?</p>
+</li>
+<li>
+<p>The microcode used for starting the exception service routine is very
+similar to the microcode that is used for starting the interrupt
+service routine.  Are there any differences?  With these differences
+in mind perhaps you can combine the states used for interrupt and
+exception handling.</p>
+</li>
+<li>
+<p>You do not need to worry about nested interrupts or exceptions for this assignment.</p>
+</li>
+<li>
+<p>If you were unable to finish Lab 4 and are hence starting from Lab 3,
+please make a note of this in the readme file. You will be unable to
+simulate the page fault exception, protection exception and timer
+interrupt if the requirements of Lab 4 are not done.</p>
+</li>
+</ol>
+</body>
+</html>

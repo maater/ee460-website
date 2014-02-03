@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Lab Assignment 2 Clarifications</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../labs.css" />
+</head>
+<body>
+
+<h1>EE 460N: Lab Assignment 2 Clarifications</h1>
+
+<ol class="clarifications">
+  <li><p><strong>You <em>must</em> implement the TRAP instruction as the LC-3b ISA defines in Appendix A.</strong>
+However, you do not need to implement the <code>TRAP</code> routines. The trap vector table will be initialized
+to all zeroes by the shell code provided. Thus, whenever a <code>TRAP</code> instruction is processed, PC
+will be set to 0. The shell code provided will halt the simulator whenever PC becomes 0.</p></li>
+<li><p>You do not have to implement the <code>RTI</code> instruction for this lab. You can assume that the input file to your simulator will not contain any <code>RTI</code> instructions.</p></li>
+<li><p>For this assignment, you can assume that the programmer will always give aligned addresses, and your simulator does not need to worry about unaligned cases.</p></li>
+<li><p>If you decide to use any of the math functions in math.h, you also have to link the math library by using
+the command:</p>
+<pre><code>gcc -lm -ansi -o assemble assembler.c</code></pre>
+</li>
+<li><p>You do not need to implement memory mapped I/O for this lab.</p></li>
+<li>
+<p>You may assume that the code running on your simulator has been
+assembled correctly and that the instructions your simulator sees
+comply with the ISA specification.</p>
+</li>
+<li>
+<p>In your code that you write for lab 2, do not assign the current latches
+to the next latches. This is already done in the shell code.</p>
+</li>
+<li>
+<p>The <code>Low16bits</code> macro provided in the shell code zeroes out the top 16 bits of its argument, like so:</p>
+<pre><code>#define Low16bits(x) ((x) &amp; 0xFFFF)</code></pre>
+<p>You may use this macro to avoid getting values like <code>xFFFFFFFF</code> in architectural registers.
+The variables in your C program are 32-bit values, so the number -1 is <code>xFFFFFFFF</code>. However, the LC-3b is a
+16-bit machine, in which -1 is represented as <code>xFFFF</code>. Thus, you have to make sure that when you store a value
+in a variable representing an LC-3b register, you mask it properly (for example, using the macro given above).</p>
+</li>
+<li><p>LEA should <b>NOT</b> set the machine's condition codes, despite
+what the current reference documents may say.</p></li>
+
+</ol>
+</body>
+</html>
