@@ -2,25 +2,27 @@
   <head>
     <title>EE 460N/EE 382N.1 - Computer Architecture</title>
   </head>
-  
+
   <body bgcolor="white">
-    
+
     <center><h1>Welcome to EE 460N/EE 382N.1 - Computer Architecture</h1></center>
-    
+
     <center><h2>The University of Texas at Austin</h2></center>
-    
+
     <center><h3>Spring, 2014</h3></center>
     <hr>
     <br/>
     <!--
     <blink><center><h3><p><font color="red" size="+1">
-    	All classes, discussion sections, and office hours canceled January 28, 2014</font></p></h3></center></blink>
+    All classes, discussion sections, and office hours canceled January 28, 2014</font></p></h3></center></blink>
     -->
 
+    <!--
     <center><h4><font color="red" size=+1>
     <p>Exam 1 Information:<br>
     <p>February 26, 5:00-6:30 PM<br>
     <p>WEL 2.246</font></h4></center>
+    -->
 
    <!--  blinky notice script -->
    <script type="text/javascript">
@@ -31,35 +33,34 @@
      bringBackBlinky();
 
      function bringBackBlinky() {
+         if (swi == 1) {
+             sho="visible";
+             swi=0;
+             aspe=spe;
+         }
+         else {
+             sho="hidden";
+             swi=1;
+             aspe=spe/5;
+         }
 
-       if (swi == 1) {
-         sho="visible";
-         swi=0;
-	 aspe=spe;
-       }
-       else {
-         sho="hidden";
-         swi=1;
-	 aspe=spe/5;
-       }
+         for(i=0;i<na.length;i++) {
+             na[i].style.visibility=sho;
+         }
 
-       for(i=0;i<na.length;i++) {
-         na[i].style.visibility=sho;
-       }
-
-       setTimeout("bringBackBlinky()", aspe);
+         setTimeout("bringBackBlinky()", aspe);
      }
    </script>
-    
+
     <h3>
     <ul>
 
-  <p>    
+  <p>
     <img src="blueball.gif" />
     Course <a href=https://docs.google.com/presentation/d/1G2_zxe0EJLjrqVPm3PoT92kODF5wAObrsPsU3TjNRk8/edit?usp=sharing"">Descriptor</a> 
     and <a href="https://docs.google.com/document/d/1MgtUSXCTTIFxhqtzSTcKXdjtA6e7ZXGY6F228lUL4Iw/edit?usp=sharing">Syllabus</a> 
   </p>
-  
+
   <p>
     <img src="blueball.gif" />
     <a href="faculty.html">Instructor and TAs - Office Hours and Discussion
@@ -79,8 +80,8 @@
    Archived Emails can be found here
 <a href="https://drive.google.com/folderview?id=0BxnXHXD6W8YWLWZDb0hpWU5lNXM&usp=sharing">Email Archives</a> 
     </p>
-  
-    
+
+
   <p>
     <img src="blueball.gif" />
     <a href="ps.html">Problem Sets</a>
@@ -90,7 +91,7 @@
   <p>
     <img src="blueball.gif" />
     <a href="labs.html">Programming Lab Assignments</a> <font color="red"
-      size="-1">(last updated - 02/10/14)</font>
+      size="-1">(last updated - 02/28/14)</font>
   </p>
 
   <p>
@@ -100,7 +101,7 @@
   </p>
 
     </ul>
-    </h3>    
+    </h3>
     <hr>
   </body>
 </html>
