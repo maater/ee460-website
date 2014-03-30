@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Problem Set 2 Solution</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../probs.css" />
+</head>
+<body>
+
+<p>Assume an ADD operation is executed like this in the pipeline:</p>
+<table class="pipeline">
+<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+<tr><td>F</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td></tr>
+</table>
+<p>and a MUL operation is executed like this in the pipeline:</p>
+<table class="pipeline">
+<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr>
+<tr><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td></tr>
+</table>
+<p>
+F: Fetch, D: Decode, A: Execute stage (for ADD), M: Execute stage for MUL, S: Store result (Write-back)</p>
+<ol>
+<li>ADDs require 7 cycles (fetch, decode, 4 execute, store), and MULs require 9 cycles (fetch, decode, 6 execute, store). For
+ 3 ADD instructions and 3 MUL instructions, the execution time is <span class="equation">3 &times; 7 + 3 &times; 9 = <span class="answer">48</span></span> cycles.</li>
+<li>Pipeline with scoreboarding and five adders and five multipliers (assuming one instruction fetched per cycle):
+<ol>
+<li>No data forwarding: the destination register is marked valid in the S stage
+(a dependent instruction starts executing after the S stage of the instruction it depends on)
+<table class="pipeline">
+<thead>
+<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th></tr>
+</thead>
+<tbody>
+<tr><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td></tr>
+</tbody>
+</table>
+<p>Execution time: <span class="answer">26 cycles</span></p>
+</li>
+<li>With forwarding:
+<table class="pipeline">
+<thead>
+<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th></tr>
+</thead>
+<tbody>
+<tr><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td></tr>
+</tbody>
+</table>
+<p>Execution time: <span class="answer">24 cycles</span></p>
+</li>
+</ol>
+</li>
+<li>
+<p>Pipeline with scoreboarding and one adder and one multiplier (assuming one instruction fetched per cycle):</p>
+<ol>
+<li>
+<p>The adder and multiplier are not pipelined and there is no data forwarding:</p>
+<table class="pipeline">
+<thead>
+<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th><th>29</th></tr>
+</thead>
+<tbody>
+<tr><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td></tr>
+</tbody>
+</table>
+<p>Execution time: <span class="answer">29 cycles</span></p>
+</li>
+<li>
+<p>The adder and multiplier are not pipelined and there is data forwarding:</p>
+<table class="pipeline">
+<thead>
+<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th></tr>
+</thead>
+<tbody>
+<tr><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td></tr>
+</tbody>
+</table>
+<p>Execution time: <span class="answer">27 cycles</span></p>
+</li>
+<li>
+<p>The adder and multiplier are pipelined and there is no data forwarding:</p>
+<table class="pipeline">
+<thead>
+<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th></tr>
+</thead>
+<tbody>
+<tr><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td></tr>
+</tbody>
+</table>
+<p>Execution time: <span class="answer">26 cycles</span></p>
+</li>
+<li>
+<p>The adder and multiplier are pipelined and there is data forwarding:</p>
+<table class="pipeline">
+<thead>
+<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th></tr>
+</thead>
+<tbody>
+<tr><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>D</td><td>A</td><td>A</td><td>A</td><td>A</td><td>S</td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td>D</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td><td>S</td></tr>
+</tbody>
+</table>
+<p>Execution time: <span class="answer">24 cycles</span></p>
+</li>
+</ol>
+</li>
+</ol>
+
+</body>
+</html>
