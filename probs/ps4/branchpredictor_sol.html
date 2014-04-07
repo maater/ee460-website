@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>EE 460N: Problem Set 4 Solution</title>
+<link rel="StyleSheet" type="text/css" href="../../main.css" />
+<link rel="StyleSheet" type="text/css" href="../probs.css" />
+</head>
+<body>
+
+Assumptions:
+<ul>
+<li>There are enough ports to the register file.</li>
+
+<li>There are enough ports to the memory.</li>
+
+<li>There are separate execution units for ADD, AND, STW, and BR
+instructions (They can all be in the execute stage at the same time.)</li>
+</ul>
+<ol>
+<li><p>Pipeline diagram:</p>
+<table class="pipeline">
+<thead>
+<tr><th>Instruction</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr>
+</thead>
+<tbody>
+<tr><td colspan="16" class="comment">Start of first iteration (R1 is even)</td></tr>
+<tr><td class="instr">STW</td><td>F</td><td>D</td><td>E</td><td>E</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">ADD</td><td></td><td>F</td><td>D</td><td>E</td><td>E</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">AND</td><td></td><td></td><td>F</td><td>D</td><td>E</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">BRz</td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">ADD</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>E</td><td>E</td><td>E</td><td>S</td><td></td><td></td></tr>
+<tr><td class="instr">ADD</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>E</td><td>E</td><td>E</td><td>S</td><td></td></tr>
+<tr><td class="instr">BRp</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>E</td><td>S</td></tr>
+<tr><td colspan="16" class="comment">End of the first iteration (R1 is odd now)</td></tr>
+<tr><td class="instr">STW</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td></tr>
+</tbody>
+</table>
+<p>
+The loop takes the same number of cycles to execute for even and odd values of R1. Each iteration takes 14 cycles
+in the steady state. There are 5 iterations for even values of R1 and 4 iterations for odd values of
+R1. The total number of cycles is:</p>
+<div class="equation">
+(14 &times; 5) + (14 &times; 4) + 1 = <span class="answer">127</span>
+</div>
+<p>The extra 1 cycle comes from the last iteration (Store result stage of the BRp instruction).</p>
+</li>
+<li><p>Pipeline diagram:</p>
+<table class="pipeline">
+<thead>
+<tr><th>Instruction</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>
+</thead>
+<tbody>
+<tr><td colspan="17" class="comment">Start of first iteration (R1 is even)</td></tr>
+<tr><td class="instr">STW</td><td>F</td><td>D</td><td>E</td><td>E</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">ADD</td><td></td><td>F</td><td>D</td><td>E</td><td>E</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">AND</td><td></td><td></td><td>F</td><td>D</td><td>E</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">BRz</td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">ADD</td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>D</td><td>E</td><td>E</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">ADD</td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>E</td><td>E</td><td>E</td><td>S</td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="instr">BRp</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>D</td><td>D</td><td>D</td><td>E</td><td>S</td><td></td><td></td><td></td></tr>
+<tr><td colspan="17" class="comment">End of the first iteration (R1 is odd now)</td></tr>
+<tr><td class="instr">STW</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>D</td><td>E</td><td>E</td><td>E</td><td>S</td></tr>
+</tbody>
+</table>
+<p>The loop takes the same number of cycles to execute for even and odd values of R1. Each iteration takes 13 cycles
+but 3 cycles can be overlapped with the next iteration. 
+The total number of cycles is:</p>
+<div class="equation">
+  (10 &times; 9) + 3 = <span class="answer">93</span>
+</div>
+
+</li>
+
+<li><p>BRz instruction will always be predicted not taken. It is taken
+when R1 is even. So it will be mispredicted when R1 is even and
+correctly predicted when R1 is odd. The following diagram shows three
+consecutive iterations of the loop. In the first iteration, BRz is
+mispredicted, in the second iteration it is correctly predicted.</p>
+<p>The first BRp instruction is always predicted taken. It is always
+predicted correctly. The second BRp instruction is also always
+predicted taken. It is mispredicted only once in the last iteration of
+the loop.</p>
+
+<pre style="font-size: smaller">
+        1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33    
+-------------------------------------------------------------------------------------------------------------- Start of first iteration (R1 is even)
+STW     F | D | E | E | E | S
+ADD         F | D | E | E | E | S
+AND             F | D | E | E | S
+BRz                 F | D | D | E | S  (Mispredicted)
+ADD R1, R1, #3          F | F | D | Flushed
+ADD R5, R5, #-1                 F | Flushed
+ADD R1, R1, #1                      F | D | E | E | E | S
+ADD R7, R7, #-1                         F | D | E | E | E | S
+BRp DOIT                                    F | D | D | D | E | S (Correctly predicted)
+------------------------------------------------------------------------------------------------------------- Start of second iteration (R1 is odd)
+STW                                             F | F | F | D | E | E | E | S
+ADD                                                         F | D | E | E | E | S
+AND                                                             F | D | E | E | S
+BRz                                                                 F | D | D | E | S (Correctly predicted)
+ADD R1, R1, #3                                                          F | F | D | E | E | E | S
+ADD R5, R5, #-1                                                                 F | D | E | E | E | S
+BRp DOIT                                                                            F | D | D | D | E | S (Correctly predicted)
+------------------------------------------------------------------------------------------------------------ Third iteration (R1 is even)
+STW                                                                                     F | F | F | D | E | E | S 
+ADD                                                                                                 F | D | E | E | E | S
+AND                                                                                                     F | D | E | E | S
+BRz                                                                                                         F | D | D | E | S  (Mispredicted)
+ADD R1, R1, #3                                                                                                  F | F | D | Flushed
+ADD R5, R5, #-1                                                                                                         F | Flushed
+ADD R1, R1, #1                                                                                                              F | D | E | E | E | S
+ADD R7, R7, #-1                                                                                                                 F | D | E | E | E | S
+BRp DOIT                                                                                                                            F | D | D | D | E | S (Correctly predicted)
+        &lt;--------- beginning of the loop ----&gt;&lt;------------------------ steady state (22 cycles) ------------------------------------&gt;
+</pre>
+
+<p>Loop steady state is shown above. It takes 22 cycles and it is
+repeated 4 times. The beginning of the loop (until the steady state)
+takes 10 cycles as shown above. The end of the loop (part of the last
+iteration which is not in steady state) takes 5 more cycles to
+execute. The total number of cycles is:</p>
+<div class="equation">
+  10 + (4 &times; 22) + 5 = <span class="answer">103</span>
+</div>
+
+<p>Prediction accuracies for each branch are:</p>
+
+<ul>
+  <li>BRz  = 4/9 (Correctly predicted when R1 is odd, R1 is odd for 4 iterations of the loop)</li>
+  <li>first BRp  = 4/4</li>
+  <li>second BRp = 4/5 (Mispredicted only in the last iteration - Note
+  that this misprediction does not affect the number of cycles it takes
+  to execute the loop)</li>
+</ul>
+<p>Combined branch prediction accuracy = 12/18 = <span class="answer">67%</span></p>
+</li>
+</ol>
+
+</body>
+</html>
